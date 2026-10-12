@@ -2,6 +2,13 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-12: Brief approved with changes
+
+- Kept the frosted blur on the nav.
+- Kept the portrait video as hero version C, to compare against version A.
+- Homepage intro keeps the current lines.
+- Added `docs/content-status.md`: what's real, what's a placeholder, and what Dev still needs to send.
+
 ## 2026-10-12: Restyle planning (no site changes)
 
 **Branch:** `family-restyle`

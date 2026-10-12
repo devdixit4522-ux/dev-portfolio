@@ -1,6 +1,6 @@
 # Brief: Portfolio, Case Study System family
 
-Status: **draft, awaiting Dev's approval** · 2026-10-12 · branch `family-restyle`
+Status: **approved with changes** (frosted nav kept; hero C uses the video) · 2026-10-12 · branch `family-restyle`
 
 ## 1. Job and audience
 
@@ -42,7 +42,7 @@ Dev Dixit              ( Work | About | Contact ▾ )             Resume   Linke
 - **Centre:** a pill-shaped switcher on panel beige `#f4f5ef`. The current page sits on a white segment, the system's "white card on a beige panel" rule at small scale. **Text labels instead of icons**, because icon-only items make a hiring reader guess.
 - **Contact:** opens a small white card (16px radius, the system's one allowed floating-card shadow `0 4px 52px rgba(0,0,0,.1)`) under the item, holding email (with a Copy action), LinkedIn and Resume as plain rows. It opens on hover **and** on click, tap and keyboard focus, and closes on Escape, on clicking outside, and when the pointer leaves after a short delay. It appears instantly, or with a 180ms fade; it never slides.
 - **Right:** Resume and LinkedIn, 14px, grey, turning ink on hover.
-- **Behaviour:** fixed to the top as it is today, on a solid `#fcfcfc` background. **The frosted blur goes.** On case studies the contents rail's sticky top moves down by the nav height.
+- **Behaviour:** fixed to the top as it is today, **with the frosted blur kept** (Dev's call). The blur pane stays exactly as it is now (24px blur, fading out downwards). Since the system has no translucent surfaces, v1.1 records it as the one deliberate exception, limited to the nav. On case studies the contents rail's sticky top moves down by the nav height.
 - **Phone (≤809px):** name on the left, switcher centred under it or kept as three short words. No hamburger, no full-screen menu. Resume and LinkedIn move into the Contact card.
 - **System change:** this reverses rule 1 ("no navigation bar") and §18 ("no sticky header"). The change goes into the RULEBOOK, components.html and the stylesheet together, as **v1.1**, and both case studies get it at once.
 
@@ -59,8 +59,7 @@ Dev Dixit              ( Work | About | Contact ▾ )             Resume   Linke
 **A. Work-first, plain intro (my pick)**
 ```
 [nav]
-Hi, I'm Dev, a product designer in India.        ← H1 38px, one or two lines max
-[one-line lede: what I work on]                  ← 18px body
+Current intro lines, reset in the system's type   ← first line as H1-weight, the rest as lede
                                                   (64px)
 ┌──────────── Groww tint ─────────────────────┐
 │     ▯  ▯  ▯   three-screen cascade           │  ← visible in the first viewport at 1440×900
@@ -81,15 +80,14 @@ lede                              │   ▯ ▯ ▯              │
 ```
 The intro shares the first row with the first card. More work shows above the fold, but Groww gets a bigger frame than BookMyShow and the order gets muddled. I'm keeping it as a backup only.
 
-**C. Me prominent**
+**C. Me prominent, with the video (Dev asked for this version)**
 ```
 [nav]
-┌ panel ───────┐   Hi, I'm Dev…                     ← portrait still on a beige panel, left
-│  portrait    │   lede · short paragraph
-└──────────────┘
+Intro lines (current copy)      the portrait video, with its soft edge mask
+Say [email]                     (as on today's site)
 (the work starts below the fold)
 ```
-Honest cost: at 1440×900, no product screen appears without scrolling, which goes against "the work is the loudest thing". If you want your face on the site, it fits better at the top of About.
+The video keeps its dissolve mask and plays muted on a loop. Under reduced motion it shows `hero-portrait.png` instead of playing. There's no scroll chevron. Honest cost: at 1440×900, no product screen appears without scrolling. **Build both A and C** at `/` and `/?hero=video` so Dev can compare them in the browser and pick.
 
 ### Bridges (what makes homepage → case study feel continuous)
 
@@ -144,10 +142,14 @@ Experience           prose, or a hairline grid of roles  ← placeholder, needs 
 - **Fonts:** Nimbus Sans through `next/font/local` from `public/system/fonts/` (converted to woff2), with `adjustFontFallback` so no Arial reflow shows. The case studies load the same files through `@font-face`. Cost: the font downloads once more when crossing from the portfolio to a case study, because Next.js serves its own hashed copy. That's acceptable.
 - **Case studies stay static HTML**, under `public/work/groww/` and `public/work/bookmyshow/`, with a `rewrites` entry in `next.config.ts` so `/work/groww` serves `index.html`. *Why not React routes:* porting them would fork the system into a second implementation, and keeping the two in sync is exactly the drift problem.
 - **The nav is in two places** (a React component, and plain HTML in the system's template), so it's specified once in components.html, and the visual check compares both.
-- **Remove:** Google fonts, `/shadcn-preview`, `components/CaseStudies.shadcn.tsx`, `components/Marquee.tsx`, `public/bookmyshow.html` (an old, pre-system version), the masked hero video, lucide icons, and shadcn's unused badge, button and tooltip. Keep Radix only if the Contact popover uses it.
+- **Remove:** Google fonts, `/shadcn-preview`, `components/CaseStudies.shadcn.tsx`, `components/Marquee.tsx`, `public/bookmyshow.html` (an old, pre-system version), lucide icons, and shadcn's unused badge, button and tooltip. Keep Radix only if the Contact popover uses it.
 - **Branch:** `family-restyle`. Nothing gets deployed.
 
-## Placeholders Dev must supply
+## Placeholders
+
+Tracked in `docs/content-status.md`.
+
+## Placeholders Dev must supply (original list)
 
 1. The AI concept project list: name, one line, a real screenshot, and a link for each.
 2. The homepage intro (H1 and lede). Draft lines will be marked `[placeholder]`.
