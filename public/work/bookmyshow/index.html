@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BookMyShow — Events discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/system/case-study.css">
+<style id="page">
+    /* page-specific: brand tokens only */
+    :root {
+      --brand: #eb0028;
+      --brand-ink: #c40021;
+      --hero-1: #fef2f4;
+      --hero-2: #feecef;
+      --hero-3: #f7f4fb;
+      --hero-glow: rgba(235, 0, 40, 0.1);
+    }
+    /* exception to the brand-tokens-only rule: the two looping tap demos in
+       "Event preview" show at stage size and at their full 390 x 875 shape */
+    #preview .live-phone { width: 100%; }
+    #preview .cut-stage .ph { width: min(340px, 100%); }
+    #preview .live-device { aspect-ratio: 390 / 875; }
+    #preview .live-device iframe { height: 875px; }
+    /* exception: option comparisons where the screen leads and the note is quiet */
+    .options .cut-stage .ph { width: min(280px, 100%); }
+    .opt-note { width: min(280px, 100%); margin: 28px auto 0; letter-spacing: -0.01em; }
+    .opt-n {
+      display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2); font-size: 13px; letter-spacing: 0; color: var(--soft);
+    }
+    .opt-desc { margin-top: 14px; font-size: var(--t-card-title); font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; color: var(--ink); }
+    .opt-list { list-style: none; margin-top: 14px; display: grid; gap: 8px; }
+    .opt-list li { display: flex; gap: 8px; font-size: 15px; line-height: 1.35; color: var(--soft); }
+    .opt-list svg { flex: 0 0 auto; margin-top: 4px; }
+    #preview .opt-note { width: min(340px, 100%); }
+    /* exception: homepage directions. Trade-offs sit beside the screen; the chosen one is marked */
+    .dir-panel {
+      display: grid; grid-template-columns: minmax(0, 360px) 340px; justify-content: space-evenly;
+      align-items: center; padding: 56px 0;
+    }
+    .dir-panel.is-chosen { box-shadow: inset 0 0 0 2px rgba(35, 135, 90, 0.55); }
+    .dir-panel .ph { width: 340px; }
+    .dir-tag {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 12px; border-radius: 999px;
+      font-size: 14px; line-height: 1.2; letter-spacing: 0; color: var(--soft); background: rgba(0, 0, 0, 0.05);
+    }
+    .dir-panel.is-chosen .dir-tag { color: #fff; background: var(--yes); font-weight: 700; }
+    .dir-list { list-style: none; margin-top: 28px; display: grid; gap: 14px; }
+    .dir-list li { display: flex; gap: 10px; font-size: var(--t-card-title); line-height: 1.35; letter-spacing: -0.02em; color: var(--body); }
+    .dir-list svg { flex: 0 0 auto; margin-top: 5px; }
+    #direction-1 > h2 + .prose, #direction-2 > h2 + .prose, #direction-3 > h2 + .prose { margin-top: 10px; }
+    #direction-1 > .prose + .panel, #direction-2 > .prose + .panel, #direction-3 > .prose + .panel { margin-top: 32px; }
+    @media (max-width: 1199px) { .dir-panel { grid-template-columns: minmax(0, 300px) 300px; padding: 40px 0; } .dir-panel .ph { width: 300px; } }
+    @media (max-width: 809px) {
+      .dir-panel { grid-template-columns: 1fr; row-gap: 32px; padding: 32px 20px; justify-content: stretch; }
+      .dir-panel .ph { width: min(300px, 82%); justify-self: center; }
+    }
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- site-nav -->
+  <header class="site-nav">
+    <div class="nav-frost-pane" aria-hidden="true"></div>
+    <nav class="site-nav-in" aria-label="Primary">
+      <a class="nav-name" href="/">Dev Dixit</a>
+      <ul class="nav-switch">
+        <li><a class="nav-item" href="/" aria-current="page">Work</a></li>
+        <li><a class="nav-item" href="/about">About</a></li>
+        <li class="nav-contact">
+          <button class="nav-item" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
+          <div class="nav-card" id="nav-contact-card" hidden>
+            <div class="nav-row"><a href="mailto:devdixit@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit@gmail.com">Copy</button></div>
+            <a class="nav-row" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+            <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
+          </div>
+        </li>
+      </ul>
+      <div class="nav-ext">
+        <a href="#">Resume</a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </nav>
+  </header>
+  <!-- /site-nav -->
+
+  <header class="hero wrap" id="top">
+    <p class="k">BookMyShow · Product design case study</p>
+    <h1>Improving Event Discovery for BookMyShow</h1>
+    <p class="lede">BookMyShow is an app people in India use to book movie tickets. It also sells tickets to comedy shows, concerts and sports, which I’ll call Events. Most people never see them. I redesigned how the app helps people discover Events.</p>
+
+    <div class="hero-panel">
+      <div class="hero-phone"><img src="/work/bookmyshow/assets/hero-home.png" alt="Redesigned homepage with equal Movies and Events entry points" width="393" height="875"></div>
+      <div class="hero-phone"><img src="/work/bookmyshow/assets/movie-detail-also.png" alt="Movie page with a nearby events row above recommendations" width="393" height="875"></div>
+      <div class="hero-phone"><img src="/work/bookmyshow/assets/fork-events-row.png" alt="" width="398" height="888"></div>
+    </div>
+
+    <div class="panel grid tight">
+      <div class="cells" style="--cols:3">
+        <div class="cell"><p class="k">Role</p><h3>Product designer</h3></div>
+        <div class="cell"><p class="k">Goal</p><h3>More people booking Events</h3></div>
+        <div class="cell"><p class="k">Tools</p><h3>Figma, Cursor</h3></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail" aria-label="Case study contents">
+      <p class="toc-title">Content</p>
+      <nav class="toc">
+        <a href="#opportunity">Opportunity</a>
+        <a href="#problem">Problem</a>
+        <a href="#first-solution">First solution</a>
+        <a href="#preview">Event preview</a>
+        <a href="#too-late">Turning point</a>
+        <a href="#bigger">Bigger problem</a>
+        <a href="#homepage">Homepage</a>
+        <a href="#direction-1">Direction 1</a>
+        <a href="#direction-2">Direction 2</a>
+        <a href="#direction-3">Direction 3</a>
+        <a href="#testing">Testing</a>
+        <a href="#final">Final design</a>
+        <a href="#changed">Outcome</a>
+      </nav>
+      <a class="back-top" href="#top">Back to top</a>
+    </aside>
+
+    <main id="main">
+
+      <!-- 1 Opportunity -->
+      <section class="chapter" id="opportunity">
+        <h2 class="rv">Help movie browsers discover other things to do</h2>
+        <p class="prose rv">Most BookMyShow users open the app, go to Movies, and scroll through films first. When nothing feels interesting enough to watch, the app has other things to offer: comedy shows, concerts and sports. But those options are easy to miss.</p>
+        <p class="prose rv">I started by improving this drop-off point, then worked back to the homepage.</p>
+      </section>
+
+      <!-- 2 Problem -->
+      <section class="chapter" id="problem">
+        <h2 class="rv">Users leave when they can’t find a movie worth booking</h2>
+        <p class="prose rv">Most people who open BookMyShow with no plan in mind browse Movies, find nothing and leave. They came to buy something, and the app sold them nothing.</p>
+
+        <div class="panel diagram rv">
+          <svg viewBox="0 0 950 330">
+            <!-- opportunity track, drawn first so it leaves from under the blue one -->
+            <path d="M500 165L600 250H664" stroke="#3fa56b" stroke-width="30" stroke-linejoin="round" fill="none"/>
+
+            <!-- the movie journey: one blue track, three steps, then a wall -->
+            <path d="M20 165H540L600 82H640" stroke="#4c8df6" stroke-width="30" stroke-linejoin="round" fill="none"/>
+            <text x="36" y="171" font-size="17" style="fill:#fff">Opens the app</text>
+            <text x="36" y="206" font-size="15">no plan in mind</text>
+            <path d="M160 159l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" aria-hidden="true"/>
+            <text x="184" y="171" font-size="17" style="fill:#fff">Browses Movies</text>
+            <path d="M326 159l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" aria-hidden="true"/>
+            <text x="350" y="171" font-size="17" font-weight="700" style="fill:#fff">Nothing worth booking</text>
+
+            <!-- today: wall, then the user walks out -->
+            <rect x="640" y="38" width="24" height="88" fill="#b3bcc6"/>
+            <g stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" aria-hidden="true">
+              <path d="M704 60h-22v44h22"/>
+              <path d="M682 60l15 5v44l-15-5z" fill="#fff"/>
+              <path d="M710 84h18M722 78l6 6-6 6"/>
+            </g>
+            <text x="760" y="66" font-size="19" style="fill:#e5532d">Today</text>
+            <text x="760" y="90" font-size="17" font-weight="700">Leaves without booking</text>
+            <text x="760" y="112" font-size="15">A potential customer, lost</text>
+
+            <!-- opportunity: the green track ends in an event ticket -->
+            <circle cx="700" cy="250" r="40" fill="#3fa56b"/>
+            <g stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" aria-hidden="true">
+              <path d="M681 239h38v7a4 4 0 0 0 0 8v7h-38v-7a4 4 0 0 0 0-8z"/>
+              <path d="M708 241v3M708 248v4M708 256v3"/>
+            </g>
+            <text x="760" y="230" font-size="19" style="fill:#23875a">Opportunity</text>
+            <text x="760" y="254" font-size="17" font-weight="700">Books an Event instead</text>
+            <text x="760" y="276" font-size="15">A sale that was never made</text>
+          </svg>
+        </div>
+
+        <p class="prose rv">The people I designed for have no plan in mind, and leave because Events are hard to discover inside the app.</p>
+      </section>
+
+      <!-- 3 First solution -->
+      <section class="chapter" id="first-solution">
+        <h2 class="rv">Recover users after movie discovery fails</h2>
+        <p class="prose rv">The goal wasn’t to route users away from Movies. It was to offer another bookable plan without making it feel like a detour.</p>
+        <p class="prose rv"><strong>Where should Events appear without interrupting movie browsing?</strong></p>
+        <p class="prose rv">I compared three places on the movie page.</p>
+
+        <div class="panel cuts options rv" style="--cols:3">
+          <article class="cut">
+            <div class="cut-stage">
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-exit-modal.png" alt="Movie page with an exit modal offering events" width="398" height="888" loading="lazy"></div></div>
+            </div>
+            <div class="opt-note">
+              <span class="opt-n">1</span>
+              <p class="opt-desc">A pop-up when the user is about to leave.</p>
+              <ul class="opt-list">
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Catches the exit moment</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Interrupts people</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Feels promotional</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Adds friction at the worst moment</span></li>
+              </ul>
+            </div>
+          </article>
+          <article class="cut">
+            <div class="cut-stage">
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-events-row.png" alt="Movie page with an Also happening near you events row" width="398" height="888" loading="lazy"></div></div>
+            </div>
+            <div class="opt-note">
+              <span class="opt-n">2</span>
+              <p class="opt-desc">A row of nearby events inside the movie page.</p>
+              <ul class="opt-list">
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Keeps users in context</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Doesn’t interrupt</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Shows real alternatives right away</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Users have to scroll to reach it</span></li>
+              </ul>
+            </div>
+          </article>
+          <article class="cut">
+            <div class="cut-stage">
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-explore-card.png" alt="Movie page with an Explore another plan card" width="398" height="888" loading="lazy"></div></div>
+            </div>
+            <div class="opt-note">
+              <span class="opt-n">3</span>
+              <p class="opt-desc">A card that opens Events categories.</p>
+              <ul class="opt-list">
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Very visible</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Adds another decision</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Sends users down a new path</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Doesn’t show alternatives right away</span></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <p class="prose rv"><strong>I went ahead with Events inside the movie page.</strong> They keep users in context, so the next option feels like a continuation, not a detour.</p>
+      </section>
+
+      <!-- 4 Event preview -->
+      <section class="chapter" id="preview">
+        <h2 class="rv">How should users evaluate an unfamiliar event?</h2>
+        <p class="prose rv">Tapping an event could open its full page, or a quick preview. I compared both.</p>
+
+        <div class="panel cuts options rv">
+          <article class="cut live">
+            <div class="cut-stage">
+                <div class="live-phone">
+                  <p class="live-label"><span class="live-dot"></span>Live prototype · loops</p>
+                  <div class="ph"><div class="device live-device"><iframe src="/work/bookmyshow/tap-direct.html" title="Tapping an event card opens the full event detail page" loading="lazy" tabindex="-1"></iframe></div></div>
+                </div>
+            </div>
+            <div class="opt-note">
+              <span class="opt-n">1</span>
+              <p class="opt-desc">Tapping the card opens the full event detail page.</p>
+              <ul class="opt-list">
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Fastest path for users already interested</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Moves users away from the movie page immediately</span></li>
+              </ul>
+            </div>
+          </article>
+          <article class="cut live">
+            <div class="cut-stage">
+                <div class="live-phone">
+                  <p class="live-label"><span class="live-dot"></span>Live prototype · loops</p>
+                  <div class="ph"><div class="device live-device"><iframe src="/work/bookmyshow/tap-peek.html" title="Tapping an event card opens a preview sheet" loading="lazy" tabindex="-1"></iframe></div></div>
+                </div>
+            </div>
+            <div class="opt-note">
+              <span class="opt-n">2</span>
+              <p class="opt-desc">Tapping the card opens a compact preview, then lets users view details or book.</p>
+              <ul class="opt-list">
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Keeps users on the same page</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Enough information to judge if the event is relevant</span></li>
+                <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Adds one step before booking</span></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <p class="prose rv"><strong>I went ahead with a preview before commit.</strong> Tapping an unfamiliar event doesn’t mean users are ready to leave the movie page.</p>
+      </section>
+
+      <!-- 5 Turning point -->
+      <section class="chapter" id="too-late">
+        <h2 class="rv">The problem was being solved too late</h2>
+        <div class="panel ask rv">
+          <div class="card">
+            <p class="ask-line">The Events row recovered users <span>after</span> they had committed to Movies. So I decided to move upstream, to the homepage, where that choice is first made.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 Bigger problem -->
+      <section class="chapter" id="bigger">
+        <h2 class="rv">Users choose Movies before deciding what they want to do</h2>
+        <p class="prose rv">Most people I interviewed went to Movies first, even when they hadn’t decided what to watch. Two kinds of people were being pushed the same way:</p>
+
+        <div class="panel grid rv">
+          <div class="cells" style="--cols:2">
+            <div class="cell">
+              <h3>“I don’t know what I want tonight.”</h3>
+              <p>This person wants ideas, not a specific category.</p>
+            </div>
+            <div class="cell">
+              <h3>“I want to go out — maybe not a film.”</h3>
+              <p>This person wants to go out, but may not want a film.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel cuts rv">
+          <article class="cut">
+            <div class="cut-stage">
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/bms-home-before.png" alt="BookMyShow home with Movies emphasized and small event chips at the top" width="393" height="875" loading="lazy"></div></div>
+            </div>
+            <div class="card">
+              <p class="k">BookMyShow today</p>
+              <h3>Movies come first</h3>
+              <p>Events are only small chips at the top.</p>
+            </div>
+          </article>
+          <article class="cut">
+            <div class="cut-stage">
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/district-home.png" alt="District app home with equal Dining, Movies and Events entries" width="393" height="875" loading="lazy"></div></div>
+            </div>
+            <div class="card">
+              <p class="k">Another app, District</p>
+              <h3>Equal entry points</h3>
+              <p>Dining, Movies and Events all get the same weight.</p>
+            </div>
+          </article>
+        </div>
+        <p class="prose rv">The homepage was pushing users toward Movies before they had chosen what kind of plan they wanted.</p>
+      </section>
+
+      <!-- 7 Homepage -->
+      <section class="chapter" id="homepage">
+        <h2 class="rv">Redesigning the homepage to help users choose what to explore</h2>
+        <p class="prose rv"><strong>The audit: Movies dominated attention while Events were easy to miss</strong></p>
+
+        <div class="panel grid rv">
+          <div class="cells" style="--grid: 0.9fr 1.2fr 1fr">
+            <div class="cell">
+              <h3>Movies dominate attention</h3>
+              <p>Featured carousels, recommended films and promotional banners fill most of the feed.</p>
+            </div>
+            <div class="cell">
+              <h3>Events are technically available</h3>
+              <p>Comedy, plays and music appear mainly as small chips at the top. Participants often overlooked them or continued into Movies.</p>
+            </div>
+            <div class="cell">
+              <h3>Discovery is fragmented</h3>
+              <p>Each category opens separately, so it’s hard to compare movies, comedy, concerts and sports in one place.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="prose rv"><strong>Three homepage directions I explored</strong></p>
+        <p class="prose rv">Most people went to Movies first, so the homepage had to help them choose a kind of plan before a film. Banner ads and “Browse by cinema” had to stay on the homepage, so every direction had to make room for them.</p>
+      </section>
+
+      <!-- 8 Direction 1 -->
+      <section class="chapter" id="direction-1">
+        <h2 class="rv">Two equal entries + mixed discovery</h2>
+        <p class="prose rv">Movies and Events get equal doors at the top, with a mixed carousel below. Neither category is the default, and the ad stack stays intact.</p>
+        <div class="panel dir-panel is-chosen rv">
+          <div class="dir-text">
+            <p class="dir-tag"><svg width="14" height="14" viewBox="0 0 22 22" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg>Direction 1 · Chosen</p>
+            <ul class="dir-list">
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Neither category is the default</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>The ad stack stays intact</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Undecided users browse films and events together</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Adds one more content layer</span></li>
+            </ul>
+          </div>
+          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/hero-home.png" alt="Homepage with equal Movies and Events entries and mixed discovery" width="401" height="889" loading="lazy"></div></div>
+        </div>
+      </section>
+
+      <!-- 9 Direction 2 -->
+      <section class="chapter" id="direction-2">
+        <h2 class="rv">Tabbed home</h2>
+        <p class="prose rv">Tabs for For you, Movies and Events put Events level with Movies. But they move the Movies-first habit one level down, and split ad impressions across three feeds.</p>
+        <div class="panel dir-panel is-rejected rv">
+          <div class="dir-text">
+            <p class="dir-tag">Direction 2 · Rejected</p>
+            <ul class="dir-list">
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Events sits level with Movies</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Moves the Movies-first habit one level down</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Splits ad impressions across three feeds</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Browse by cinema only fits the Movies tab</span></li>
+            </ul>
+          </div>
+          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/home-direction-tabs.png" alt="Homepage with For you, Movies and Events tabs" width="401" height="889" loading="lazy"></div></div>
+        </div>
+      </section>
+
+      <!-- 10 Direction 3 -->
+      <section class="chapter" id="direction-3">
+        <h2 class="rv">Plan your evening</h2>
+        <p class="prose rv">One mixed list of movies and events, sorted by start time, with date chips on top. It’s the closest to “What should I do tonight?”, but it leaves no room for banner ads.</p>
+        <div class="panel dir-panel is-rejected rv">
+          <div class="dir-text">
+            <p class="dir-tag">Direction 3 · Rejected</p>
+            <ul class="dir-list">
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg><span>Closest to “What should I do tonight?”</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>No room for banner ads</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Needs a date filter to track</span></li>
+              <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Users with a film in mind scroll a mixed list</span></li>
+            </ul>
+          </div>
+          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/home-direction-evening.png" alt="Homepage with date chips and one mixed list sorted by start time" width="401" height="889" loading="lazy"></div></div>
+        </div>
+      </section>
+
+      <!-- 11 Testing -->
+      <section class="chapter" id="testing">
+        <h2 class="rv">Prototype testing validated the core flow, but not yet at scale</h2>
+        <p class="prose rv">I tested the prototype with 3 participants across 3 tasks.</p>
+        <div class="panel grid rv">
+          <div class="cells" style="--cols:3">
+            <div class="cell">
+              <p class="k">Passed</p>
+              <h3>Finding Events directly</h3>
+              <p>The selector gave them a direct path to Events home and tickets.</p>
+            </div>
+            <div class="cell">
+              <p class="k">Needs validation</p>
+              <h3>Browsing without a fixed plan</h3>
+              <p>They noticed the mixed carousel first, but this needs testing with more real users.</p>
+            </div>
+            <div class="cell">
+              <p class="k">Passed</p>
+              <h3>Movies still easy to find</h3>
+              <p>Movies stayed easy to find for users who came for films.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 Final design + prototype -->
+      <section class="chapter" id="final">
+        <h2 class="rv">Discover Events before and after Movies</h2>
+        <p class="prose rv">The homepage helps users choose earlier. The movie page catches them if that choice doesn’t land.</p>
+
+        <div class="panel grid rv">
+          <div class="cells" style="--cols:2">
+            <div class="cell"><p class="k">Undecided user</p><h3>Mixed discovery</h3></div>
+            <div class="cell"><p class="k">Knows what they want</p><h3>Movies | Events</h3></div>
+          </div>
+        </div>
+        <div class="panel flow tight rv" role="group" aria-label="End-to-end user journey">
+          <span class="node start">Opens a movie or event</span>
+          <svg width="12" height="34" viewBox="0 0 12 34" fill="none" stroke="#333" stroke-width="1.2" aria-hidden="true"><path d="M6 1v31M2 27l4 5 4-5"/></svg>
+        </div>
+        <div class="panel grid tight rv">
+          <div class="cells" style="--cols:2">
+            <div class="cell"><p class="k">Interesting enough</p><h3>Books it</h3></div>
+            <div class="cell">
+              <p class="k">Doesn’t feel right</p>
+              <h3>Also happening → Preview → Books it</h3>
+              <p>Suggestions from the other category</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel embed rv">
+          <iframe src="/work/bookmyshow/homepage-funnel-2.html?embed=1" title="Working prototype of the redesigned BookMyShow homepage and event booking flow" loading="lazy"></iframe>
+        </div>
+
+        <div class="panel ask action rv">
+          <div class="card">
+            <div>
+              <h3>Try the prototype</h3>
+              <p>Go from the homepage to booking an event. Choose Movies or Events, open something and book it.</p>
+            </div>
+            <a class="btn" href="/work/bookmyshow/homepage-funnel-2.html" target="_blank" rel="noopener">Open full screen ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 Outcome -->
+      <section class="chapter" id="changed">
+        <h2 class="rv">What changed, and what still needs validation</h2>
+        <div class="panel grid rv">
+          <div class="cells" style="--cols:2">
+            <div class="cell">
+              <p class="k">What the research changed</p>
+              <h3>The problem wasn’t that Events were hard to find.</h3>
+              <p><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg> Events weren’t shown while users were still deciding</p>
+              <p><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg> Most people entered Movies first, even when undecided</p>
+              <p><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#2fa36b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l6 6L20 4"/></svg> Recovery on the movie page was necessary, but not enough</p>
+            </div>
+            <div class="cell">
+              <p class="k">What the prototype showed</p>
+              <h3>Events and Movies were both easy to find.</h3>
+              <p>Open-ended browsing needs more users</p>
+              <p>No live traffic, so no real business metrics</p>
+              <p>Whether noticing Events turns into bookings is still unproven</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel ask rv">
+          <div class="card">
+            <p class="ask-line">The goal wasn’t to make users choose Events instead of Movies. It was to make sure that browsing Movies didn’t hide <span>every other plan</span> BookMyShow already sells.</p>
+          </div>
+        </div>
+        <p class="prose rv">Happy to walk through the full process: research, rejected explorations and testing.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer><div class="wrap">BookMyShow · Events discovery — Dev Dixit · devdixit.fun</div></footer>
+
+<script src="/system/case-study.js"></script>
+</body>
+</html>

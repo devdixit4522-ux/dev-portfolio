@@ -1,55 +1,38 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Dancing_Script,
-  Geist,
-  Geist_Mono,
-  Manrope,
-} from "next/font/google";
+import localFont from "next/font/local";
+import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
+import { Reveal } from "@/components/Reveal";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
-
-const dancing = Dancing_Script({
-  variable: "--font-script",
-  subsets: ["latin"],
-  weight: ["600", "700"],
+// The same files the case studies load, from the Case Study System
+const nimbus = localFont({
+  src: [
+    { path: "../public/system/fonts/NimbusSans-Regular.otf", weight: "400", style: "normal" },
+    { path: "../public/system/fonts/NimbusSans-Bold.otf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-nimbus",
+  display: "swap",
+  fallback: ["Helvetica Neue", "Helvetica"],
 });
 
 export const metadata: Metadata = {
-  title: "Dev Dixit — Portfolio",
+  title: "Dev Dixit, product designer",
   description:
-    "Product designer based in India. Turning ambiguous ideas into products at the intersection of user needs, business goals, and technology.",
+    "Product designer based in India. Case studies on Groww and BookMyShow, and AI concept projects.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${geistSans.variable} ${geistMono.variable} ${bricolage.variable} ${dancing.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+    <html lang="en" className={nimbus.variable}>
+      <body>
+        <a className="skip" href="#main">
+          Skip to content
+        </a>
+        <Navbar />
         {children}
+        <Footer />
+        <Reveal />
       </body>
     </html>
   );

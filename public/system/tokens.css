@@ -1,0 +1,121 @@
+/* ==========================================================================
+   CASE STUDY SYSTEM — tokens (v1.1)
+   The single source of every colour, size, space, radius, shadow and easing.
+   Read by case-study.css (the case studies) and app/globals.css (the portfolio).
+   Edit values here only.
+   ========================================================================== */
+
+/* ── 1. Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* surfaces + ink: fixed for every case study */
+  --page: #fcfcfc;
+  --panel: #f4f5ef;
+  --card: #ffffff;
+  --ink: #000000;
+  --body: #2b2b2b;
+  --soft: #4c4c4c;
+  --mute: #8f8f8f;
+  --hair: rgba(0, 0, 0, 0.1);
+  --bubble: #ececea;
+  --yes: #23875a;
+  --yes-mark: #2fa36b;
+  --no: #e5532d;
+  --sketch: #2f6fde;
+
+  /* brand: the ONLY colours that change per case study (override in the page) */
+  --brand: #04b488;
+  --brand-ink: #059a75;
+  --hero-1: #e6f6ee;
+  --hero-2: #d9f1e6;
+  --hero-3: #e4f0f7;
+  --hero-glow: rgba(4, 180, 136, 0.2);
+
+  /* flow chart */
+  --node: #f1e4b3;
+  --node-start: #dcd5ee;
+  --node-on: #4f8f73;
+  --node-on-ink: #f4f8f5;
+
+  --font: "Nimbus Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --hand: Caveat, "Segoe Print", cursive;
+
+  /* type: desktop (>= 1200px) */
+  --t-h1: 38px;        --lh-h1: 1.1;
+  --t-h2: 28px;        --lh-h2: 1.1;
+  --t-body: 18px;      --lh-body: 1.36;   --ls-body: -0.02em;
+  --t-card-title: 18px;
+  --t-card-text: 16px;
+  --t-stat: 34px;
+  --t-ask: 24px;
+  --t-versus: 26px;
+
+  /* measure */
+  --read: 850px;
+  --read-hero: 800px;
+  --page-max: 1680px;
+  --gutter: 30px;
+  --inset: 80px;
+  --rail-w: 200px;
+
+  /* vertical rhythm: desktop */
+  --hero-top: 64px;
+  --gap-h1-lede: 24px;
+  --gap-lede-hero: 40px;
+  --gap-hero: 90px;
+  --gap-head-text: 24px;
+  --gap-text-text: 20px;
+  --gap-panel: 64px;
+  --gap-caption: 40px;
+  --gap-section: 80px;
+  --gap-tight: 16px;
+
+  --r-panel: 8px;
+  --r-card: 16px;
+  --r-browser: 10px;
+  --phone-r: 9.6cqw;
+
+  --shadow-card: 0 4px 52px rgba(0, 0, 0, 0.1);
+  --shadow-device: 0 0 30px 5px rgba(0, 0, 0, 0.14);
+  --ease: 180ms ease;
+
+  /* site nav (v1.1): shared by the portfolio and every case study */
+  --nav-h: 68px;
+}
+
+/* tablet: 810–1199px */
+@media (max-width: 1199px) {
+  :root {
+    --t-h1: 31px;
+    --t-h2: 24px;      --lh-h2: 1.4;
+    --t-body: 16px;    --lh-body: 1.26;   --ls-body: -0.04em;
+    --t-card-title: 16px;
+    --t-card-text: 15px;
+    --t-stat: 30px;
+    --t-ask: 21px;
+    --t-versus: 24px;
+    --read: 600px;
+    --read-hero: 600px;
+    --inset: 0px;
+    --gap-hero: 74px;
+    --gap-section: 64px;
+  }
+}
+
+/* phone: <= 809px */
+@media (max-width: 809px) {
+  :root {
+    --t-h1: 25px;
+    --t-h2: 18px;
+    --t-stat: 28px;
+    --t-ask: 19px;
+    --t-versus: 22px;
+    --gutter: 24px;
+    --hero-top: 40px;
+    --gap-h1-lede: 16px;
+    --gap-hero: 40px;
+    --gap-head-text: 16px;
+    --gap-panel: 40px;
+    --gap-caption: 24px;
+    --gap-section: 40px;
+  }
+}

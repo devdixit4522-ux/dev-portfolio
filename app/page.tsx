@@ -1,21 +1,27 @@
-import { AIExplorations } from "@/components/AIExplorations";
-import { CaseStudies } from "@/components/CaseStudies";
-import { Footer } from "@/components/Footer";
-import { Hero } from "@/components/Hero";
-import { Marquee } from "@/components/Marquee";
-import { Navbar } from "@/components/Navbar";
+import { AiProjects } from "@/components/home/AiProjects";
+import { CaseStudyDoor } from "@/components/home/CaseStudyDoor";
+import { Intro, IntroWithVideo } from "@/components/home/Intro";
+import { caseStudies } from "@/lib/content";
 
-export default function Home() {
+// Two hero versions to compare: `/` (work first) and `/?hero=video` (Dev prominent)
+export default async function Home({ searchParams }: PageProps<"/">) {
+  const { hero } = await searchParams;
+  const withVideo = hero === "video";
+
   return (
-    <>
-      <Navbar />
-      <main className="flex-1">
-        <Hero />
-        <Marquee />
-        <CaseStudies />
-        <AIExplorations />
-      </main>
-      <Footer />
-    </>
+    <main id="main" className="mx-auto w-full max-w-[var(--page-max)] px-[var(--gutter)] pt-[calc(var(--nav-h)+var(--hero-top))]">
+      {withVideo ? <IntroWithVideo /> : <Intro />}
+
+      <section
+        aria-label="Case studies"
+        className={`flex flex-col gap-[var(--gap-section)] ${withVideo ? "mt-[var(--gap-section)]" : "mt-[var(--gap-lede-hero)]"}`}
+      >
+        {caseStudies.map((study) => (
+          <CaseStudyDoor key={study.slug} study={study} />
+        ))}
+      </section>
+
+      <AiProjects />
+    </main>
   );
 }

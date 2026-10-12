@@ -1,135 +1,145 @@
 @import "tailwindcss";
+/* The Case Study System is the single source of every value. */
+@import "../public/system/tokens.css";
+@import "../public/system/nav.css";
+@import "../public/system/shared.css";
 
+/* Nimbus Sans comes from next/font/local (app/layout.tsx) */
 :root {
-  --background: #ffffff;
-  --foreground: #181d27;
-  --pale-sky: #6a7282;
-  --gallery: #efefef;
-  --body: #414651;
-  --muted: #717680;
-  --border: #d5d7da;
-  --lavender: #f7f5ff;
-  --ink: #181d27;
-  --ai-bg: #0c0e12;
-  --ai-surface: #151820;
-  --ai-border: #2a2f3a;
-  --ai-accent: #7c8cff;
-  --ai-muted: #8b93a7;
+  --font: var(--font-nimbus), "Helvetica Neue", Helvetica, sans-serif;
+
+  /* shadcn theme slots, pointed at the system */
+  --background: var(--page);
+  --foreground: var(--body);
+  --primary: var(--ink);
+  --primary-foreground: var(--card);
+  --secondary: var(--panel);
+  --secondary-foreground: var(--ink);
+  --muted: var(--panel);
+  --muted-foreground: var(--soft);
+  --accent: var(--panel);
+  --accent-foreground: var(--ink);
+  --popover: var(--card);
+  --popover-foreground: var(--ink);
+  --card-foreground: var(--body);
+  --border: var(--hair);
+  --input: var(--hair);
+  --ring: var(--ink);
+  --radius: var(--r-panel);
 }
 
 @theme inline {
+  /* the system's three layouts: phone (default), tablet 810+, desktop 1200+ */
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 810px;
+  --breakpoint-desktop: 1200px;
+
+  --font-sans: var(--font);
+
+  --color-page: var(--page);
+  --color-panel: var(--panel);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-soft: var(--soft);
+  --color-mute: var(--mute);
+  --color-hair: var(--hair);
+  --color-bubble: var(--bubble);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-pale-sky: var(--pale-sky);
-  --color-gallery: var(--gallery);
-  --color-body: var(--body);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card-foreground: var(--card-foreground);
   --color-border: var(--border);
-  --color-lavender: var(--lavender);
-  --color-ink: var(--ink);
-  --color-ai-bg: var(--ai-bg);
-  --color-ai-surface: var(--ai-surface);
-  --color-ai-border: var(--ai-border);
-  --color-ai-accent: var(--ai-accent);
-  --color-ai-muted: var(--ai-muted);
-  --font-sans: var(--font-manrope);
-  --font-geist: var(--font-geist-sans);
-  --font-display: var(--font-bricolage);
-  --font-mono: var(--font-geist-mono);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-panel: var(--r-panel);
+  --radius-card: var(--r-card);
+  --shadow-card: var(--shadow-card);
+  --shadow-device: var(--shadow-device);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-manrope), system-ui, sans-serif;
-}
-
-/* Fixed nav — blur pane fades out (mask the effect, not a white wash) */
-.nav-frost-pane {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  /* Extend below the 68px bar so the fade happens under the content row */
-  height: 96px;
-  z-index: 0;
-  pointer-events: none;
-  border: none;
-  box-shadow: none;
-  /* Tiny tint so engines composite the filter; not a visible white bar */
-  background: rgba(255, 255, 255, 0.05);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  backdrop-filter: blur(24px) saturate(140%);
-  /* Fade the blur itself — strong at top, gone by bottom */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 38%,
-    rgba(0, 0, 0, 0.72) 55%,
-    rgba(0, 0, 0, 0.32) 72%,
-    rgba(0, 0, 0, 0.08) 88%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 38%,
-    rgba(0, 0, 0, 0.72) 55%,
-    rgba(0, 0, 0, 0.32) 72%,
-    rgba(0, 0, 0, 0.08) 88%,
-    transparent 100%
-  );
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--ls-body);
+    color: var(--body);
+    background: var(--page);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
   }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 32s linear infinite;
-}
-
-/* Soft elliptical dissolve — subject stays solid, frame edges vanish into the page */
-.hero-video-mask {
-  -webkit-mask-image: radial-gradient(
-    ellipse 70% 68% at 50% 46%,
-    #000 0%,
-    #000 38%,
-    rgba(0, 0, 0, 0.92) 52%,
-    rgba(0, 0, 0, 0.55) 68%,
-    rgba(0, 0, 0, 0.18) 82%,
-    rgba(0, 0, 0, 0.04) 92%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 70% 68% at 50% 46%,
-    #000 0%,
-    #000 38%,
-    rgba(0, 0, 0, 0.92) 52%,
-    rgba(0, 0, 0, 0.55) 68%,
-    rgba(0, 0, 0, 0.18) 82%,
-    rgba(0, 0, 0, 0.04) 92%,
-    transparent 100%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-position: center;
-  mask-position: center;
+  h1, h2, h3 { color: var(--ink); font-weight: 700; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
-  }
+  html { scroll-behavior: auto; }
+}
+
+/* Skip link, as in the case studies */
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  z-index: 100;
+  background: var(--ink);
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-decoration: none;
+  border-radius: 6px;
+}
+.skip:focus { top: 16px; }
+
+/* Project door: the case study's own hero panel, same recipe */
+.door-panel {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 100 / 86;
+  border-radius: var(--r-panel);
+  container-type: inline-size;
+  background:
+    radial-gradient(60cqw 38cqw at 78% 8%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%);
+}
+@media (min-width: 810px) { .door-panel { aspect-ratio: 7 / 4; } }
+@media (min-width: 1200px) { .door-panel { aspect-ratio: 21 / 9; } }
+
+.door-phone {
+  position: absolute;
+  width: 24cqw;
+  border-radius: 2.3cqw;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-device);
+}
+.door-phone:nth-child(1) { left: 17cqw; top: 11cqw; }
+.door-phone:nth-child(2) { left: 38cqw; top: 6.5cqw; }
+.door-phone:nth-child(3) { left: 59cqw; top: 2cqw; }
+@media (max-width: 1199px) { .door-phone { width: 27cqw; } .door-phone:nth-child(1) { left: 10cqw; } .door-phone:nth-child(2) { left: 36.5cqw; } .door-phone:nth-child(3) { left: 63cqw; } }
+@media (max-width: 809px) { .door-phone { width: 36cqw; } .door-phone:nth-child(1) { left: -4cqw; top: 14cqw; } .door-phone:nth-child(2) { left: 32cqw; top: 8cqw; } .door-phone:nth-child(3) { left: 68cqw; top: 2cqw; } }
+
+/* Portrait video (hero version C): soft elliptical dissolve into the page.
+   Multiply drops the footage's white ground into the page colour, so no halo. */
+.hero-video-mask {
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 70% 68% at 50% 46%, #000 0%, #000 38%, rgba(0, 0, 0, 0.92) 52%, rgba(0, 0, 0, 0.55) 68%, rgba(0, 0, 0, 0.18) 82%, rgba(0, 0, 0, 0.04) 92%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 68% at 50% 46%, #000 0%, #000 38%, rgba(0, 0, 0, 0.92) 52%, rgba(0, 0, 0, 0.55) 68%, rgba(0, 0, 0, 0.18) 82%, rgba(0, 0, 0, 0.04) 92%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }

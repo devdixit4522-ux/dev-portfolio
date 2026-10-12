@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BookMyShow — Redesigned homepage prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var shot = new URLSearchParams(location.search).get("figma")
+        || new URLSearchParams(String(location.hash || "").replace(/^#/, "")).get("figma");
+      if (shot) document.documentElement.setAttribute("data-figma", shot);
+    })();
+  </script>
+  <style>
+    :root {
+      --ink: #333333;
+      --muted: #666666;
+      --accent: #E7384D;
+      --accent-strong: #EB0028;
+      --line: #BDBDBD;
+      --line-soft: #E0E0E0;
+      --chip: #EDEDED;
+      --surface-soft: #F5F5F5;
+      --blue: #1E88E5;
+      --font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --phone-w: 393px;
+      --phone-h: 852px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #f0f0f2; }
+    body {
+      font: 400 14px/1.4 var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+      background: #f0f0f2;
+    }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; -webkit-tap-highlight-color: transparent; }
+    img { display: block; }
+    .hidden { display: none !important; }
+
+    /* ── Phone ── */
+    .phone {
+      position: relative;
+      width: var(--phone-w); height: var(--phone-h);
+      max-height: calc(100dvh - 48px);
+      background: #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      flex-shrink: 0;
+      box-shadow: 0 18px 48px rgba(6, 8, 9, 0.12);
+    }
+    .phone-scroll {
+      flex: 1; min-height: 0;
+      overflow-y: auto; overflow-x: hidden;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      display: flex; flex-direction: column;
+    }
+    .phone-scroll::-webkit-scrollbar { display: none; }
+    .stage { flex: 1 0 auto; display: flex; flex-direction: column; }
+    .stage > .view, .stage > .screen { flex: 0 0 auto; }
+    .stage > .screen.is-open { flex: 1 0 auto; }
+    .status, .chrome, .chrome-gap { flex-shrink: 0; }
+    @media (max-width: 460px) {
+      html, body { background: #fff; }
+      body { padding: 0; align-items: stretch; }
+      .phone { width: 100%; height: 100dvh; max-height: none; border-radius: 0; box-shadow: none; }
+    }
+    html[data-figma] body { padding: 0; background: #fff; align-items: flex-start; justify-content: flex-start; }
+    html[data-figma] .phone { border-radius: 0; box-shadow: none; max-height: none; }
+
+    /* ── Status bar ── */
+    .status {
+      height: 22px; padding: 0 16px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      font: 600 12px/12px var(--font); color: var(--ink);
+    }
+    .status > span:first-child { margin-top: 10px; }
+    .status-end { display: flex; gap: 8px; margin-top: 8px; }
+    .status-end img { width: 14px; height: 14px; }
+
+    /* ── Header (shared) ── */
+    .chrome { background: #fff; padding-top: 8px; }
+    body[data-view="movies"] .chrome { padding-top: 0; }
+    .header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 8px 17px; gap: 8px;
+    }
+    body[data-view="movies"] .header { padding-top: 16px; padding-bottom: 0; }
+    .header h1 { font: 700 16px/19px var(--font); color: var(--ink); }
+    .location {
+      display: inline-flex; align-items: center; gap: 4px; margin-top: 2px;
+      font: 500 12px/14px var(--font); color: var(--accent);
+    }
+    .location svg { width: 12px; height: 12px; stroke: var(--accent-strong); stroke-width: 1.4; }
+    .search-btn {
+      width: 36px; height: 36px; border-radius: 34px; border: 0.5px solid var(--line);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .search-btn svg { width: 16px; height: 16px; stroke: var(--muted); stroke-width: 1.3; }
+    .search-row { display: none; padding: 0 16px 8px; }
+    .chrome.search-open .search-row { display: block; }
+    .search-bar {
+      display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px;
+      border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft);
+    }
+    .search-bar svg { width: 16px; height: 16px; stroke: var(--muted); flex-shrink: 0; }
+    .search-bar input {
+      flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+      font: 400 14px/1.2 var(--font); color: var(--ink);
+    }
+    .search-bar input::placeholder { color: var(--muted); }
+    .chrome-gap { height: 8px; }
+    body[data-view="movies"] .chrome-gap { height: 16px; }
+
+    /* ── Views ── */
+    .view { display: none; flex-direction: column; gap: 16px; padding-bottom: 16px; }
+    .view.is-active { display: flex; }
+    #view-home { gap: 17px; }
+    #view-events { gap: 16px; }
+
+    /* ── Intent doors ── */
+    .doors { display: flex; gap: 14px; padding: 0 16px; }
+    .door {
+      position: relative; flex: 1; height: 63px; border-radius: 13.5px; overflow: hidden;
+      display: flex; align-items: center; gap: 12px; padding-left: 26px;
+      border: 1px solid transparent;
+    }
+    .door-movies {
+      background:
+        radial-gradient(circle at 96% 0%, rgba(255, 179, 179, 0.55), rgba(255, 179, 179, 0) 62%) padding-box,
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #fcc9c8, #ffe3e3) border-box;
+    }
+    .door-events {
+      background:
+        radial-gradient(circle at 96% 0%, rgba(244, 189, 255, 0.55), rgba(244, 189, 255, 0) 62%) padding-box,
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #dcd2ff, #c6b6fe) border-box;
+    }
+    .door-icon { height: 36px; width: auto; flex-shrink: 0; }
+    .door-text { display: flex; flex-direction: column; gap: 0; }
+    .door-title { font: 600 13.8px/17px var(--font); color: var(--ink); }
+    .door-sub { font: 500 8.6px/10px var(--font); color: var(--muted); }
+
+    /* ── Ads ── */
+    .ads { display: flex; flex-direction: column; gap: 12px; padding: 0 16px; }
+    .ads img { width: 100%; border-radius: 16px; }
+    .ads .ad-big { aspect-ratio: 361 / 180; object-fit: cover; }
+    .ads .ad-small { aspect-ratio: 361 / 70; object-fit: cover; }
+
+    /* ── Sections ── */
+    .sec-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 16px; min-height: 17px; margin-bottom: 8px;
+    }
+    .sec-head h2 { font: 600 14px/17px var(--font); color: var(--ink); }
+    .see-all {
+      display: inline-flex; align-items: center; gap: 4px;
+      font: 500 12px/14px var(--font); color: var(--accent);
+    }
+    .see-all svg { width: 14px; height: 14px; stroke: var(--accent); stroke-width: 1.4; }
+    .row {
+      display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; align-items: flex-start;
+    }
+    .row::-webkit-scrollbar { display: none; }
+    .row.tight { gap: 8px; }
+    .row::after { content: ""; flex: 0 0 4px; }
+
+    /* ── Cards ── */
+    .card { flex: 0 0 150px; width: 150px; display: block; min-width: 0; }
+    .poster { position: relative; width: 150px; overflow: hidden; background: var(--surface-soft); }
+    .poster img { width: 100%; height: 100%; object-fit: cover; }
+    .movie-card .poster, .happen-card .poster { height: 226px; border-radius: 8px; }
+    .badge {
+      position: absolute; top: 8px; left: 8px; z-index: 2;
+      padding: 2px 4px; border-radius: 20px; font: 400 8px/10px var(--font);
+      color: #fff; background: rgba(0, 0, 0, 0.45);
+    }
+    .badge.red { background: #DE4142; }
+    .rating-row { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; height: 14px; }
+    .rating-row .l { display: inline-flex; align-items: center; gap: 2px; font: 600 12px/14px var(--font); color: var(--ink); }
+    .rating-row svg { width: 14px; height: 14px; fill: var(--accent-strong); stroke: var(--accent-strong); stroke-width: 1; }
+    .rating-row .votes { font: 400 11px/14px var(--font); color: var(--muted); }
+    .card-title { margin-top: 8px; font: 400 11px/14px var(--font); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .movie-card .card-title { font-weight: 500; }
+
+    .event-card .poster { height: 210px; border-radius: 6px; }
+    .event-card .poster::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62px; z-index: 1;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0.85) 100%);
+    }
+    .event-card .badge { background: rgba(255, 255, 255, 0.94); color: var(--ink); font: 500 8px/10px var(--font); }
+    .event-card .overlay { position: absolute; left: 6px; bottom: 9px; z-index: 2; font: 500 10px/13px var(--font); color: #fff; }
+    .event-card .chip {
+      margin-top: 4px; padding: 2px 4px; border-radius: 4px; background: var(--chip);
+      font: 500 10px/13px var(--font); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .event-card .ev-title { margin-top: 4px; font: 500 12px/15px var(--font); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .event-card .ev-sub { margin-top: 2px; font: 400 10px/13px var(--font); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ── Browse by cinema ── */
+    .utility {
+      display: flex; align-items: center; gap: 12px; width: calc(100% - 32px); margin: 0 16px;
+      height: 60px; padding: 0 16px 0 8px; border-radius: 8px; background: var(--surface-soft);
+      border: 0.5px solid var(--line);
+    }
+    .utility img { width: 61px; height: 48px; border-radius: 4px; flex-shrink: 0; object-fit: cover; }
+    .utility strong { display: block; font: 500 20px/25px var(--font); color: var(--ink); }
+    .utility span { display: block; font: 400 12px/16px var(--font); color: var(--muted); }
+
+    /* ── Movies ── */
+    .pills { display: flex; gap: 8px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+    .pills::-webkit-scrollbar { display: none; }
+    .pill {
+      flex: 0 0 auto; height: 28px; padding: 0 14px; border-radius: 16px; border: 1px solid var(--line);
+      font: 400 12px/26px var(--font); color: var(--muted); background: #fff;
+    }
+    .pill.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    .spotlight { position: relative; margin: 0 16px; height: 220px; border-radius: 12px; overflow: hidden; background: #1a1a1a; display: block; width: calc(100% - 32px); }
+    .spotlight img { width: 100%; height: 100%; object-fit: cover; }
+    .spot-btn {
+      position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+      height: 30px; padding: 0 16px; border-radius: 24px; background: #932410; color: #FEFBD5;
+      font: 600 14px/30px var(--font); white-space: nowrap;
+    }
+    .spotlight.events .spot-btn { background: #153535; }
+    .spot-tag {
+      position: absolute; top: 6px; left: 7px; padding: 2px 4px; border-radius: 20px;
+      background: rgba(255, 255, 255, 0.2); font: 500 10px/12px var(--font); color: #fff;
+    }
+
+    /* ── Events ── */
+    .cats { display: flex; gap: 8px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+    .cats::-webkit-scrollbar { display: none; }
+    .cat { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 48px; }
+    .cat-icon {
+      width: 36px; height: 36px; border-radius: 18px; background: var(--surface-soft); border: 0.75px solid #757575;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cat-icon svg { width: 17px; height: 17px; stroke: var(--ink); stroke-width: 1.35; }
+    .cat span { font: 500 8.3px/10px var(--font); color: var(--ink); }
+    .plans { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+    .plans::-webkit-scrollbar { display: none; }
+    .plan {
+      flex: 0 0 140px; height: 88px; border-radius: 8px; padding: 12px;
+      display: flex; flex-direction: column; justify-content: center; gap: 4px; color: #fff;
+    }
+    .plan b { font: 500 13px/16px var(--font); }
+    .plan span { font: 400 11px/14px var(--font); opacity: 0.9; }
+    .plan-a { background: linear-gradient(135deg, #7B5EA7, #9B7EC8); }
+    .plan-b { background: linear-gradient(135deg, #3D8B5E, #5CB87A); }
+    .plan-c { background: linear-gradient(135deg, #2E6DB4, #4A90D9); }
+
+    /* ── Bottom nav ── */
+    .bottom-nav {
+      flex-shrink: 0; display: flex; padding: 6px 0; background: #fff; border-top: 1px solid var(--line-soft);
+    }
+    .nav-item {
+      flex: 1; height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      gap: 4px; padding-top: 4px; font: 500 11px/13px var(--font); color: var(--muted); text-align: center;
+    }
+    .nav-item img { width: 22px; height: 22px; margin-top: 4px; }
+    .nav-item.active { color: var(--accent); font-weight: 600; }
+    .nav-item:not(.active) .nav-ico-home { display: none; }
+    body.booking-mode .bottom-nav, body.booking-mode .chrome, body.booking-mode .status-home { display: none; }
+
+    /* ── Screens (detail, booking, etc.) ── */
+    .screen { display: none; background: #fff; min-height: 100%; flex-direction: column; }
+    .screen.is-open { display: flex; }
+    .screen-body { flex: 1; }
+    .screen-bar {
+      display: flex; align-items: center; gap: 4px; padding: 16px 12px 4px 12px; height: 40px; flex-shrink: 0;
+    }
+    .screen-bar button { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 0; }
+    .screen-bar svg { width: 20px; height: 20px; stroke: var(--ink); stroke-width: 1.8; }
+    .screen-bar h2 { font: 500 16px/19px var(--font); color: var(--ink); margin-left: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .detail-hero { margin: 8px 14px; height: 171px; border-radius: 12px; overflow: hidden; background: var(--surface-soft); }
+    .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-body { padding: 8px 16px 0; }
+    .detail-kicker { display: flex; align-items: center; gap: 4px; font: 600 12px/16px var(--font); color: var(--blue); }
+    .detail-body h2 { font: 700 22px/26px var(--font); color: var(--ink); margin-top: 0; }
+    .detail-meta { margin-top: 8px; font: 400 12px/16px var(--font); color: var(--muted); }
+    .detail-desc { margin-top: 16px; font: 400 14px/20px var(--font); color: var(--muted); }
+    .detail-facts {
+      margin-top: 0; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .detail-facts .lab { display: block; font: 400 12px/16px var(--font); color: var(--muted); }
+    .detail-facts strong { display: block; margin-top: 2px; font: 600 14px/20px var(--font); color: var(--ink); }
+    .detail-status { margin-top: 0; padding-top: 0; font: 600 12px/16px var(--font); color: var(--accent); }
+    .detail-body .detail-status { margin-top: 0; }
+    .rec { margin-top: 8px; }
+    .rec h3 { padding: 0 16px; font: 600 14px/17px var(--font); color: var(--ink); margin-bottom: 8px; }
+    .rec + .rec { margin-top: 8px; }
+    .rec .row { padding-bottom: 16px; }
+    .detail-end { height: 8px; }
+    .book-bar {
+      display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; height: 54px;
+      border-top: 1px solid var(--line); background: #fff; flex-shrink: 0;
+      position: sticky; bottom: 0; z-index: 5;
+    }
+    .book-bar .price { font: 400 12px/12px var(--font); color: #000; }
+    .book-bar .fill { font: 400 10px/10px var(--font); color: var(--accent); margin-top: 4px; }
+    .btn-primary {
+      height: 38px; min-width: 131px; padding: 0 32px; border-radius: 8px; background: var(--accent);
+      color: #fff; font: 600 14px/38px var(--font); text-align: center;
+    }
+    .btn-block { display: block; width: calc(100% - 32px); margin: 16px 16px 0; min-width: 0; }
+    .btn-secondary {
+      display: block; width: calc(100% - 32px); margin: 12px 16px 0; height: 38px; border-radius: 8px; border: 1px solid var(--line);
+      font: 600 14px/36px var(--font); text-align: center; color: var(--ink);
+    }
+    .btn-outline {
+      height: 38px; flex: 1; border-radius: 8px; border: 1px solid var(--accent); color: var(--accent);
+      font: 600 14px/36px var(--font); text-align: center; background: #fff;
+    }
+
+    .steps {
+      display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;
+      font: 400 12px/16px var(--font); color: var(--muted); border-bottom: 1px solid var(--line-soft);
+    }
+    .step-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--chip); display: flex; align-items: center; justify-content: center; font: 700 11px/1 var(--font); }
+    .step-dot.on { background: var(--ink); color: #fff; }
+    .venue-band { background: var(--surface-soft); padding: 12px 16px; font: 400 12px/16px var(--font); color: var(--muted); }
+    .venue-band strong { display: block; margin-top: 2px; font: 600 14px/20px var(--font); color: var(--ink); }
+    .block-pad { padding: 16px; }
+    .block-pad h2 { font: 600 16px/20px var(--font); color: var(--ink); }
+    .block-pad p { margin-top: 4px; font: 400 12px/16px var(--font); color: var(--muted); }
+    .tier-card {
+      margin: 0 16px; padding: 16px; border: 1px solid var(--line); border-radius: 8px;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+    }
+    .tier-card .tier-name { font: 600 14px/18px var(--font); color: var(--ink); }
+    .tier-card .tier-price { margin-top: 8px; font: 500 14px/18px var(--font); }
+    .tier-card .detail-status { margin-top: 8px; }
+    .add-btn { height: 34px; padding: 0 20px; border-radius: 8px; border: 1px solid var(--accent); color: var(--accent); font: 600 14px/32px var(--font); background: #fff; }
+    .confirm-card { margin: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; }
+    .confirm-card .t { font: 600 14px/18px var(--font); color: var(--ink); }
+    .confirm-card .m { margin-top: 8px; font: 400 12px/16px var(--font); color: var(--muted); }
+    .price-rows { padding: 0 16px; font: 400 14px/20px var(--font); display: flex; flex-direction: column; gap: 8px; }
+    .price-rows .r { display: flex; justify-content: space-between; }
+    .price-rows .r span:first-child { color: var(--muted); }
+    .price-rows .r.total { font-weight: 700; padding-top: 8px; border-top: 1px dashed var(--line); }
+    .price-rows .r.total span:first-child { color: var(--ink); }
+    .fine { padding: 16px; font: 400 12px/16px var(--font); color: var(--muted); }
+    .msg { margin: 16px; padding: 16px; background: var(--surface-soft); border-radius: 8px; font: 400 14px/20px var(--font); color: var(--muted); }
+    .msg.ok { color: #2e7d32; font-weight: 700; margin-bottom: 0; }
+    .list-card {
+      display: flex; gap: 12px; align-items: center; width: 100%; padding: 12px 16px; border-bottom: 1px solid var(--line-soft);
+    }
+    .list-card .thumb { width: 60px; height: 80px; border-radius: 8px; overflow: hidden; background: var(--surface-soft); flex-shrink: 0; }
+    .list-card .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .list-card h3 { font: 500 14px/18px var(--font); color: var(--ink); }
+    .list-card p { margin-top: 2px; font: 400 12px/16px var(--font); color: var(--muted); text-transform: capitalize; }
+    .clamp { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+    /* ── Preview sheet ── */
+    #preview-backdrop { display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 220; }
+    #preview-backdrop.open { display: block; }
+    #preview-backdrop.fading { background: rgba(0, 0, 0, 0); transition: background 360ms ease-out; }
+    #preview-sheet {
+      position: absolute; left: 0; right: 0; bottom: 0; transform: translateY(100%);
+      width: 100%; max-height: 88%; overflow-y: auto; background: #fff; border-radius: 16px 16px 0 0; z-index: 230;
+      transition: transform 280ms ease-out; padding-bottom: 16px; scrollbar-width: none;
+    }
+    #preview-sheet::-webkit-scrollbar { display: none; }
+    #preview-sheet.open { transform: translateY(0); }
+    .preview-handle { position: sticky; top: 0; z-index: 3; display: flex; justify-content: flex-end; padding: 4px 4px 0; height: 0; overflow: visible; }
+    .preview-handle button {
+      width: 32px; height: 32px; margin: 8px 8px 0 0; border-radius: 50%; background: rgba(255, 255, 255, 0.92);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .preview-handle svg { width: 18px; height: 18px; stroke: var(--ink); stroke-width: 2; }
+    .preview-hero { height: 190px; overflow: hidden; background: var(--surface-soft); border-radius: 16px 16px 0 0; }
+    .preview-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .preview-body { padding: 16px; }
+    .preview-top { display: flex; justify-content: space-between; font: 400 12px/16px var(--font); margin-bottom: 8px; }
+    #preview-social { display: inline-flex; align-items: center; gap: 4px; color: var(--blue); font-weight: 600; }
+    #preview-meta { color: var(--muted); }
+    #preview-title { font: 700 22px/26px var(--font); color: var(--ink); }
+    #preview-type { margin-top: 4px; font: 400 12px/16px var(--font); color: var(--muted); }
+    #preview-desc { margin-top: 8px; font: 400 14px/20px var(--font); color: var(--muted); }
+    .preview-info { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+    #preview-when { font: 600 14px/18px var(--font); color: var(--ink); }
+    #preview-where { margin-top: 2px; font: 400 12px/16px var(--font); color: var(--muted); }
+    #preview-price { font: 700 14px/18px var(--font); white-space: nowrap; }
+    .preview-actions { display: flex; gap: 12px; margin-top: 16px; }
+    .preview-actions .btn-primary { flex: 1; min-width: 0; padding: 0; }
+  </style>
+</head>
+<body data-view="home">
+  <div class="phone" id="app">
+    <div class="phone-scroll" id="phone-scroll">
+
+      <div class="status" id="status-bar">
+        <span>9:41</span>
+        <span class="status-end"><img src="assets/proto/sb_signal.png" alt=""><img src="assets/proto/sb_battery.png" alt=""></span>
+      </div>
+
+      <!-- Global header + search -->
+      <div class="chrome" id="chrome">
+        <header class="header">
+          <div>
+            <h1 id="page-title">It All Starts Here!</h1>
+            <button type="button" class="location" aria-label="Location: Agra"><i data-ic="pin"></i>Agra<i data-ic="down"></i></button>
+          </div>
+          <button type="button" class="search-btn" id="search-toggle" aria-label="Search"><i data-ic="search"></i></button>
+        </header>
+        <div class="search-row">
+          <form class="search-bar" id="search-form" role="search">
+            <i data-ic="search"></i>
+            <input id="global-search" type="search" name="q" placeholder="Movies, events, plays…" autocomplete="off" aria-label="Search">
+          </form>
+        </div>
+      </div>
+      <div class="chrome-gap" id="chrome-gap"></div>
+
+      <div class="stage" id="stage">
+
+        <!-- HOME -->
+        <div class="view is-active" id="view-home" data-view-panel="home">
+          <div class="doors">
+            <button type="button" class="door door-movies" data-view="movies">
+              <img class="door-icon" src="assets/proto/door_movies.png" alt="">
+              <span class="door-text"><span class="door-title">Movies</span><span class="door-sub">Explore Now</span></span>
+            </button>
+            <button type="button" class="door door-events" data-view="events">
+              <img class="door-icon" src="assets/proto/door_events.png" alt="">
+              <span class="door-text"><span class="door-title">Events</span><span class="door-sub">Explore Now</span></span>
+            </button>
+          </div>
+
+          <div class="ads">
+            <img class="ad-big" src="assets/proto/ad_big.jpg" alt="Film Expo India — Mahakaal, The Play">
+            <img class="ad-small" src="assets/proto/ad_small.jpg" alt="Sponsored — Anotr live, 14 Nov 2026">
+          </div>
+
+          <section>
+            <div class="sec-head"><h2>Happening Now</h2><button type="button" class="see-all" data-view="events">See All <i data-ic="arrow"></i></button></div>
+            <div class="row" id="row-happening"></div>
+          </section>
+
+          <button type="button" class="utility" data-go="cinemas">
+            <img src="assets/proto/cinema.png" alt="">
+            <span><strong>Browse by cinema</strong><span>See what's playing in cinemas near you.</span></span>
+          </button>
+
+          <section>
+            <div class="sec-head"><h2>Recommended Movies</h2><button type="button" class="see-all" data-view="movies">See All <i data-ic="arrow"></i></button></div>
+            <div class="row" id="row-recommended"></div>
+          </section>
+
+          <section>
+            <div class="sec-head"><h2>Live Events</h2><button type="button" class="see-all" data-view="events">View All <i data-ic="arrow"></i></button></div>
+            <div class="row" id="row-live"></div>
+          </section>
+        </div>
+
+        <!-- MOVIES -->
+        <div class="view" id="view-movies" data-view-panel="movies">
+          <div class="pills" role="list" aria-label="Languages">
+            <button type="button" class="pill active">All</button>
+            <button type="button" class="pill">Hindi</button>
+            <button type="button" class="pill">English</button>
+            <button type="button" class="pill">Tamil</button>
+          </div>
+          <div class="spotlight" data-open="spider" role="button" tabindex="0">
+            <img src="assets/proto/spider_hero.jpg" alt="Spider-Man: Brand New Day">
+            <span class="spot-btn">Book tickets</span>
+          </div>
+          <section>
+            <div class="sec-head"><h2>Recommended Movies</h2><button type="button" class="see-all" data-view="movies">See All <i data-ic="arrow"></i></button></div>
+            <div class="row" id="row-movies-rec"></div>
+          </section>
+          <button type="button" class="utility" data-go="cinemas">
+            <img src="assets/proto/cinema.png" alt="">
+            <span><strong>Browse by cinema</strong><span>Cinemas near you in Agra</span></span>
+          </button>
+          <section>
+            <div class="sec-head"><h2>Coming Soon</h2></div>
+            <div class="row" id="row-coming"></div>
+          </section>
+        </div>
+
+        <!-- EVENTS -->
+        <div class="view" id="view-events" data-view-panel="events">
+          <nav class="cats" aria-label="Event categories">
+            <button type="button" class="cat"><span class="cat-icon"><i data-ic="smile"></i></span><span>Comedy</span></button>
+            <button type="button" class="cat"><span class="cat-icon"><i data-ic="music"></i></span><span>Music</span></button>
+            <button type="button" class="cat"><span class="cat-icon"><i data-ic="smile"></i></span><span>Performances</span></button>
+            <button type="button" class="cat"><span class="cat-icon"><i data-ic="burst"></i></span><span>Amusement</span></button>
+          </nav>
+          <div class="spotlight events" style="cursor:default">
+            <img src="assets/proto/schulz.jpg" alt="Andrew Schulz — Life">
+            <span class="spot-tag">Promoted</span>
+            <span class="spot-btn">Book tickets</span>
+          </div>
+          <section>
+            <div class="sec-head"><h2>Popular near you</h2><button type="button" class="see-all" data-open="seedhe">View All <i data-ic="arrow"></i></button></div>
+            <div class="row" id="row-popular"></div>
+          </section>
+          <section>
+            <div class="sec-head"><h2>Explore More</h2></div>
+            <div class="plans">
+              <div class="plan plan-a"><b>Plan for Today</b><span>25+ Events</span></div>
+              <div class="plan plan-b"><b>Plan for Tomorrow</b><span>40+ Events</span></div>
+              <div class="plan plan-c"><b>Weekend Plans</b><span>120+ Events</span></div>
+            </div>
+          </section>
+          <section>
+            <div class="sec-head"><h2>Comedy Shows</h2><button type="button" class="see-all" data-open="pratyush">See All <i data-ic="arrow"></i></button></div>
+            <div class="row tight" id="row-comedy"></div>
+          </section>
+          <div class="spotlight events" style="cursor:default">
+            <img src="assets/proto/schulz.jpg" alt="Andrew Schulz — Life">
+            <span class="spot-tag">Promoted</span>
+            <span class="spot-btn">Book tickets</span>
+          </div>
+          <section>
+            <div class="sec-head"><h2>Music Shows</h2><button type="button" class="see-all" data-open="seedhe">See All <i data-ic="arrow"></i></button></div>
+            <div class="row tight" id="row-music"></div>
+          </section>
+        </div>
+
+        <!-- SCREENS -->
+        <div class="screen" id="screen-search">
+          <div class="screen-bar"><button type="button" data-back aria-label="Back"><i data-ic="back"></i></button><h2>Results</h2></div>
+          <div class="screen-body">
+            <div id="search-hits"></div>
+            <div id="search-none" class="msg hidden"></div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-detail">
+          <div class="screen-bar"><button type="button" data-back aria-label="Back"><i data-ic="back"></i></button><h2 id="detail-bar-title">Detail</h2></div>
+          <div class="screen-body">
+            <div id="detail-hero" class="detail-hero"></div>
+            <div class="detail-body">
+              <p id="detail-social" class="detail-kicker"></p>
+              <h2 id="detail-title"></h2>
+              <p id="detail-meta" class="detail-meta"></p>
+              <p id="detail-desc" class="detail-desc"></p>
+              <div class="detail-facts">
+                <p><span class="lab" id="fact1-lab"></span><strong id="fact1"></strong></p>
+                <p><span class="lab" id="fact2-lab"></span><strong id="fact2"></strong></p>
+                <p><span class="lab" id="fact3-lab"></span><strong id="fact3"></strong></p>
+              </div>
+              <p id="detail-status" class="detail-status"></p>
+            </div>
+            <div id="rec-wrap">
+              <div class="rec" id="also-block"><h3>Also happening</h3><div class="row" id="also-row"></div></div>
+              <div class="rec" id="ymal-block"><h3>You might also like</h3><div class="row" id="ymal-row"></div></div>
+            </div>
+          </div>
+          <div class="book-bar">
+            <div><p class="price" id="bar-price"></p><p class="fill" id="bar-fill"></p></div>
+            <button type="button" class="btn-primary" data-action="book">Book now</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-select">
+          <div class="screen-bar"><button type="button" data-action="back-detail" aria-label="Back"><i data-ic="back"></i></button><h2 id="select-title">Select tickets</h2></div>
+          <div class="screen-body">
+            <div class="steps"><span class="step-dot on">1</span><span>Ticket</span><span>—</span><span class="step-dot">2</span><span>Review</span></div>
+            <div class="venue-band"><p id="select-venue"></p><strong id="select-when"></strong></div>
+            <div class="block-pad"><h2>Select Tickets</h2><p>You can add up to 10 tickets only</p></div>
+            <div class="tier-card">
+              <div>
+                <p class="tier-name" id="tier-name"></p>
+                <p class="tier-price" id="tier-price"></p>
+                <p class="detail-status" id="tier-status"></p>
+              </div>
+              <button type="button" class="add-btn" id="add-btn" data-action="add">Add</button>
+            </div>
+          </div>
+          <div class="book-bar hidden" id="select-footer">
+            <div><p class="price" style="color:var(--muted)">Total</p><p class="price" style="font-weight:700;font-size:16px;line-height:20px" id="select-total"></p></div>
+            <button type="button" class="btn-primary" data-action="confirm">Proceed</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-confirm">
+          <div class="screen-bar"><button type="button" data-action="back-select" aria-label="Back"><i data-ic="back"></i></button><h2>Confirm booking</h2></div>
+          <div class="screen-body">
+            <div class="confirm-card">
+              <p class="t" id="confirm-title"></p>
+              <p class="m" id="confirm-details"></p>
+              <p class="m" id="confirm-venue" style="margin-top:2px"></p>
+            </div>
+            <div class="price-rows">
+              <div class="r"><span>Ticket(s) price</span><span id="confirm-sub"></span></div>
+              <div class="r"><span>Convenience fees</span><span>₹49.00</span></div>
+              <div class="r total"><span>Order total</span><span id="confirm-total"></span></div>
+            </div>
+            <p class="fine">By proceeding, I express my consent to complete this transaction.</p>
+          </div>
+          <div class="book-bar">
+            <div><p class="price" style="color:var(--muted)">Total</p><p class="price" style="font-weight:700;font-size:16px;line-height:20px" id="confirm-bottom-total"></p></div>
+            <button type="button" class="btn-primary" data-action="done">Continue</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-done">
+          <div class="screen-bar"><button type="button" data-view="home" aria-label="Home"><i data-ic="back"></i></button><h2>Booked</h2></div>
+          <div class="screen-body">
+            <div class="msg ok">Booking confirmed</div>
+            <p class="msg" id="done-copy" style="margin-top:0"></p>
+            <button type="button" class="btn-primary btn-block" data-go="bookings">View Tickets</button>
+            <button type="button" class="btn-secondary" data-view="home">Back to Home</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-bookings">
+          <div class="screen-bar"><button type="button" data-back aria-label="Back"><i data-ic="back"></i></button><h2>Tickets</h2></div>
+          <div class="screen-body">
+            <div class="msg" id="bookings-empty">No bookings yet.</div>
+            <div id="bookings-list" class="hidden"></div>
+            <button type="button" class="btn-primary btn-block" data-view="events">Browse Events</button>
+            <button type="button" class="btn-secondary" data-view="movies">Browse Movies</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-cinemas">
+          <div class="screen-bar"><button type="button" data-back aria-label="Back"><i data-ic="back"></i></button><h2>Browse by cinema</h2></div>
+          <div class="screen-body"><div class="msg">Cinemas near you in Agra.</div></div>
+        </div>
+        <div class="screen" id="screen-lounge">
+          <div class="screen-bar"><button type="button" data-back aria-label="Back"><i data-ic="back"></i></button><h2>HSBC Lounge</h2></div>
+          <div class="screen-body"><div class="msg">Sponsored lounge kept.</div></div>
+        </div>
+        <div class="screen" id="screen-profile">
+          <div class="screen-bar"><button type="button" data-back aria-label="Back"><i data-ic="back"></i></button><h2>Profile</h2></div>
+          <div class="screen-body"><div class="msg">Account, settings, saved.</div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Main">
+      <button type="button" class="nav-item active" data-view="home"><img src="assets/proto/navhome.png" alt="">Home</button>
+      <button type="button" class="nav-item" data-go="lounge"><img src="assets/proto/nav_hsbc.png" alt="">HSBC Lounge</button>
+      <button type="button" class="nav-item" data-go="bookings"><img src="assets/proto/nav_tickets.png" alt="">Tickets</button>
+      <button type="button" class="nav-item" data-go="profile"><img src="assets/proto/nav_profile.png" alt="">Profile</button>
+    </nav>
+
+    <div id="preview-backdrop" aria-hidden="true"></div>
+    <div id="preview-sheet" role="dialog" aria-modal="true" aria-labelledby="preview-title" aria-hidden="true">
+      <div class="preview-handle"><button type="button" data-action="close-preview" aria-label="Close"><i data-ic="x"></i></button></div>
+      <div id="preview-hero" class="preview-hero"></div>
+      <div class="preview-body">
+        <div class="preview-top"><span id="preview-social"></span><span id="preview-meta"></span></div>
+        <h2 id="preview-title"></h2>
+        <p id="preview-type"></p>
+        <p id="preview-desc"></p>
+        <div class="preview-info">
+          <div><p id="preview-when"></p><p id="preview-where"></p></div>
+          <p id="preview-price"></p>
+        </div>
+        <div class="preview-actions">
+          <button type="button" class="btn-outline" data-action="preview-more">Know More</button>
+          <button type="button" class="btn-primary" data-action="preview-book">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── History: embedded in the case study (?embed=1) the prototype keeps its own
+       back-stack, so the visitor's browser Back button still leaves the case study. ── */
+    const H = (function () {
+      if (!/[?&]embed=1/.test(location.search)) return window.history;
+      const stack = []; let i = -1;
+      return {
+        pushState(s) { stack.length = i + 1; stack.push(s); i++; },
+        replaceState(s) { if (i < 0) { stack.push(s); i = 0; } else stack[i] = s; },
+        back() {
+          if (i <= 0) return;
+          i--; const s = stack[i];
+          setTimeout(() => window.dispatchEvent(new PopStateEvent('popstate', { state: s })), 0);
+        }
+      };
+    })();
+
+    /* ── Icons (inline, no external library) ── */
+    const ICONS = {
+      back: '<path d="m15 18-6-6 6-6"/>',
+      down: '<path d="m6 9 6 6 6-6"/>',
+      pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+      search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+      arrow: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+      x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+      star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+      smile: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/>',
+      music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+      burst: '<circle cx="12" cy="12" r="2"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.9 4.9 2.8 2.8"/><path d="m16.3 16.3 2.8 2.8"/><path d="m4.9 19.1 2.8-2.8"/><path d="m16.3 7.7 2.8-2.8"/>'
+    };
+    function svg(name) {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+    }
+    function paintIcons(root) {
+      (root || document).querySelectorAll('i[data-ic]').forEach(function (el) {
+        el.outerHTML = svg(el.getAttribute('data-ic'));
+      });
+    }
+
+    /* ── Content ── */
+    const A = 'assets/proto/';
+    const GRAD = {
+      red: 'linear-gradient(180deg,#3a1020 0%,#c02040 100%)',
+      blue: 'linear-gradient(180deg,#102030 0%,#2060a0 100%)',
+      dark: 'linear-gradient(180deg,#2a1020 0%,#803050 100%)',
+      orange: 'linear-gradient(180deg,#5a2010 0%,#c04030 100%)'
+    };
+    const MOVIE_DEFAULTS = {
+      kind: 'movie', whenPipe: 'Showtimes today', when: 'Today onwards',
+      where: 'Cinemas near Agra', whereShort: 'Agra cinemas', tier: 'Standard',
+      fact1Lab: 'Formats', fact2Lab: 'Release', fact3Lab: 'From', status: 'Trending'
+    };
+    const EVENT_DEFAULTS = { kind: 'event', tier: 'General Admission', fact1Lab: 'When', fact2Lab: 'Where', fact3Lab: 'From', status: 'Fast Filling', overlay: 'Fast Filling' };
+    function movie(o) { return Object.assign({}, MOVIE_DEFAULTS, o); }
+    function event(o) { return Object.assign({}, EVENT_DEFAULTS, o); }
+
+    const ITEMS = {
+      spider: movie({
+        title: 'Spider-Man: Brand New Day', img: A + 'spider.jpg', hero: A + 'spider_hero.jpg',
+        rating: '9', votes: '133K+ votes', meta: '2h 25m · Action, Adventure · UA13+',
+        desc: 'Marvel’s next Spider-Man chapter — trailers, cast, and showtimes in Agra.',
+        fact1: '2D, 3D, IMAX · ENGLISH, HINDI', fact2: 'In cinemas · 30 Jul, 2026', fact3: '₹250 onwards',
+        price: '₹250 onwards', ticketPrice: 250, badge: 'Promoted'
+      }),
+      odyssey: movie({
+        title: 'The Odyssey', img: A + 'odyssey.jpg', heroPos: 'center 30%',
+        rating: '9.2', votes: '164K+ votes', meta: '2h 10m · Drama · UA',
+        desc: 'An epic journey on the big screen — critics and audiences are locked in.',
+        fact1: '2D · ENGLISH, HINDI', fact2: 'In cinemas', fact3: '₹200 onwards',
+        price: '₹200 onwards', ticketPrice: 200, badge: 'Movie', status: 'Must watch'
+      }),
+      dune: movie({
+        title: 'Dune 2', img: A + 'dune.jpg', heroPos: 'center 25%',
+        rating: '8.7', votes: '12K+ votes', meta: '2h 46m · Sci-Fi, Adventure · UA13+',
+        desc: 'Paul Atreides unites with the Fremen in the next chapter of the saga.',
+        fact1: '2D, IMAX · ENGLISH, HINDI', fact2: 'In cinemas', fact3: '₹220 onwards',
+        price: '₹220 onwards', ticketPrice: 220, badge: 'Movie', status: 'Popular'
+      }),
+      toxic: movie({
+        title: 'TOXIC', img: A + 'toxic.jpg', heroPos: 'center 30%',
+        rating: '9', votes: '133K+ votes', meta: '2h 20m · Action, Crime · A',
+        desc: 'A gritty action drama — mark your interest and we’ll remind you when tickets open.',
+        fact1: '2D · HINDI, KANNADA', fact2: 'Coming soon', fact3: 'Price TBA',
+        price: '₹180 onwards', ticketPrice: 180, badge: 'Movie', status: 'Notify me'
+      }),
+      batwara: movie({
+        title: 'Batwara 1947', img: A + 'batwara.jpg', heroPos: 'center 35%',
+        rating: '9', votes: '13+ votes', meta: '2h 30m · Period drama · UA',
+        desc: 'A family torn apart in the year of Partition.',
+        fact1: '2D · HINDI', fact2: 'Coming soon', fact3: 'Price TBA',
+        price: '₹180 onwards', ticketPrice: 180, badge: 'Movie', status: 'Notify me'
+      }),
+      dc: movie({
+        title: 'Dc', img: A + 'dc.jpg', heroPos: 'center 30%',
+        rating: '9', votes: '133K+ votes', meta: '2h 5m · Thriller · UA13+',
+        desc: 'A tense thriller that’s been getting a lot of early attention.',
+        fact1: '2D · ENGLISH, HINDI', fact2: 'Coming soon', fact3: 'Price TBA',
+        price: '₹180 onwards', ticketPrice: 180, badge: 'Movie', status: 'Notify me'
+      }),
+      seedhe: event({
+        title: 'Seedhe Maut: live', img: A + 'seedhe.jpg', heroPos: 'center 40%', badge: 'Concert',
+        overlay: '633 interested', chip: 'Fri, 13 Nov', sub: 'Music Shows',
+        social: '633 interested', meta: '6h · Music Shows',
+        desc: 'Seedhe Maut take the stage with their biggest live set yet — loud, fast, and built for the crowd.',
+        fact1: 'Fri, 13 Nov, 2026 · 4:00 PM', fact2: 'NSIC Exhibition Ground, Okhla, Delhi-NCR', fact3: '₹3000 onwards',
+        whenPipe: 'Fri, 13 Nov, 2026 | 4:00 PM', where: 'NSIC Exhibition Ground, Okhla, Delhi-NCR', whereShort: 'NSIC Exhibition Ground, Okhla',
+        price: '₹3000 onwards', ticketPrice: 3000, statusClass: 'int'
+      }),
+      samay: event({
+        title: 'Samay Raina', hRating: '9', hVotes: '133K+ votes', img: A + 'samay.jpg', heroPos: 'center 30%', badge: 'Comedy',
+        overlay: '633 interested', chip: 'Sat, 9 Aug', sub: 'Stand up Comedy',
+        social: '633 interested', meta: '2h · Stand up Comedy',
+        desc: 'Samay Raina’s Still Alive tour — sharp, chaotic, and impossible to predict.',
+        fact1: 'Sat, 9 Aug, 2026 · 8:30 PM', fact2: 'Open Mic Stage, Agra', fact3: '₹699 onwards',
+        whenPipe: 'Sat, 9 Aug, 2026 | 8:30 PM', where: 'Open Mic Stage, Agra', whereShort: 'Open Mic Stage, Agra',
+        price: '₹699 onwards', ticketPrice: 699
+      }),
+      bhajan: event({
+        title: 'Krishnamurthy Venkataraghavan’s Bhajan Sandhya', img: A + 'bhajan.jpg', heroPos: 'center 30%', badge: 'bhajan',
+        overlay: 'Fast Filling', chip: 'Sun, 26 Aug', sub: 'Bhajan',
+        social: '412 interested', meta: '2h · Bhajan',
+        desc: 'An evening of devotional music with a full live ensemble.',
+        fact1: 'Sun, 26 Aug, 2026 · 6:30 PM', fact2: 'Soor Sadan Hall, Agra', fact3: '₹299 onwards',
+        whenPipe: 'Sun, 26 Aug, 2026 | 6:30 PM', where: 'Soor Sadan Hall, Agra', whereShort: 'Soor Sadan Hall, Agra',
+        price: '₹299 onwards', ticketPrice: 299
+      }),
+      pratyush: event({
+        title: 'Pratyush Chaubey Live', grad: GRAD.red, badge: 'comedy',
+        overlay: 'Fast Filling', chip: 'Sun, 26 Aug', sub: 'Stand up Comedy',
+        social: '412 interested', meta: '2h · Stand up Comedy',
+        desc: 'Sharp observational comedy — venue and lineup strong enough to trust without checking Instagram first.',
+        fact1: 'Sun, 2 Aug, 2026 · 8:00 PM', fact2: 'The Laugh Casa, Rcube Monad Mall, Noida', fact3: '₹499 onwards',
+        whenPipe: 'Sun, 2 Aug, 2026 | 8:00 PM', where: 'The Laugh Casa, Rcube Monad Mall, Noida', whereShort: 'The Laugh Casa, Noida',
+        price: '₹499 onwards', ticketPrice: 499
+      }),
+      long: event({
+        title: 'Midnight Stand-Up Extravaganza', grad: GRAD.dark, badge: 'comedy',
+        overlay: 'Fast Filling', chip: 'Sat, 9 Aug', sub: 'Open mic night',
+        social: 'Sponsored', meta: '3h · Comedy',
+        desc: 'A late-night stand-up marathon with special guests.',
+        fact1: 'Sat, 9 Aug, 2026 · 10:00 PM', fact2: 'Open Mic Stage, Agra', fact3: '₹699 onwards',
+        whenPipe: 'Sat, 9 Aug, 2026 | 10:00 PM', where: 'Open Mic Stage, Agra', whereShort: 'Open Mic Stage, Agra',
+        price: '₹699 onwards', ticketPrice: 699
+      }),
+      brocode: event({
+        title: 'Brocode The Big Line Up 2026', grad: GRAD.orange, badge: 'comedy',
+        overlay: 'Fast Filling', chip: 'Sun, 2 Aug', sub: 'Stand up Comedy',
+        social: '6k interested', meta: '3h · Stand up Comedy',
+        desc: 'India’s biggest comedy line-up — 50+ artists, one afternoon in Gurugram.',
+        fact1: 'Sun, 2 Aug, 2026 · 3:00 PM', fact2: 'A DOT by GNH, Gurugram', fact3: '₹799 onwards',
+        whenPipe: 'Sun, 2 Aug, 2026 | 3:00 PM', where: 'A DOT by GNH, Gurugram', whereShort: 'A DOT by GNH, Gurugram',
+        price: '₹799 onwards', ticketPrice: 799
+      }),
+      musical: event({
+        title: 'Musical Baithak', grad: GRAD.blue, badge: 'music',
+        overlay: 'Fast Filling', chip: 'Thu, 6 Aug', sub: 'Open Mic',
+        social: '210 interested', meta: '2h · Music',
+        desc: 'An intimate evening of live classical and contemporary music.',
+        fact1: 'Thu, 6 Aug, 2026 · 7:00 PM', fact2: 'Kalakriti Cultural Centre, Agra', fact3: '₹399 onwards',
+        whenPipe: 'Thu, 6 Aug, 2026 | 7:00 PM', where: 'Kalakriti Cultural Centre, Agra', whereShort: 'Kalakriti, Agra',
+        price: '₹399 onwards', ticketPrice: 399
+      })
+    };
+
+    const SECTIONS = {
+      happening: ['spider', 'odyssey', 'samay'],
+      recommended: ['spider', 'odyssey', 'dune'],
+      live: ['seedhe', 'samay', 'bhajan'],
+      moviesRec: ['spider', 'dune', 'odyssey'],
+      coming: ['toxic', 'batwara', 'dc'],
+      popular: ['seedhe', 'samay', 'bhajan'],
+      comedy: ['pratyush', 'long', 'brocode'],
+      music: ['seedhe', 'musical', 'bhajan']
+    };
+    const ALSO_FOR_MOVIE = ['seedhe', 'samay', 'bhajan'];
+    const ALSO_FOR_EVENT = ['seedhe', 'samay', 'bhajan', 'pratyush'];
+    const YMAL_MOVIES = ['spider', 'dune', 'odyssey'];
+    const YMAL_EVENTS = ['pratyush', 'long', 'brocode', 'musical'];
+
+    /* ── Card builders ── */
+    function posterInner(it) {
+      return it.img ? '<img src="' + it.img + '" alt="" loading="lazy">' : '';
+    }
+    function posterStyle(it) {
+      return it.grad ? ' style="background:' + it.grad + '"' : '';
+    }
+    function cardHtml(id, mode, variant) {
+      const it = ITEMS[id];
+      if (!it) return '';
+      const attr = mode === 'preview' ? 'data-preview="' + id + '"' : 'data-open="' + id + '"';
+      if (it.kind === 'movie' || variant === 'happen') {
+        const cls = variant === 'happen' ? 'happen-card' : 'movie-card';
+        const rating = it.rating || it.hRating, votes = it.votes || it.hVotes;
+        const badge = variant === 'happen' || variant === 'coming'
+          ? '<span class="badge' + (it.badge === 'Promoted' || it.kind === 'event' ? ' red' : '') + '">' + (it.kind === 'event' ? it.badge.charAt(0).toUpperCase() + it.badge.slice(1) : it.badge) + '</span>' : '';
+        return '<button type="button" class="card ' + cls + '" ' + attr + '>' +
+          '<div class="poster"' + posterStyle(it) + '>' + posterInner(it) + badge + '</div>' +
+          '<div class="rating-row"><span class="l">' + svg('star') + rating + '</span><span class="votes">' + votes + '</span></div>' +
+          '<p class="card-title">' + it.title + '</p></button>';
+      }
+      return '<button type="button" class="card event-card" ' + attr + '>' +
+        '<div class="poster"' + posterStyle(it) + '>' + posterInner(it) +
+        '<span class="badge">' + it.badge + '</span><span class="overlay">' + it.overlay + '</span></div>' +
+        '<p class="chip">' + it.chip + '</p>' +
+        '<p class="ev-title">' + it.title + '</p>' +
+        '<p class="ev-sub">' + it.sub + '</p></button>';
+    }
+    function fillRow(rowId, ids, variant, mode) {
+      const el = document.getElementById(rowId);
+      if (el) el.innerHTML = ids.map(function (id) { return cardHtml(id, mode, variant); }).join('');
+    }
+    function fillFeeds() {
+      fillRow('row-happening', SECTIONS.happening, 'happen');
+      fillRow('row-recommended', SECTIONS.recommended, 'rec');
+      fillRow('row-live', SECTIONS.live, 'event');
+      fillRow('row-movies-rec', SECTIONS.moviesRec, 'rec');
+      fillRow('row-coming', SECTIONS.coming, 'coming');
+      fillRow('row-popular', SECTIONS.popular, 'event');
+      fillRow('row-comedy', SECTIONS.comedy, 'event');
+      fillRow('row-music', SECTIONS.music, 'event');
+    }
+
+    /* ── State ── */
+    let currentId = 'spider';
+    let previewId = null;
+    let ticketCount = 0;
+    const PAGE_TITLES = { home: 'It All Starts Here!', movies: 'Movies', events: 'Events' };
+
+    function socialText(it) { return it.kind === 'movie' ? it.rating + '/10 · ' + it.votes : it.social; }
+    function heroHtml(it) {
+      if (it.hero || it.img) {
+        const pos = it.hero ? '' : ' style="object-position:' + (it.heroPos || 'center') + '"';
+        return '<img src="' + (it.hero || it.img) + '" alt=""' + pos + '>';
+      }
+      return '';
+    }
+    function setHero(el, it) {
+      el.innerHTML = heroHtml(it);
+      el.style.background = it.grad || '';
+    }
+    function scrollStageTop() { const s = document.getElementById('phone-scroll'); if (s) s.scrollTop = 0; }
+    function navState() { return document.body.dataset.view || 'home'; }
+
+    function applyState(s) {
+      if (!s) { setView('home'); return; }
+      if (s.v) setView(s.v);
+      switch (s.t) {
+        case 'view': break;
+        case 'screen': openScreen(s.s, false); break;
+        case 'search': runSearch(s.q); break;
+        case 'detail': openDetail(s.id); break;
+        case 'preview': if (s.detailId) openDetail(s.detailId); openPreview(s.id); break;
+        case 'select': currentId = s.id; openSelect(); break;
+        case 'confirm': currentId = s.id; openSelect(); openConfirm(); break;
+        case 'done': currentId = s.id; finishBooking(); break;
+        default: setView('home');
+      }
+    }
+    window.addEventListener('popstate', function (e) { applyState(e.state); });
+
+    function setView(name) {
+      document.body.classList.remove('booking-mode');
+      document.body.dataset.view = name;
+      const h1 = document.getElementById('page-title');
+      if (h1 && PAGE_TITLES[name]) h1.textContent = PAGE_TITLES[name];
+      document.querySelectorAll('.view').forEach(function (v) { v.classList.toggle('is-active', v.dataset.viewPanel === name); });
+      document.querySelectorAll('.nav-item').forEach(function (n) { n.classList.toggle('active', n.dataset.view === 'home'); });
+      document.getElementById('chrome').classList.remove('search-open');
+      closeScreens();
+      closePreview();
+      scrollStageTop();
+    }
+    function openScreen(name, booking) {
+      document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('is-active'); });
+      document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('is-open'); });
+      const el = document.getElementById('screen-' + name);
+      if (el) el.classList.add('is-open');
+      document.body.classList.toggle('booking-mode', !!booking);
+      document.querySelectorAll('.nav-item').forEach(function (n) { n.classList.toggle('active', n.getAttribute('data-go') === name); });
+      scrollStageTop();
+    }
+    function closeScreens() {
+      closePreview();
+      document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('is-open'); });
+      document.body.classList.remove('booking-mode');
+      const v = document.body.dataset.view || 'home';
+      document.querySelectorAll('.view').forEach(function (p) { p.classList.toggle('is-active', p.dataset.viewPanel === v); });
+    }
+
+    function fillDetail(id) {
+      currentId = id;
+      const it = ITEMS[id];
+      document.getElementById('detail-bar-title').textContent = it.title;
+      setHero(document.getElementById('detail-hero'), it);
+      const soc = document.getElementById('detail-social');
+      soc.textContent = socialText(it);
+      document.getElementById('detail-title').textContent = it.title;
+      document.getElementById('detail-meta').textContent = it.meta;
+      document.getElementById('detail-desc').textContent = it.desc;
+      ['1', '2', '3'].forEach(function (n) {
+        document.getElementById('fact' + n + '-lab').textContent = it['fact' + n + 'Lab'];
+        document.getElementById('fact' + n).textContent = it['fact' + n];
+      });
+      document.getElementById('detail-status').textContent = it.status;
+      document.getElementById('bar-price').textContent = '₹' + it.ticketPrice + '/-';
+      document.getElementById('bar-fill').textContent = it.status === 'Notify me' ? '' : 'Filling fast';
+
+      const also = (it.kind === 'movie' ? ALSO_FOR_MOVIE : ALSO_FOR_EVENT).filter(function (k) { return k !== id; }).slice(0, 3);
+      const ymal = (it.kind === 'movie' ? YMAL_MOVIES : YMAL_EVENTS).filter(function (k) { return k !== id; }).slice(0, 3);
+      document.getElementById('also-row').innerHTML = also.map(function (k) { return cardHtml(k, 'preview'); }).join('');
+      document.getElementById('ymal-row').innerHTML = ymal.map(function (k) { return cardHtml(k, 'preview'); }).join('');
+    }
+    function openDetail(id) {
+      if (!ITEMS[id]) return;
+      fillDetail(id);
+      openScreen('detail', true);
+    }
+
+    function openPreview(id) {
+      if (!ITEMS[id]) return;
+      previewId = id;
+      const it = ITEMS[id];
+      const sheetEl = document.getElementById('preview-sheet');
+      sheetEl.style.height = ''; sheetEl.style.maxHeight = ''; sheetEl.style.borderRadius = '';
+      setHero(document.getElementById('preview-hero'), it);
+      document.getElementById('preview-social').innerHTML = it.kind === 'movie' ? svg('star').replace('<svg ', '<svg width="12" height="12" fill="#EB0028" stroke="#EB0028" ') + ' ' + socialText(it) : socialText(it);
+      document.getElementById('preview-meta').textContent = it.meta;
+      document.getElementById('preview-title').textContent = it.title;
+      document.getElementById('preview-type').textContent = it.kind === 'movie' ? 'Movies' : it.meta;
+      document.getElementById('preview-desc').textContent = it.desc;
+      document.getElementById('preview-when').textContent = it.whenPipe;
+      document.getElementById('preview-where').textContent = it.whereShort;
+      document.getElementById('preview-price').textContent = it.price;
+      document.getElementById('preview-backdrop').classList.add('open');
+      document.getElementById('preview-sheet').classList.add('open');
+      document.getElementById('preview-sheet').setAttribute('aria-hidden', 'false');
+    }
+    function closePreview() {
+      previewId = null;
+      const sheet = document.getElementById('preview-sheet');
+      const backdrop = document.getElementById('preview-backdrop');
+      backdrop.classList.remove('open', 'fading');
+      sheet.classList.remove('open');
+      sheet.setAttribute('aria-hidden', 'true');
+      sheet.style.height = ''; sheet.style.maxHeight = ''; sheet.style.borderRadius = ''; sheet.style.transition = '';
+    }
+
+    let expanding = false;
+    function expandPreviewToDetail(id) {
+      if (expanding || !ITEMS[id]) return;
+      expanding = true;
+      const sheet = document.getElementById('preview-sheet');
+      const backdrop = document.getElementById('preview-backdrop');
+      const fromId = currentId;
+      H.pushState({ t: 'detail', id: id, detailId: fromId, v: navState() }, '');
+      sheet.scrollTop = 0;
+      const startH = sheet.getBoundingClientRect().height;
+      sheet.style.maxHeight = 'none';
+      sheet.style.height = startH + 'px';
+      sheet.style.transition = 'none';
+      void sheet.offsetHeight;
+      sheet.style.transition = 'height 360ms cubic-bezier(0.22, 0.61, 0.36, 1), border-radius 360ms cubic-bezier(0.22, 0.61, 0.36, 1)';
+      backdrop.classList.add('fading');
+      const raf = requestAnimationFrame(function () { sheet.style.height = '100%'; sheet.style.borderRadius = '0'; });
+      setTimeout(function () {
+        cancelAnimationFrame(raf);
+        openDetail(id);
+        sheet.style.transition = 'none';
+        sheet.classList.remove('open');
+        sheet.style.height = ''; sheet.style.maxHeight = ''; sheet.style.borderRadius = '';
+        sheet.setAttribute('aria-hidden', 'true');
+        backdrop.classList.remove('open', 'fading');
+        previewId = null;
+        void sheet.offsetWidth;
+        sheet.style.transition = '';
+        expanding = false;
+      }, 380);
+    }
+
+    function openSelect() {
+      closePreview();
+      const it = ITEMS[currentId];
+      ticketCount = 0;
+      document.getElementById('select-title').textContent = it.title;
+      document.getElementById('select-venue').textContent = it.whereShort;
+      document.getElementById('select-when').textContent = it.whenPipe;
+      document.getElementById('tier-name').textContent = it.tier;
+      document.getElementById('tier-price').textContent = '₹' + it.ticketPrice;
+      document.getElementById('tier-status').textContent = it.status === 'Notify me' ? 'Filling fast' : it.status;
+      document.getElementById('add-btn').textContent = 'Add';
+      document.getElementById('select-footer').classList.add('hidden');
+      openScreen('select', true);
+    }
+    function addTicket() {
+      const it = ITEMS[currentId];
+      ticketCount = 1;
+      document.getElementById('add-btn').textContent = '−  1  +';
+      document.getElementById('select-total').textContent = '₹' + it.ticketPrice;
+      document.getElementById('select-footer').classList.remove('hidden');
+    }
+    function openConfirm() {
+      const it = ITEMS[currentId];
+      const sub = it.ticketPrice;
+      const total = sub + 49;
+      document.getElementById('confirm-title').textContent = it.title;
+      document.getElementById('confirm-details').textContent = it.whenPipe + ' · ' + it.tier + ' × 1';
+      document.getElementById('confirm-venue').textContent = it.where;
+      document.getElementById('confirm-sub').textContent = '₹' + sub + '.00';
+      document.getElementById('confirm-total').textContent = '₹' + total + '.00';
+      document.getElementById('confirm-bottom-total').textContent = '₹' + total + '.00';
+      openScreen('confirm', true);
+    }
+    function finishBooking() {
+      const it = ITEMS[currentId];
+      document.getElementById('done-copy').textContent = it.title + ' — path complete.';
+      document.getElementById('bookings-empty').classList.add('hidden');
+      const list = document.getElementById('bookings-list');
+      list.classList.remove('hidden');
+      list.innerHTML = '<div class="confirm-card"><p class="t">' + it.title + '</p><p class="m">' + it.whenPipe + '</p></div>';
+      openScreen('done', true);
+    }
+
+    function runSearch(raw) {
+      const q = (raw || '').trim().toLowerCase();
+      openScreen('search', false);
+      const hits = document.getElementById('search-hits');
+      const none = document.getElementById('search-none');
+      if (!q) {
+        hits.innerHTML = '';
+        none.classList.remove('hidden');
+        none.textContent = 'Type something to search movies and events.';
+        return;
+      }
+      const matched = Object.keys(ITEMS).filter(function (id) {
+        const it = ITEMS[id];
+        return it.title.toLowerCase().includes(q) || it.kind.includes(q) || id.includes(q);
+      });
+      if (!matched.length) {
+        hits.innerHTML = '';
+        none.classList.remove('hidden');
+        none.textContent = 'No results for “' + raw + '”. Try Movies or Events.';
+        return;
+      }
+      none.classList.add('hidden');
+      hits.innerHTML = matched.map(function (id) {
+        const it = ITEMS[id];
+        const thumb = it.img ? '<img src="' + it.img + '" alt="">' : '';
+        return '<button type="button" class="list-card" data-open="' + id + '">' +
+          '<div class="thumb"' + posterStyle(it) + '>' + thumb + '</div>' +
+          '<div><h3 class="clamp">' + it.title + '</h3><p>' + it.kind + '</p></div></button>';
+      }).join('');
+    }
+
+    /* ── Events ── */
+    document.getElementById('search-toggle').addEventListener('click', function () {
+      const chrome = document.getElementById('chrome');
+      chrome.classList.toggle('search-open');
+      if (chrome.classList.contains('search-open')) document.getElementById('global-search').focus();
+    });
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const q = document.getElementById('global-search').value;
+      H.pushState({ t: 'search', q: q, v: navState() }, '');
+      runSearch(q);
+    });
+    document.getElementById('preview-backdrop').addEventListener('click', function () { H.back(); });
+    document.querySelectorAll('.spotlight[data-open]').forEach(function (el) {
+      el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
+    });
+
+    document.getElementById('app').addEventListener('click', function (e) {
+      const pill = e.target.closest('.pill');
+      if (pill) {
+        pill.parentNode.querySelectorAll('.pill').forEach(function (p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        return;
+      }
+
+      const action = e.target.closest('[data-action]');
+      if (action) {
+        e.preventDefault();
+        e.stopPropagation();
+        const a = action.getAttribute('data-action');
+        if (a === 'close-preview') H.back();
+        if (a === 'preview-more' && previewId) expandPreviewToDetail(previewId);
+        if (a === 'preview-book' && previewId) {
+          currentId = previewId;
+          H.pushState({ t: 'select', id: currentId, v: navState() }, '');
+          openSelect();
+        }
+        if (a === 'book') {
+          H.pushState({ t: 'select', id: currentId, v: navState() }, '');
+          openSelect();
+        }
+        if (a === 'add') addTicket();
+        if (a === 'back-detail' || a === 'back-select') H.back();
+        if (a === 'confirm') {
+          H.pushState({ t: 'confirm', id: currentId, v: navState() }, '');
+          openConfirm();
+        }
+        if (a === 'done') {
+          H.pushState({ t: 'done', id: currentId, v: navState() }, '');
+          finishBooking();
+        }
+        return;
+      }
+
+      const open = e.target.closest('[data-open]');
+      if (open) {
+        e.preventDefault();
+        const id = open.getAttribute('data-open');
+        H.pushState({ t: 'detail', id: id, v: navState() }, '');
+        openDetail(id);
+        return;
+      }
+      const preview = e.target.closest('[data-preview]');
+      if (preview) {
+        e.preventDefault();
+        const id = preview.getAttribute('data-preview');
+        H.pushState({ t: 'preview', id: id, detailId: currentId, v: navState() }, '');
+        openPreview(id);
+        return;
+      }
+      const viewBtn = e.target.closest('button[data-view]');
+      if (viewBtn) {
+        e.preventDefault();
+        const v = viewBtn.getAttribute('data-view');
+        H.pushState({ t: 'view', v: v }, '');
+        setView(v);
+        return;
+      }
+      if (e.target.closest('[data-back]')) {
+        e.preventDefault();
+        H.back();
+        return;
+      }
+      const go = e.target.closest('button[data-go]');
+      if (!go) return;
+      e.preventDefault();
+      const name = go.getAttribute('data-go');
+      H.pushState({ t: 'screen', s: name, v: navState() }, '');
+      openScreen(name, false);
+    });
+
+    /* ── Deep links used by the case study (?view=, ?detail=, ?preview=, ?select=, ?confirm=, ?scroll=) ── */
+    function applyCaseStudyParams() {
+      const raw = (location.hash || '').replace(/^#/, '') || (location.search || '').replace(/^\?/, '');
+      const p = new URLSearchParams(raw);
+      const also = p.get('also');
+      const alsoBlock = document.getElementById('also-block');
+      const ymalBlock = document.getElementById('ymal-block');
+      if (also === 'after' && alsoBlock && ymalBlock) alsoBlock.parentNode.insertBefore(ymalBlock, alsoBlock);
+      if (also === 'off' && alsoBlock) alsoBlock.style.display = 'none';
+      const view = p.get('view');
+      if (view) setView(view);
+      const detail = p.get('detail');
+      const preview = p.get('preview');
+      const select = p.get('select');
+      const confirm = p.get('confirm');
+      if (detail) openDetail(detail);
+      if (preview) { if (!detail) openDetail('spider'); openPreview(preview); }
+      if (select) { currentId = select; openSelect(); }
+      if (confirm) { currentId = confirm; openSelect(); openConfirm(); }
+      const scrollTo = p.get('scroll');
+      if (scrollTo === 'also' || scrollTo === 'end') {
+        requestAnimationFrame(function () {
+          const target = scrollTo === 'also' ? document.getElementById('also-block') : document.querySelector('.book-bar');
+          const scroller = document.getElementById('phone-scroll');
+          if (target && scroller) scroller.scrollTop = Math.max(0, target.offsetTop - 72);
+        });
+      }
+    }
+
+    fillFeeds();
+    paintIcons();
+    H.replaceState({ t: 'view', v: 'home' }, '');
+    setView('home');
+    applyCaseStudyParams();
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>BookMyShow — Tap opens preview sheet</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    html, body { height: 100%; }
+    @media (min-width: 700px) {
+      html, body { background: #111; }
+    }
+    .phone {
+      width: 390px;
+      max-width: 390px;
+      height: 875px;
+      min-height: 875px;
+      padding-bottom: 0;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+    }
+    @media (max-width: 699px) {
+      html, body { height: auto; min-height: 100%; }
+      .phone {
+        height: 875px;
+        min-height: 875px;
+        max-width: 390px;
+        margin: 0 auto;
+        transform: none;
+      }
+    }
+    .phone > .screen-bar {
+      position: relative;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+    .stage {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .page {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    .page .poster { background: var(--surface-raised) !important; }
+    .phone > .sticky-book {
+      position: relative;
+      flex-shrink: 0;
+      left: auto;
+      transform: none;
+      max-width: none;
+      width: 100%;
+      z-index: 50;
+    }
+    body:has(#preview-sheet.open) .phone > .sticky-book {
+      display: block !important;
+    }
+    .people {
+      display: flex;
+      gap: 12px;
+      overflow: hidden;
+    }
+    .person { flex: 0 0 54px; text-align: center; }
+    .avatar {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: var(--surface-raised);
+      border: 1px solid var(--border-soft);
+    }
+    .person span {
+      display: block; margin-top: 6px;
+      font: 600 10px/1.2 var(--font); color: var(--ink-muted);
+    }
+    .hashtags {
+      display: flex; gap: 8px; overflow: hidden;
+      padding: 0 16px 16px;
+    }
+    .hashtags span {
+      flex: 0 0 auto;
+      font: var(--caption-strong);
+      color: var(--ink-muted);
+      background: var(--surface-raised);
+      border-radius: 20px;
+      padding: 6px 10px;
+    }
+    #preview-backdrop,
+    #preview-backdrop.open {
+      display: none !important;
+      background: transparent !important;
+    }
+    #preview-sheet {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: none;
+      transform: translateY(110%);
+    }
+    #preview-sheet.open { transform: translateY(0); }
+    #preview-hero { background: var(--surface-raised); }
+    .ripple {
+      position: absolute;
+      width: 48px; height: 48px;
+      margin: -24px 0 0 -24px;
+      border-radius: 50%;
+      border: 2px solid rgba(235, 0, 40, .65);
+      background: rgba(235, 0, 40, .18);
+      pointer-events: none;
+      z-index: 250;
+      opacity: 0;
+      transform: scale(.35);
+    }
+    .ripple.go { animation: demo-ripple 700ms ease-out; }
+    @keyframes demo-ripple {
+      0% { opacity: 1; transform: scale(.35); }
+      100% { opacity: 0; transform: scale(1.55); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #preview-sheet, #preview-backdrop, .ripple { transition: none !important; animation: none !important; }
+      .ripple.go { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone" id="phone">
+    <div class="screen-bar">
+      <button type="button" tabindex="-1" aria-hidden="true">&lt;</button>
+      <h2>Spider-Man: Brand New Day</h2>
+    </div>
+    <div class="stage">
+      <div class="page">
+        <div class="hashtags">
+          <span>#MustWatch</span><span>#Superhero</span><span>#Family</span>
+        </div>
+        <div class="rec-block">
+          <h3>Cast</h3>
+          <div class="people">
+            <div class="person"><div class="avatar"></div><span>Tom</span></div>
+            <div class="person"><div class="avatar"></div><span>Zendaya</span></div>
+            <div class="person"><div class="avatar"></div><span>Jacob</span></div>
+            <div class="person"><div class="avatar"></div><span>Marisa</span></div>
+            <div class="person"><div class="avatar"></div><span>Jon</span></div>
+          </div>
+        </div>
+        <div class="rec-block">
+          <h3>Crew</h3>
+          <div class="people">
+            <div class="person"><div class="avatar"></div><span>Director</span></div>
+            <div class="person"><div class="avatar"></div><span>Writer</span></div>
+            <div class="person"><div class="avatar"></div><span>Producer</span></div>
+            <div class="person"><div class="avatar"></div><span>Music</span></div>
+          </div>
+        </div>
+        <div class="rec-block rec-block--also">
+          <h3>Also happening</h3>
+          <div class="scroll-row">
+            <button type="button" class="event-card" id="hit-card" tabindex="-1" aria-hidden="true">
+              <div class="poster"><span class="date-pill">Sun, 2 Aug</span></div>
+              <p class="title clamp-2">Pratyush Chaubey Live</p>
+              <p class="facts">2h · Stand up Comedy</p>
+              <p class="status-fast">Fast Filling</p>
+            </button>
+            <button type="button" class="event-card" tabindex="-1" aria-hidden="true">
+              <div class="poster"><span class="date-pill">Fri, 13 Nov</span></div>
+              <p class="title clamp-2">Adam Port — Delhi</p>
+              <p class="facts">6h · Music Shows</p>
+              <p class="status-fast">Fast Filling</p>
+            </button>
+            <button type="button" class="event-card" tabindex="-1" aria-hidden="true">
+              <div class="poster"><span class="date-pill">Sun, 2 Aug</span></div>
+              <p class="title clamp-2">Brocode The Big Line Up 2026</p>
+              <p class="facts">3h · Stand up Comedy</p>
+              <p class="status-fast">Fast Filling</p>
+            </button>
+          </div>
+        </div>
+        <div class="rec-block rec-block--flush" style="padding: 0 16px 8px;">
+          <h3>You might also like</h3>
+          <div class="scroll-row">
+            <div class="movie-card">
+              <div class="poster"></div>
+              <p class="votes">9.2/10 · 164K+ votes</p>
+              <p class="movie-title clamp-2">The Odyssey</p>
+            </div>
+            <div class="movie-card">
+              <div class="poster"></div>
+              <p class="votes">8.7/10 · 12K+ votes</p>
+              <p class="movie-title clamp-2">Jan Neta</p>
+            </div>
+            <div class="movie-card">
+              <div class="poster"></div>
+              <p class="votes">9/10 · 133K+ votes</p>
+              <p class="movie-title clamp-2">Spider-Man: Brand New Day</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sticky-book">
+      <button type="button" class="primary-btn" tabindex="-1" aria-hidden="true">Book tickets</button>
+    </div>
+
+    <div id="preview-backdrop" aria-hidden="true"></div>
+    <div id="preview-sheet" role="dialog" aria-modal="true" aria-labelledby="preview-title" aria-hidden="true">
+      <div class="preview-handle"><button type="button" tabindex="-1" aria-hidden="true" aria-label="Dismiss"></button></div>
+      <div id="preview-hero" class="preview-hero"></div>
+      <div class="preview-body">
+        <div class="preview-topline">
+          <span class="preview-social" id="preview-social">412 interested</span>
+          <span class="preview-meta" id="preview-meta">2h · Stand up Comedy</span>
+        </div>
+        <h2 id="preview-title" class="preview-name">Pratyush Chaubey Live</h2>
+        <p id="preview-type" class="preview-type">2h · Stand up Comedy</p>
+        <p id="preview-desc" class="preview-desc">Sharp observational comedy — venue and lineup strong enough to trust without checking Instagram first.</p>
+        <div class="preview-facts">
+          <div>
+            <p id="preview-when" class="preview-when">Sun, 2 Aug, 2026 | 8:00 PM</p>
+            <p id="preview-where" class="preview-where">The Laugh Casa, Noida</p>
+          </div>
+          <p id="preview-price" class="preview-price">₹499 onwards</p>
+        </div>
+        <div class="preview-actions">
+          <button type="button" class="btn-outline" id="know-more" tabindex="-1">Know More</button>
+          <button type="button" class="btn-solid" tabindex="-1">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <span class="ripple" id="ripple" aria-hidden="true"></span>
+  </div>
+
+  <script>
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var phone = document.getElementById('phone');
+      var card = document.getElementById('hit-card');
+      var ripple = document.getElementById('ripple');
+      var sheet = document.getElementById('preview-sheet');
+      var timers = [];
+
+      function later(ms, fn) {
+        timers.push(setTimeout(fn, ms));
+      }
+      function clearTimers() {
+        timers.forEach(clearTimeout);
+        timers = [];
+      }
+      function placeRipple() {
+        var r = card.getBoundingClientRect();
+        var p = phone.getBoundingClientRect();
+        ripple.style.left = (r.left - p.left + r.width / 2) + 'px';
+        ripple.style.top = (r.top - p.top + 78) + 'px';
+      }
+      function ping() {
+        placeRipple();
+        ripple.classList.remove('go');
+        void ripple.offsetWidth;
+        ripple.classList.add('go');
+      }
+      function openSheet() {
+        sheet.classList.add('open');
+        sheet.setAttribute('aria-hidden', 'false');
+      }
+      function closeSheet() {
+        sheet.classList.remove('open');
+        sheet.setAttribute('aria-hidden', 'true');
+      }
+      function play() {
+        clearTimers();
+        closeSheet();
+        ripple.classList.remove('go');
+        if (reduced) {
+          openSheet();
+          later(1400, closeSheet);
+          later(2200, play);
+          return;
+        }
+        later(600, ping);
+        later(1000, openSheet);
+        later(2800, closeSheet);
+        later(3600, play);
+      }
+      window.addEventListener('resize', placeRipple);
+      play();
+    })();
+  </script>
+</body>
+</html>

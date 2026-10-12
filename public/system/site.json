@@ -1,0 +1,12 @@
+{
+  "name": "Dev Dixit",
+  "site": "devdixit.fun",
+  "role": "Product designer",
+  "email": "devdixit@gmail.com",
+  "resumeUrl": "#",
+  "linkedinUrl": "https://www.linkedin.com/",
+  "pages": [
+    { "label": "Work", "href": "/" },
+    { "label": "About", "href": "/about" }
+  ]
+}
