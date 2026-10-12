@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #181d27;
+  --pale-sky: #6a7282;
+  --gallery: #efefef;
+  --body: #414651;
+  --muted: #717680;
+  --border: #d5d7da;
+  --lavender: #f7f5ff;
+  --ink: #181d27;
+  --ai-bg: #0c0e12;
+  --ai-surface: #151820;
+  --ai-border: #2a2f3a;
+  --ai-accent: #7c8cff;
+  --ai-muted: #8b93a7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-pale-sky: var(--pale-sky);
+  --color-gallery: var(--gallery);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-lavender: var(--lavender);
+  --color-ink: var(--ink);
+  --color-ai-bg: var(--ai-bg);
+  --color-ai-surface: var(--ai-surface);
+  --color-ai-border: var(--ai-border);
+  --color-ai-accent: var(--ai-accent);
+  --color-ai-muted: var(--ai-muted);
+  --font-sans: var(--font-manrope);
+  --font-geist: var(--font-geist-sans);
+  --font-display: var(--font-bricolage);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+}
+
+/* Fixed nav — blur pane fades out (mask the effect, not a white wash) */
+.nav-frost-pane {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  /* Extend below the 68px bar so the fade happens under the content row */
+  height: 96px;
+  z-index: 0;
+  pointer-events: none;
+  border: none;
+  box-shadow: none;
+  /* Tiny tint so engines composite the filter; not a visible white bar */
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  /* Fade the blur itself — strong at top, gone by bottom */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.72) 55%,
+    rgba(0, 0, 0, 0.32) 72%,
+    rgba(0, 0, 0, 0.08) 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.72) 55%,
+    rgba(0, 0, 0, 0.32) 72%,
+    rgba(0, 0, 0, 0.08) 88%,
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+/* Soft elliptical dissolve — subject stays solid, frame edges vanish into the page */
+.hero-video-mask {
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 68% at 50% 46%,
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.92) 52%,
+    rgba(0, 0, 0, 0.55) 68%,
+    rgba(0, 0, 0, 0.18) 82%,
+    rgba(0, 0, 0, 0.04) 92%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 68% at 50% 46%,
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.92) 52%,
+    rgba(0, 0, 0, 0.55) 68%,
+    rgba(0, 0, 0, 0.18) 82%,
+    rgba(0, 0, 0, 0.04) 92%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}

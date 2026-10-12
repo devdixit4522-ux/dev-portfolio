@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BookMyShow — Events discovery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            display: ['"Bricolage Grotesque"', 'sans-serif'],
+          },
+          colors: {
+            ink: '#181d27',
+            ink2: '#414651',
+            muted: '#717680',
+            caption: '#6a7282',
+            line: '#d5d7da',
+            cream: '#f7f7f8',
+            accent: '#181d27'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #ffffff;
+      color: #414651;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, .font-display {
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+    
+    /* Shaun Tan signature presentation containers */
+    .st-bg {
+      background: radial-gradient(120% 120% at 50% 0%, #ffffff 0%, #f4f4f5 100%);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Shaun Tan signature massive organic shadow for devices */
+    .st-shadow {
+      box-shadow: 0 0 0 1px rgba(30, 45, 80, 0.04),
+                  0 1px 1px -0.5px rgba(30, 45, 80, 0.04),
+                  0 3px 3px -1.5px rgba(30, 45, 80, 0.04),
+                  0 6px 6px -3px rgba(30, 45, 80, 0.04),
+                  0 12px 12px -6px rgba(30, 45, 80, 0.04),
+                  0 24px 24px -12px rgba(30, 45, 80, 0.04),
+                  0 48px 48px -24px rgba(30, 45, 80, 0.05);
+    }
+
+    /* Subtle mesh gradient for hero to give it depth without images */
+    .hero-mesh {
+        background-color: #f7f7f8;
+        background-image: 
+            radial-gradient(at 80% 0%, hsla(210, 20%, 95%, 1) 0px, transparent 50%),
+            radial-gradient(at 0% 50%, hsla(210, 10%, 98%, 1) 0px, transparent 50%);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav Bar (Optional subtle header to ground the page) -->
+  <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-line/50">
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 h-16 flex items-center justify-between">
+        <span class="font-display font-semibold text-ink">Portfolio</span>
+        <span class="text-sm font-medium text-muted">BookMyShow</span>
+    </div>
+  </nav>
+
+  <!-- Shaun Tan Style Hero -->
+  <div class="relative h-[85vh] md:h-[95vh] pt-[80px] px-4 md:px-8 pb-4 md:pb-8">
+    <div class="w-full h-full rounded-2xl md:rounded-[32px] hero-mesh flex flex-col items-center justify-center relative overflow-hidden">
+       
+       <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10 -translate-y-12">
+          <span class="py-1 px-3 rounded bg-white/60 backdrop-blur-sm border border-black/5 text-[10px] font-bold uppercase tracking-[0.2em] text-ink mb-6">Case Study</span>
+          <h1 class="font-display text-5xl md:text-7xl lg:text-[5rem] font-semibold text-ink tracking-tight leading-[1.05] max-w-4xl text-balance">
+            Improving Event Discovery
+          </h1>
+       </div>
+
+       <!-- Devices rising from bottom -->
+       <div class="absolute bottom-0 left-0 right-0 flex justify-center gap-6 md:gap-16 items-end translate-y-[20%] md:translate-y-[15%]">
+           <img src="assets/hero-home.png" alt="Homepage Redesign" class="w-[220px] md:w-[320px] rounded-[24px] md:rounded-[36px] st-shadow border border-white bg-white" />
+           <img src="assets/movie-detail-also.png" alt="Movie Detail Events Row" class="w-[220px] md:w-[320px] rounded-[24px] md:rounded-[36px] st-shadow border border-white bg-white hidden sm:block mb-12 md:mb-24" />
+       </div>
+    </div>
+  </div>
+
+  <div class="bg-white">
+    
+    <!-- Overview -->
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 py-20 md:py-32 border-b border-line/40">
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
+        <p class="text-lg md:text-xl font-medium tracking-tight text-ink pt-1">Overview</p>
+        <div>
+          <p class="text-2xl md:text-4xl font-medium leading-[1.3] tracking-tight text-ink mb-8 max-w-4xl text-balance">
+            Users often entered Movies first and left when they couldn't find a film worth booking. I redesigned the discovery experience to surface Events at two points — before users choose a category and when movie discovery stalls.
+          </p>
+          <p class="text-lg md:text-xl font-medium leading-[1.6] tracking-tight text-muted max-w-3xl">
+            Most BookMyShow users open the app, go to Movies, and scroll through films first. When nothing feels interesting enough to watch, the app has other things to offer — comedy shows, concerts, and sports — but those options are easy to miss. I started by improving this drop-off point, then worked back to the homepage.
+          </p>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-16 md:mt-24">
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.2em] text-caption mb-3 font-bold">Role</p>
+              <p class="text-sm md:text-base text-ink font-semibold">Product Designer</p>
+              <p class="text-sm text-muted mt-1">Research, IA, prototype</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.2em] text-caption mb-3 font-bold">Focus</p>
+              <p class="text-sm md:text-base text-ink font-semibold">Improve D7 bookings</p>
+              <p class="text-sm text-muted mt-1">Route browsers to events</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.2em] text-caption mb-3 font-bold">Tools</p>
+              <p class="text-sm md:text-base text-ink font-semibold">Figma</p>
+              <p class="text-sm text-muted mt-1">Cursor</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Problem -->
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 py-20 md:py-32">
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
+        <p class="text-lg md:text-xl font-medium tracking-tight text-ink">Problems</p>
+        <div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
+            <!-- Problem 1 -->
+            <div class="flex flex-col">
+              <div class="mb-6 md:mb-8 pr-4">
+                <h4 class="text-xl md:text-2xl font-medium text-ink mb-3">Users leave when movies fail</h4>
+                <p class="text-base text-muted leading-relaxed">When users browse Movies and don't find anything they want to book, they usually leave the app entirely.</p>
+              </div>
+              <div class="rounded-2xl st-bg flex-1 min-h-[300px] flex items-center justify-center p-8 relative overflow-hidden group">
+                 <!-- UI Mini Mockup representing logic -->
+                 <div class="bg-white p-6 rounded-2xl st-shadow border border-black/5 w-full max-w-[280px] z-10 transition-transform duration-500 group-hover:-translate-y-2">
+                    <p class="text-[10px] font-bold text-caption uppercase tracking-[0.15em] mb-4">Current Flow</p>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center border border-black/5">🎬</div>
+                        <p class="text-sm font-medium text-ink leading-tight">No movie feels<br>worth booking</p>
+                    </div>
+                    <div class="h-[1px] w-full bg-line/60 my-4 relative">
+                        <div class="absolute -top-2 left-1/2 -translate-x-1/2 bg-white px-2 text-[10px] font-bold text-caption">THEN</div>
+                    </div>
+                    <div class="flex items-center gap-3 opacity-50">
+                        <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500">🚪</div>
+                        <p class="text-sm font-medium text-ink leading-tight">User leaves app</p>
+                    </div>
+                 </div>
+              </div>
+            </div>
+            
+            <!-- Problem 2 -->
+            <div class="flex flex-col">
+              <div class="mb-6 md:mb-8 pr-4">
+                <h4 class="text-xl md:text-2xl font-medium text-ink mb-3">Other options are hidden</h4>
+                <p class="text-base text-muted leading-relaxed">BookMyShow already has comedy, concerts, and sports. But those options are not shown clearly while the user is deciding.</p>
+              </div>
+              <div class="rounded-2xl st-bg flex-1 min-h-[300px] flex items-center justify-center p-8 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200 to-transparent"></div>
+                <div class="bg-white/80 backdrop-blur-md p-8 rounded-3xl st-shadow border border-white z-10 max-w-[320px]">
+                    <p class="font-display text-2xl font-semibold text-ink leading-tight text-center text-balance">How can we show a useful next option when a user does not find a movie they want?</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research -->
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 mb-24 md:mb-40">
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
+        <p class="text-lg md:text-xl font-medium tracking-tight text-ink">Research</p>
+        <div>
+          <p class="text-xl md:text-3xl font-medium leading-relaxed tracking-tight text-ink mb-12 max-w-3xl">Ten interviews, two patterns. I interviewed 10 people to understand what they do when they open BookMyShow and don't find a movie they want to book.</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8">
+            <div class="rounded-2xl st-bg p-8 md:p-10 flex flex-col relative overflow-hidden group">
+                <div class="absolute -top-4 -right-4 p-8 opacity-[0.03] transition-transform duration-700 group-hover:scale-110"><span class="font-display text-[12rem] font-bold leading-none">1</span></div>
+                <h3 class="text-xl md:text-2xl font-semibold text-ink mb-4 relative z-10 leading-snug">Not finding a movie does not mean the plan is over</h3>
+                <p class="text-base text-muted mb-10 relative z-10">People could still want to go out that night.</p>
+                <div class="mt-auto pt-6 border-t border-black/10 relative z-10">
+                    <p class="italic text-base text-ink font-medium">"No… after opening the app." <span class="text-caption font-normal">— Abhay</span></p>
+                </div>
+            </div>
+            <div class="rounded-2xl st-bg p-8 md:p-10 flex flex-col relative overflow-hidden group">
+                <div class="absolute -top-4 -right-4 p-8 opacity-[0.03] transition-transform duration-700 group-hover:scale-110"><span class="font-display text-[12rem] font-bold leading-none">2</span></div>
+                <h3 class="text-xl md:text-2xl font-semibold text-ink mb-4 relative z-10 leading-snug">Event discovery was happening outside</h3>
+                <p class="text-base text-muted mb-10 relative z-10">People often discovered events on Instagram or YouTube, then used BookMyShow later to buy tickets.</p>
+                <div class="mt-auto pt-6 border-t border-black/10 relative z-10">
+                    <p class="italic text-base text-ink font-medium">"Usually somewhere else first." <span class="text-caption font-normal">— Aditi</span></p>
+                </div>
+            </div>
+          </div>
+          
+          <div class="mt-12 rounded-3xl bg-ink p-10 md:p-16 flex items-center border border-accent shadow-2xl relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+              <div class="max-w-3xl relative z-10">
+                  <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 mb-6 block">Core Insight</span>
+                  <p class="font-display text-3xl md:text-5xl font-semibold leading-[1.1] text-white mb-6">A user may still want to go out even if they don't choose a movie.</p>
+                  <p class="text-lg md:text-xl text-white/70 leading-relaxed">The opportunity was not to push users into events. It was to show relevant events when users were still looking for something to do.</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Flows / Movie Detail -->
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 mt-24 md:mt-40">
+      <div class="mb-10 md:mb-16 max-w-3xl">
+        <h3 class="font-display text-3xl md:text-5xl font-semibold text-ink tracking-tight leading-[1.1] mb-6">Recovering from a stalled search</h3>
+        <p class="text-xl md:text-2xl font-medium text-muted leading-relaxed">The question wasn't how to route users away from Movies. It was where to place a bridge from a failed movie discovery without making the alternative feel like a detour.</p>
+      </div>
+      
+      <!-- Big Edge-to-Edge Showcase container (Shaun Tan style) -->
+      <div class="rounded-3xl w-full flex flex-col overflow-hidden st-bg py-16 md:py-24 relative px-6 md:px-12">
+         
+         <!-- UI comparison inside the showcase -->
+         <div class="flex flex-col md:flex-row gap-8 w-full max-w-5xl mx-auto items-center justify-center">
+             
+             <!-- Option 1: Modal -->
+             <div class="flex-1 bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-[24px] st-shadow border border-white w-full max-w-[360px] opacity-70 hover:opacity-100 transition-opacity duration-300">
+                <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-caption mb-6">Option 1: Exit Modal</p>
+                <!-- Mini UI Schematic built with Tailwind -->
+                <div class="w-full bg-gray-100 rounded-2xl p-3 flex flex-col gap-2 min-h-[220px] border border-black/5 mb-8">
+                    <div class="h-2 rounded bg-gray-200 mb-2"></div>
+                    <div class="h-20 rounded-xl bg-gray-300 relative overflow-hidden">
+                        <!-- Simulated Modal Overlay -->
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-2">
+                            <div class="bg-white w-full rounded-lg p-2 text-center shadow-lg">
+                                <div class="h-3 w-3/4 bg-gray-200 rounded mx-auto mb-2"></div>
+                                <div class="h-6 bg-ink rounded text-[8px] font-bold text-white flex items-center justify-center">Explore Events!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-8 rounded-lg bg-gray-200 mt-2"></div>
+                </div>
+                <ul class="text-sm text-ink2 space-y-3 font-medium">
+                    <li class="flex items-center gap-2"><span class="text-red-500 font-bold">—</span> Interrupts user</li>
+                    <li class="flex items-center gap-2"><span class="text-red-500 font-bold">—</span> Feels promotional</li>
+                </ul>
+             </div>
+
+             <!-- Option 2: Events Row (Chosen) -->
+             <div class="flex-1 bg-white p-6 md:p-8 rounded-[24px] st-shadow border-2 border-ink w-full max-w-[360px] relative md:-translate-y-8 z-10">
+                <span class="absolute -top-3 right-6 bg-ink text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg">Chosen</span>
+                <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-ink mb-6">Option 2: Events Row</p>
+                <!-- Mini UI Schematic built with Tailwind -->
+                <div class="w-full bg-gray-100 rounded-2xl p-3 flex flex-col gap-2 min-h-[220px] border border-black/5 mb-8">
+                    <div class="h-2 rounded bg-gray-200 mb-2"></div>
+                    <div class="h-16 rounded-xl bg-gray-300"></div>
+                    <div class="h-10 rounded-lg bg-white border-2 border-ink flex items-center px-3 mt-2 shadow-sm relative overflow-hidden">
+                        <div class="w-1/3 h-full bg-ink/5 absolute left-0 top-0"></div>
+                        <span class="text-[9px] font-bold text-ink relative z-10">Events nearby 🎟️</span>
+                    </div>
+                    <div class="h-8 rounded-lg bg-gray-200 mt-1"></div>
+                </div>
+                <ul class="text-sm text-ink space-y-3 font-semibold">
+                    <li class="flex items-center gap-2"><span class="text-green-600 font-bold">+</span> Preserves context</li>
+                    <li class="flex items-center gap-2"><span class="text-green-600 font-bold">+</span> Concrete alternatives</li>
+                </ul>
+             </div>
+
+         </div>
+      </div>
+    </div>
+
+    <!-- The Reframe (Homepage) -->
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 mt-32 md:mt-48">
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
+        <p class="text-lg md:text-xl font-medium tracking-tight text-ink">The Reframe</p>
+        <div>
+            <p class="text-2xl md:text-4xl font-medium leading-[1.3] tracking-tight text-ink mb-6 max-w-3xl">
+              But I was solving the problem too late. Why were undecided users entering Movies in the first place?
+            </p>
+            <p class="text-lg md:text-xl font-medium text-muted max-w-3xl mb-16 leading-relaxed">
+              The homepage was pushing users toward Movies before they had chosen what kind of plan they wanted. If BookMyShow could surface Events before users committed to a category, we might prevent the dead-end entirely.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div class="rounded-[32px] st-bg pt-12 md:pt-16 px-8 flex flex-col items-center border border-white relative group overflow-hidden">
+                     <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-caption mb-10 z-10">Before: Movies First</p>
+                     <img src="assets/bms-home-before.png" class="w-[220px] md:w-[260px] rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.1)] opacity-70 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 z-10 border-t border-l border-r border-line bg-white" />
+                 </div>
+                 <div class="rounded-[32px] st-bg pt-12 md:pt-16 px-8 flex flex-col items-center border border-white relative overflow-hidden">
+                     <!-- Subtle highlight -->
+                     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[200px] bg-white/60 blur-3xl rounded-full"></div>
+                     <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-ink mb-10 z-10">After: Equal Entry</p>
+                     <img src="assets/hero-home.png" class="w-[220px] md:w-[260px] rounded-t-[32px] shadow-[0_-16px_48px_rgba(0,0,0,0.15)] translate-y-2 z-10 border-t border-l border-r border-line bg-white" />
+                 </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mt-16 md:mt-24">
+                <div>
+                    <h4 class="text-xl md:text-2xl font-semibold text-ink mb-4">Equal category entries</h4>
+                    <p class="text-base md:text-lg text-muted leading-relaxed">Give Movies and Events equal weight at the top of the homepage. Undecided users should be able to browse movies and events together in a mixed discovery carousel before choosing a category.</p>
+                </div>
+                <div>
+                    <h4 class="text-xl md:text-2xl font-semibold text-ink mb-4">Mixed discovery feed</h4>
+                    <p class="text-base md:text-lg text-muted leading-relaxed">One carousel combining films, comedy, concerts, plays, and other bookable experiences. Lets undecided users browse across formats while preserving the existing ad inventory.</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Final System -->
+    <div class="max-w-[1300px] mx-auto px-6 md:px-16 mt-32 md:mt-48 mb-32 md:mb-48">
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
+        <p class="text-lg md:text-xl font-medium tracking-tight text-ink">The Final System</p>
+        <div>
+           <div class="rounded-[40px] st-bg p-12 md:p-24 flex flex-col items-center text-center relative overflow-hidden">
+              <!-- Background mesh for final flourish -->
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-transparent to-transparent opacity-60"></div>
+              
+              <p class="font-display text-4xl md:text-6xl font-semibold text-ink leading-[1.1] mb-8 relative z-10">Choose earlier.<br/>Continue later.</p>
+              <p class="text-lg md:text-xl text-muted max-w-2xl mb-16 relative z-10 leading-relaxed font-medium">The goal wasn't to make users choose Events instead of Movies. It was to make sure that browsing Movies did not hide every other plan BookMyShow already sells.</p>
+              
+              <div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 relative z-10 w-full max-w-3xl">
+                  <div class="bg-white/80 backdrop-blur border border-white px-6 py-4 rounded-2xl st-shadow text-ink font-semibold text-sm md:text-base flex-1 min-w-[140px]">Undecided User</div>
+                  <div class="text-caption hidden md:block">→</div>
+                  <div class="bg-white/80 backdrop-blur border border-white px-6 py-4 rounded-2xl st-shadow text-ink font-semibold text-sm md:text-base flex-1 min-w-[140px]">Equal Entry</div>
+                  <div class="text-caption hidden md:block">→</div>
+                  <div class="bg-white/80 backdrop-blur border border-white px-6 py-4 rounded-2xl st-shadow text-ink font-semibold text-sm md:text-base flex-1 min-w-[140px]">Movie Discovery</div>
+                  <div class="text-caption hidden md:block">→</div>
+                  <div class="bg-ink border border-ink px-6 py-4 rounded-2xl st-shadow text-white font-semibold text-sm md:text-base flex-1 min-w-[140px] relative overflow-hidden">
+                      <div class="absolute inset-0 bg-white/10 w-1/2 -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform"></div>
+                      Events Alternative
+                  </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
