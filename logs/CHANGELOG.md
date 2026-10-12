@@ -2,6 +2,14 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-12: Restyle planning (no site changes)
+
+**Branch:** `family-restyle`
+
+- Studied the Case Study System and both case studies, and compared them with the current site.
+- Added `PRODUCT.md`: who the site is for and the rules it must keep.
+- Added `docs/brief-portfolio-family.md`: the plan for making the portfolio match the case studies. It's a draft waiting for approval.
+
 ## 2026-10-12: Project setup
 
 **Branch:** `family-restyle`
