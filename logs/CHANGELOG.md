@@ -2,6 +2,14 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-14: New version pushed to GitHub and made the main one
+
+**Branch:** `master` · deployed by Vercel
+
+- This folder is now linked to the GitHub repo `devdixit4522-ux/dev-portfolio`.
+- The new design (everything from `family-restyle`) is now `master`, the main branch. Vercel builds the live site from it.
+- The old site is kept on GitHub in a branch called `old-portfolio`, so it can come back if needed.
+
 ## 2026-10-14: BookMyShow cover, fuller card text, AI section hidden
 
 **Branch:** `family-restyle` · not deployed
