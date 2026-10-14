@@ -168,7 +168,7 @@ export function ProjectRow({ study }: { study: CaseStudy }) {
           ))}
         </dl>
         <div className="row-acts">
-          <Button asChild className="read-btn rounded-full px-[22px] text-[15px] font-normal tracking-normal">
+          <Button asChild className="read-btn rounded-full px-[20px] text-[14px] font-normal tracking-normal">
             <a href={study.href}>
               Read case study
               <ArrowRight aria-hidden />
@@ -179,7 +179,7 @@ export function ProjectRow({ study }: { study: CaseStudy }) {
             variant="secondary"
             aria-pressed={speaking}
             onClick={toggleSound}
-            className="sand-btn gap-2 rounded-full px-[18px] text-[15px] font-normal tracking-normal"
+            className="sand-btn gap-2 rounded-full px-[16px] text-[14px] font-normal tracking-normal"
           >
             <Volume2 aria-hidden />
             {speaking ? "Stop" : "Listen to the walkthrough"}

@@ -2,6 +2,20 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-14: Smaller text everywhere, project cards top-aligned
+
+**Branch:** `master` · not deployed yet
+
+- **Smaller text across the site**, to suit the narrower 1200px page. On a laptop:
+  - Homepage intro: 44px to 34px (the words are unchanged).
+  - Project titles: 44px to 34px. The highlighted line: 22px to 19px. The line under it: 16px to 15px. The facts and buttons are a size smaller too, and the buttons are 44px tall instead of 48px.
+  - Section titles ("Selected work"): 38px to 34px. About's opening line: 44px to 40px. The big email in "Say hi": 76px to 60px. Hand notes: 22px to 20px.
+  - Case studies, through the shared sizes: headings 38px to 34px and 28px to 25px, body text 18px to 17px, card text a size smaller.
+  - Tablets and phones keep their own sizes, so they barely change.
+- **Project cards are top-aligned.** The title now starts level with the top of the picture. Before, the text was centred next to it. While scrolling, the text still arrives a beat after the picture, then moves with it, so the two tops stay level.
+
+Files: `public/system/tokens.css`, `app/globals.css`, `components/home/ProjectRow.tsx`, `public/system/CHANGES.md`.
+
 ## 2026-10-14: Narrower page
 
 **Branch:** `master` · not deployed yet

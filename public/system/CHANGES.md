@@ -3,6 +3,10 @@
 This folder (`public/system/`) is now the working home of the system. The Desktop copy
 (`case studies/Groww/case-study-system/`) is still at v1.0 and was not edited.
 
+## v1.7 (2026-10-14)
+
+- **Smaller desktop type** for the 1200px frame: `--t-h1` 38 to 34px, `--t-h2` 28 to 25px, `--t-body` 18 to 17px, `--t-card-title` 18 to 17px, `--t-card-text` 16 to 15px, `--t-stat` 34 to 31px, `--t-ask` 24 to 22px, `--t-versus` 26 to 24px. Tablet and phone sizes are unchanged.
+
 ## v1.6 (2026-10-14)
 
 - **Narrower frame:** `--page-max` is now 1200px of content plus the gutters (it was 1600px), for the case studies, the portfolio and the nav.

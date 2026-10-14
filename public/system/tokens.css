@@ -57,14 +57,14 @@
   --hand: Caveat, "Segoe Print", cursive;
 
   /* type: desktop (>= 1200px) */
-  --t-h1: 38px;        --lh-h1: 1.1;
-  --t-h2: 28px;        --lh-h2: 1.1;
-  --t-body: 18px;      --lh-body: 1.36;   --ls-body: -0.02em;
-  --t-card-title: 18px;
-  --t-card-text: 16px;
-  --t-stat: 34px;
-  --t-ask: 24px;
-  --t-versus: 26px;
+  --t-h1: 34px;        --lh-h1: 1.1;
+  --t-h2: 25px;        --lh-h2: 1.1;
+  --t-body: 17px;      --lh-body: 1.36;   --ls-body: -0.02em;
+  --t-card-title: 17px;
+  --t-card-text: 15px;
+  --t-stat: 31px;
+  --t-ask: 22px;
+  --t-versus: 24px;
 
   /* measure */
   --read: 850px;
