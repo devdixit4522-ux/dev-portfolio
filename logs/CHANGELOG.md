@@ -4,7 +4,7 @@ A plain-English record of changes to this portfolio. Newest entries go at the to
 
 ## 2026-10-14: Smaller text everywhere, project cards top-aligned
 
-**Branch:** `master` · not deployed yet
+**Branch:** `master` · deployed
 
 - **Smaller text across the site**, to suit the narrower 1200px page. On a laptop:
   - Homepage intro: 44px to 34px (the words are unchanged).
@@ -18,7 +18,7 @@ Files: `public/system/tokens.css`, `app/globals.css`, `components/home/ProjectRo
 
 ## 2026-10-14: Narrower page
 
-**Branch:** `master` · not deployed yet
+**Branch:** `master` · deployed
 
 - The page is now at most 1200px wide, down from 1600px, plus the 30px side margins. This applies to the homepage, About, the nav, and both case studies.
 - On big screens there's more empty space on each side. Laptops at 1260px wide or less look the same as before.
