@@ -2,6 +2,15 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-14: Narrower page
+
+**Branch:** `master` · not deployed yet
+
+- The page is now at most 1200px wide, down from 1600px, plus the 30px side margins. This applies to the homepage, About, the nav, and both case studies.
+- On big screens there's more empty space on each side. Laptops at 1260px wide or less look the same as before.
+
+Files: `public/system/tokens.css`, `app/globals.css`, `public/system/CHANGES.md`.
+
 ## 2026-10-14: New version pushed to GitHub and made the main one
 
 **Branch:** `master` · deployed by Vercel

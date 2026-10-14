@@ -116,7 +116,7 @@
 /* Radix gives the Contact trigger its own list; it shouldn't draw the switcher's pill */
 .nav-switch.nav-contact { display: contents; }
 
-/* Page width: the system's frame (content up to 1600px), as in the case studies and the nav */
+/* Page width: the system's frame (content up to 1200px), as in the case studies and the nav */
 .page-width {
   width: min(var(--page-max), 100%);
   margin-inline: auto;

@@ -3,6 +3,10 @@
 This folder (`public/system/`) is now the working home of the system. The Desktop copy
 (`case studies/Groww/case-study-system/`) is still at v1.0 and was not edited.
 
+## v1.6 (2026-10-14)
+
+- **Narrower frame:** `--page-max` is now 1200px of content plus the gutters (it was 1600px), for the case studies, the portfolio and the nav.
+
 ## v1.5 (2026-10-14)
 
 - **The contact card animates.** It grows out of the Contact button in 0.18s and leaves faster, in 0.12s. Before, it appeared in place. Reduced motion keeps it instant.

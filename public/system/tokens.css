@@ -69,7 +69,7 @@
   /* measure */
   --read: 850px;
   --read-hero: 800px;
-  --page-max: calc(1600px + 2 * var(--gutter)); /* content up to 1600px, plus the gutters */
+  --page-max: calc(1200px + 2 * var(--gutter)); /* content up to 1200px, plus the gutters */
   --gutter: 30px;
   --inset: 80px;
   --rail-w: 200px;
