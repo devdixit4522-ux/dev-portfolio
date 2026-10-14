@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: into the dark</title>
+<link rel="stylesheet" href="../../public/system/tokens.css">
+<link rel="stylesheet" href="../../public/system/nav.css">
+<style>
+  /* Mockup only. The homepage above is a stand-in; the AI section, nav and footer are the proposal.
+     The white page stays white. The dark rises from below with a long feathered edge instead of a line,
+     its content comes into focus as it arrives, and once you're 40% of the way in it glides the
+     rest of the way. Stop before that and nothing moves. */
+  @font-face { font-family: "Nimbus Sans"; src: url("../../public/system/fonts/NimbusSans-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Nimbus Sans"; src: url("../../public/system/fonts/NimbusSans-Bold.otf"); font-weight: 700; }
+
+  :root { --p: 0; --night: #121211; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--ls-body);
+    color: var(--body);
+    background: var(--page);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2, h3 { color: var(--ink); font-weight: 700; text-wrap: balance; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .wrap { width: min(calc(1200px + 2 * var(--gutter)), 100%); margin-inline: auto; padding-inline: var(--gutter); }
+  .stand-in { font-size: 13px; letter-spacing: 0; color: var(--soft); }
+
+  /* ── the stand-in homepage ─────────────────────────────────────────── */
+  .intro { min-height: 86svh; display: grid; align-content: center; padding-top: var(--nav-h); }
+  .statement { max-width: 18ch; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.1; letter-spacing: -0.04em; font-weight: 400; color: var(--ink); }
+  .statement b { font-weight: 700; }
+  .work-label { font-size: 14px; letter-spacing: 0; color: var(--soft); }
+  .rows { margin-top: 24px; display: grid; gap: 96px; padding-bottom: 32vh; }
+  .row { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; align-items: center; }
+  .tile { aspect-ratio: 7 / 5; border-radius: var(--r-panel); }
+  .tile.g { background: linear-gradient(135deg, #e6f6ee, #d9f1e6 55%, #e4f0f7); }
+  .tile.b { background: linear-gradient(135deg, #fbe9ec, #f6e1e6 55%, #efe7f6); }
+  .row h3 { font-size: var(--t-h2); line-height: 1.15; letter-spacing: -0.03em; }
+  .row p { margin-top: 12px; color: var(--soft); }
+
+  /* ── the dark: AI experiments and products ─────────────────────────── */
+  .after-dark { position: relative; overflow-x: clip; background: var(--night); color: rgba(255, 255, 255, 0.92); }
+  /* the horizon: a long, eased fade from the page into the dark, so there's no line to see */
+  .feather {
+    position: absolute; left: 0; right: 0; bottom: calc(100% - 2px); height: calc(40vh + 2px); pointer-events: none;
+    background: linear-gradient(to bottom,
+      rgba(18, 18, 17, 0) 0%, rgba(18, 18, 17, 0.02) 14%, rgba(18, 18, 17, 0.07) 28%, rgba(18, 18, 17, 0.16) 40%,
+      rgba(18, 18, 17, 0.3) 52%, rgba(18, 18, 17, 0.48) 63%, rgba(18, 18, 17, 0.67) 74%, rgba(18, 18, 17, 0.84) 85%,
+      rgba(18, 18, 17, 0.95) 94%, var(--night) 100%);
+  }
+  .dk { position: relative; min-height: 100svh; padding: calc(var(--nav-h) + 56px) 0 96px; }
+  /* one cool light, slowly circling the top corner; it fades up as the dark arrives */
+  .glow {
+    position: absolute; z-index: 0; top: -10vmax; right: -24vmax; width: 70vmax; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(150, 170, 255, 0.2), rgba(190, 160, 255, 0.07) 55%, transparent);
+    filter: blur(30px);
+    opacity: var(--p);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .glow { animation: orbit 60s linear infinite; }
+    @keyframes orbit {
+      0% { translate: 0 0; } 25% { translate: -12vmax 8vmax; } 50% { translate: -20vmax 0; } 75% { translate: -8vmax -6vmax; } 100% { translate: 0 0; }
+    }
+  }
+  .dk .wrap { position: relative; z-index: 1; }
+  /* blur to sharp: comes into focus as the room dims */
+  .focus { opacity: var(--p); filter: blur(calc((1 - var(--p)) * 14px)); scale: calc(0.94 + 0.06 * var(--p)); transform-origin: 50% 0; }
+  .dk h2 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.035em; color: #fff; }
+  .say { margin-top: 16px; display: flex; align-items: center; gap: 10px; font-size: 16px; letter-spacing: -0.01em; color: rgba(255, 255, 255, 0.62); }
+  .say svg { flex: none; width: 15px; height: 15px; color: #fff; }
+  .after-dark :focus-visible { outline-color: #fff; }
+
+  .grid { margin: 48px 0 0; padding: 0; list-style: none; display: grid; gap: 40px 28px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .card { display: block; color: inherit; text-decoration: none; transition: translate 240ms cubic-bezier(0.22, 1, 0.36, 1); }
+  a.card:hover, a.card:focus-visible { translate: 0 -3px; }
+  .media { position: relative; aspect-ratio: 4 / 3; display: grid; place-items: center; border-radius: 10px; background: linear-gradient(180deg, #1d1d1c, #161615); font-size: 13px; letter-spacing: 0; color: rgba(255, 255, 255, 0.58); }
+  .media .kind { display: inline-flex; align-items: center; gap: 8px; }
+  .media .kind svg { width: 14px; height: 14px; }
+  /* light catches the top edge of each screenshot */
+  .media::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 40%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    transition: opacity var(--ease); }
+  a.card:hover .media::after, a.card:focus-visible .media::after { background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.05) 45%); }
+  .meta { margin-top: 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .meta h3 { font-size: var(--t-card-title); line-height: 1.25; letter-spacing: -0.02em; color: #fff; }
+  .meta p { margin-top: 6px; font-size: var(--t-card-text); line-height: 1.35; color: rgba(255, 255, 255, 0.6); }
+  .out { flex: none; width: 18px; height: 18px; margin-top: 2px; color: rgba(255, 255, 255, 0.45); transition: color var(--ease), translate var(--ease); }
+  a.card:hover .out, a.card:focus-visible .out { color: #fff; translate: 2px -2px; }
+
+  /* the footer stays in the dark */
+  .foot { padding: 28px 0 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 14px; letter-spacing: 0; color: rgba(255, 255, 255, 0.55); }
+  .foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
+  .foot nav { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  .foot a { text-decoration: none; transition: color var(--ease); }
+  .foot a:hover { color: #fff; }
+
+  /* ── the nav turns dark with the room ──────────────────────────────── */
+  .nav-name, .nav-switch, .nav-item, .nav-contact-btn { transition: color 400ms ease, background-color 400ms ease; }
+  .site-nav.is-dark .nav-name { color: #fff; }
+  .site-nav.is-dark .nav-switch { background: rgba(255, 255, 255, 0.08); }
+  .site-nav.is-dark .nav-item { color: rgba(255, 255, 255, 0.62); }
+  .site-nav.is-dark .nav-item:hover { color: #fff; }
+  .site-nav.is-dark .nav-item[aria-current] { background: rgba(255, 255, 255, 0.14); color: #fff; }
+  .site-nav.is-dark .nav-contact-btn { background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .site-nav.is-dark .nav-contact-btn:hover { background: rgba(255, 255, 255, 0.14); }
+  .site-nav.is-dark :focus-visible { outline-color: #fff; }
+
+  /* reduced motion: no blur, no scale, no glide; content is simply there */
+  @media (prefers-reduced-motion: reduce) {
+    .focus { opacity: 1; filter: none; scale: none; }
+    .glow { opacity: 1; }
+    .card, .out { transition: none; }
+    a.card:hover, a.card:focus-visible, a.card:hover .out { translate: none; }
+  }
+
+  @media (max-width: 1199px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .row { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  }
+  @media (max-width: 809px) {
+    .grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .dk { padding-top: calc(var(--nav-h) + 32px); }
+    .rows { gap: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-frost-pane" aria-hidden="true"></div>
+  <nav class="site-nav-in" aria-label="Primary">
+    <a class="nav-name" href="#top">Dev Dixit</a>
+    <ul class="nav-switch">
+      <li><a class="nav-item" href="#work" aria-current="location">Work</a></li>
+      <li><a class="nav-item" href="#">About</a></li>
+    </ul>
+    <div class="nav-ext"><button class="nav-contact-btn" type="button">Contact</button></div>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- stand-in for the real homepage, so the light-to-dark moment can be felt -->
+  <section class="wrap intro">
+    <p class="stand-in">Stand-in homepage · scroll down</p>
+    <p class="statement" style="margin-top:16px">I'm <b>Dev</b>, a product designer. <span style="color:var(--mute)">This is a stand-in for the intro.</span></p>
+  </section>
+  <section class="wrap" id="work">
+    <h2 class="work-label">Selected Work</h2>
+    <div class="rows">
+      <div class="row"><div class="tile g"></div><div><h3>Groww, Start a SIP</h3><p>Stand-in project row.</p></div></div>
+      <div class="row"><div class="tile b"></div><div><h3>BookMyShow, Events discovery</h3><p>Stand-in project row.</p></div></div>
+    </div>
+  </section>
+
+  <div class="after-dark">
+    <div class="feather" aria-hidden="true"></div>
+    <section class="dk" aria-labelledby="ai">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap focus">
+        <h2 id="ai">AI experiments and products</h2>
+        <p class="say"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.6 4.6 2.9 7.2 7.6 8-4.7.8-7 3.4-7.6 8-.6-4.6-2.9-7.2-7.6-8 4.7-.8 7-3.4 7.6-8Z"/><path d="M19 15c.25 1.9 1.1 2.75 3 3-1.9.25-2.75 1.1-3 3-.25-1.9-1.1-2.75-3-3 1.9-.25 2.75-1.1 3-3Z"/></svg>Things I built with AI to learn how it feels to design with it.</p>
+        <ul class="grid">
+          <li>
+            <a class="card" href="#">
+              <div class="media"><span class="kind"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="m1.5 11 3.5-3.5 3 3 2-2 4.5 4"/></svg>Screenshot</span></div>
+              <div class="meta"><div><h3>Project name</h3><p>One line on what it is and what it tried.</p></div>
+                <svg class="out" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-label="Opens in a new tab"><path d="M5.5 12.5 12.5 5.5M6.5 5.5h6v6"/></svg></div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="#">
+              <div class="media"><span class="kind"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8 5 3.2Z"/></svg>Video loop</span></div>
+              <div class="meta"><div><h3>Project name</h3><p>One line on what it is and what it tried.</p></div>
+                <svg class="out" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-label="Opens in a new tab"><path d="M5.5 12.5 12.5 5.5M6.5 5.5h6v6"/></svg></div>
+            </a>
+          </li>
+          <li>
+            <div class="card">
+              <div class="media"><span class="kind"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="m1.5 11 3.5-3.5 3 3 2-2 4.5 4"/></svg>Screenshot</span></div>
+              <div class="meta"><div><h3>Project name</h3><p>No link yet, so no arrow and no lift.</p></div></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="wrap">
+        <span>Dev Dixit · Product designer · devdixit.fun</span>
+        <nav aria-label="Contact"><a href="#">Email</a><a href="#">LinkedIn</a><a href="#">Resume</a></nav>
+      </div>
+    </footer>
+  </div>
+</main>
+
+<script>
+  document.querySelectorAll('a[href="#"]').forEach((a) => a.addEventListener("click", (e) => e.preventDefault()));
+
+  const root = document.documentElement;
+  const nav = document.querySelector(".site-nav");
+  const dark = document.querySelector(".dk");
+  const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+  // Progress runs over one screen of scrolling: 0 when the solid dark is at the bottom of the
+  // screen (only the feathered edge showing), 1 when it reaches the top and fills the screen.
+  const darkTop = () => dark.getBoundingClientRect().top + scrollY;
+  const progress = () => Math.min(1, Math.max(0, (scrollY - (darkTop() - innerHeight)) / innerHeight));
+
+  let lastY = scrollY, dir = 1, gliding = null, ticking = false;
+
+  function paint() {
+    ticking = false;
+    const raw = progress();
+    // content is in full focus a little before it arrives
+    const f = Math.min(1, raw / 0.8);
+    root.style.setProperty("--p", (f * f * (3 - 2 * f)).toFixed(4));
+    // the nav turns dark once the solid dark is under it
+    nav.classList.toggle("is-dark", dark.getBoundingClientRect().top < nav.offsetHeight * 0.6);
+  }
+
+  addEventListener("scroll", () => {
+    if (scrollY !== lastY) dir = scrollY > lastY ? 1 : -1;
+    lastY = scrollY;
+    if (!ticking) { ticking = true; requestAnimationFrame(paint); }
+    if (!("onscrollend" in window)) { clearTimeout(settle.t); settle.t = setTimeout(settle, 160); }
+  }, { passive: true });
+
+  // Past 40% on the way down, glide the rest of the way into the dark. On the way up, the same
+  // in reverse: past 40% back out, glide up to where the dark sits just below the screen.
+  // Anywhere short of that, nothing moves.
+  function settle() {
+    if (calm.matches || gliding) return;
+    const raw = progress();
+    if (raw <= 0 || raw >= 1) return;
+    if (dir > 0 && raw >= 0.4) glide(darkTop());
+    else if (dir < 0 && raw <= 0.6) glide(darkTop() - innerHeight);
+  }
+
+  // a slow, eased glide; any wheel, touch or key from you cancels it straight away
+  function glide(to) {
+    const from = scrollY, dist = to - from, t0 = performance.now(), ms = 850;
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const stop = () => { if (gliding) cancelAnimationFrame(gliding); gliding = null; off(); };
+    const off = () => ["wheel", "touchstart", "keydown", "pointerdown"].forEach((e) => removeEventListener(e, stop));
+    ["wheel", "touchstart", "keydown", "pointerdown"].forEach((e) => addEventListener(e, stop, { passive: true }));
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / ms);
+      scrollTo(0, from + dist * ease(t));
+      if (t < 1) gliding = requestAnimationFrame(step); else { gliding = null; off(); }
+    };
+    gliding = requestAnimationFrame(step);
+  }
+
+  addEventListener("scrollend", settle);
+  addEventListener("resize", paint);
+  paint();
+</script>
+</body>
+</html>

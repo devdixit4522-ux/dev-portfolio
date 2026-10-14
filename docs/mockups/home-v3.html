@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: homepage with personality</title>
+<link rel="stylesheet" href="/system/case-study.css">
+<style>
+  /* mockup-only layout; colours, surfaces, font and motion come from the system */
+
+  /* the homepage holds its content to 1200px; the nav keeps the shared frame */
+  main.wrap, footer .wrap { width: min(calc(1200px + 2 * var(--gutter)), 100%); }
+
+  /* ── intro: a statement beside a big portrait ── */
+  .intro {
+    min-height: min(calc(100svh - 24px), 900px);
+    padding-top: var(--nav-h);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: center;
+    column-gap: 48px;
+  }
+  .statement {
+    font-size: clamp(28px, 3.05vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+  .statement strong { font-weight: 700; }
+  .statement .quiet { color: var(--mute); }
+
+  /* your face, inline, as part of the sentence */
+  .face { display: inline-block; width: 0.92em; height: 0.92em; margin: 0 0.06em 0 0.02em; vertical-align: -0.12em; border-radius: 50%;
+    background: #ececea url("/images/face.png") center / cover no-repeat; }
+
+  .hello { margin-top: 32px; font-size: var(--t-body); color: var(--body); }
+  .hello a { color: var(--ink); text-decoration-color: var(--hair); text-underline-offset: 5px; transition: text-decoration-color var(--ease); }
+  .hello a:hover { text-decoration-color: var(--ink); }
+
+  /* the video is square; it fills its column and dissolves into the page */
+  .me { width: 100%; aspect-ratio: 1; }
+  .me video, .me img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(closest-side, #000 72%, rgba(0,0,0,.6) 86%, transparent 100%);
+            mask-image: radial-gradient(closest-side, #000 72%, rgba(0,0,0,.6) 86%, transparent 100%); }
+  .me img { display: none; }
+
+  /* ── work ── */
+  .label { font-size: 14px; letter-spacing: 0; color: var(--soft); font-weight: 400; }
+  .sec { margin-top: var(--gap-section); }
+  .rows { margin-top: 24px; display: grid; gap: 96px; }
+  .row { display: grid; grid-template-columns: 7fr 5fr; column-gap: 56px; align-items: center; }
+  .tile { display: block; position: relative; overflow: hidden; aspect-ratio: 7 / 5; border-radius: var(--r-panel); container-type: inline-size;
+    background:
+      radial-gradient(60cqw 38cqw at 78% 8%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
+      radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow), rgba(255,255,255,0) 70%),
+      linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%); }
+  .tile .hero-phone { width: 30cqw; }
+  .tile .hero-phone:nth-child(1) { left: 6cqw; top: 16cqw; }
+  .tile .hero-phone:nth-child(2) { left: 35cqw; top: 10cqw; z-index: 2; }
+  .tile .hero-phone:nth-child(3) { left: 64cqw; top: 4cqw; }
+  /* the live prototype sits inside the middle screen, never on top of the tile */
+  .hero-phone .live { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 400ms ease; }
+  .hero-phone .live iframe { position: absolute; top: 0; left: 0; width: 390px; height: 875px; border: 0; transform-origin: 0 0; }
+  .row.playing .hero-phone .live.ready { opacity: 1; }
+
+  .row h3 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.04em; text-wrap: balance; }
+  .row h3 a { color: inherit; text-decoration: none; }
+  .row .what { margin-top: 16px; }
+  .row .k { margin-top: 20px; font-size: 14px; letter-spacing: 0; color: var(--soft); }
+  .acts { margin-top: 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .read { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 15px; letter-spacing: 0; text-decoration: none; }
+  .listen { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border: 0; border-radius: 999px; background: var(--panel); color: var(--ink); font: inherit; font-size: 15px; letter-spacing: 0; cursor: pointer; transition: background-color var(--ease); }
+  .listen:hover, .listen[aria-pressed="true"] { background: var(--bubble); }
+  .cc { margin-top: 16px; min-height: 2.7em; font-size: 15px; line-height: 1.35; letter-spacing: -0.01em; color: var(--soft); }
+  .cc[hidden] { display: block; visibility: hidden; }
+
+  /* ── side quests: the AI zone ──
+     A white frame lit from behind by the system's own pastel disc colours
+     (lilac, sky, mint, amber, coral). The light turns on as the zone scrolls
+     into view and drifts slowly; with reduced motion it simply stays on. */
+  @property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+  .quests-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .quests-head h2 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.04em; }
+  .quests-head p { color: var(--soft); }
+
+  .zone { position: relative; isolation: isolate; margin-top: 48px; }
+  .zone-light {
+    position: absolute; inset: -6% -3%; z-index: -1; border-radius: 64px; pointer-events: none;
+    background: conic-gradient(from var(--spin), #d3bfff, #9fd0ff, #7fe0bd, #ffc46b, #ffb3a8, #d3bfff);
+    filter: blur(56px) saturate(1.1);
+    opacity: 0.75;
+  }
+  .zone-frame { position: relative; padding: 36px 40px 40px; border-radius: var(--r-card); background: rgba(255, 255, 255, 0.86); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9) inset, 0 1px 2px rgba(0, 0, 0, 0.04); }
+  .zone-say { display: flex; align-items: center; gap: 10px; font-size: 15px; line-height: 1.35; letter-spacing: -0.01em; color: #5b3fc4; }
+  .zone-say svg { flex: none; }
+
+  .quests { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .quest { color: inherit; text-decoration: none; }
+  .q-shot { position: relative; aspect-ratio: 4 / 3; border-radius: 12px; isolation: isolate; }
+  .q-shot > .fill { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; display: grid; place-items: center; font-size: 14px; letter-spacing: 0; color: var(--soft);
+    background:
+      radial-gradient(70% 60% at 20% 15%, rgba(211, 191, 255, 0.45), transparent 70%),
+      radial-gradient(70% 60% at 85% 90%, rgba(159, 208, 255, 0.45), transparent 70%),
+      #f6f6fa; }
+  /* hover: an AI ring of the same five colours runs around the screenshot */
+  .q-shot::before { content: ""; position: absolute; inset: -2px; z-index: 1; border-radius: 14px; padding: 2px; pointer-events: none;
+    background: conic-gradient(from var(--spin), #d3bfff, #9fd0ff, #7fe0bd, #ffc46b, #ffb3a8, #d3bfff);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0; transition: opacity var(--ease); }
+  .q-shot::after { content: ""; position: absolute; inset: -3%; z-index: -1; border-radius: inherit; pointer-events: none;
+    background: conic-gradient(from var(--spin), #d3bfff, #9fd0ff, #7fe0bd, #ffc46b, #ffb3a8, #d3bfff);
+    filter: blur(22px); opacity: 0; transition: opacity var(--ease); }
+  .quest:hover .q-shot::before, .quest:focus-visible .q-shot::before { opacity: 1; }
+  .quest:hover .q-shot::after, .quest:focus-visible .q-shot::after { opacity: 0.55; }
+  .quest h3 { margin-top: 16px; font-size: var(--t-card-title); line-height: 1.25; letter-spacing: -0.02em; }
+  .quest p { margin-top: 6px; font-size: var(--t-card-text); line-height: 1.35; letter-spacing: -0.01em; }
+  .ph { font-size: 13px; font-weight: 400; color: var(--soft); margin-left: 6px; letter-spacing: 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes spin { to { --spin: 360deg; } }
+    .zone-light, .q-shot::before, .q-shot::after { animation: spin 16s linear infinite; }
+    .q-shot::before, .q-shot::after { animation-duration: 4s; }
+    .zone:not(.on-screen) .zone-light, .zone:not(.on-screen) .q-shot::before, .zone:not(.on-screen) .q-shot::after { animation-play-state: paused; }
+    /* the lights come on as the zone scrolls in */
+    @supports (animation-timeline: view()) {
+      @keyframes lights-on { from { opacity: 0; scale: 0.9; } to { opacity: 0.75; scale: 1; } }
+      .zone-light { animation: spin 16s linear infinite, lights-on linear both; animation-timeline: auto, view(); animation-range: normal, entry 10% cover 45%; }
+    }
+  }
+
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--soft); text-decoration: none; transition: color var(--ease); }
+  footer a:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .me video { display: none; } .me img { display: block; }
+    .hero-phone .live { transition: none; }
+  }
+  @media (max-width: 1199px) {
+    .intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
+    .row { grid-template-columns: 1fr; row-gap: 28px; }
+    .rows { gap: 80px; }
+    .quests { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 809px) {
+    .intro { grid-template-columns: 1fr; min-height: 0; padding-top: calc(var(--nav-h) + var(--hero-top)); row-gap: 8px; }
+    .rows { gap: 64px; }
+    .zone-frame { padding: 24px 20px 28px; }
+    .quests { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <!-- site-nav -->
+  <header class="site-nav">
+    <div class="nav-frost-pane" aria-hidden="true"></div>
+    <nav class="site-nav-in" aria-label="Primary">
+      <a class="nav-name" href="/">Dev Dixit</a>
+      <ul class="nav-switch">
+        <li><a class="nav-item" href="/" aria-current="page">Work</a></li>
+        <li><a class="nav-item" href="/about">About</a></li>
+        <li class="nav-contact">
+          <button class="nav-item" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
+          <div class="nav-card" id="nav-contact-card" hidden>
+            <div class="nav-row"><a href="mailto:devdixit@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit@gmail.com">Copy</button></div>
+            <a class="nav-row" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+            <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
+          </div>
+        </li>
+      </ul>
+      <div class="nav-ext">
+        <a href="#">Resume</a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </nav>
+  </header>
+  <!-- /site-nav -->
+
+  <main id="main" class="wrap">
+    <section class="intro" aria-label="About Dev">
+      <div>
+        <h1 class="statement rv">
+          I'm <span class="face" aria-hidden="true"></span><strong>Dev</strong>, a product designer in India.
+          <span class="quiet">I like problems where people get stuck. Lately: why first-time investors freeze on</span> <strong>Groww</strong><span class="quiet">, and why nobody finds the concerts on</span> <strong>BookMyShow</strong><span class="quiet">.</span>
+        </h1>
+        <p class="hello rv">Say hi at <a href="mailto:devdixit@gmail.com">devdixit@gmail.com</a></p>
+      </div>
+      <div class="me rv">
+        <video autoplay muted loop playsinline preload="metadata" poster="/images/hero-still.jpg" aria-label="Dev Dixit lying on a bed, working on a laptop">
+          <source src="/images/hero-portrait.mp4" type="video/mp4">
+        </video>
+        <img src="/images/hero-still.jpg" alt="Dev Dixit lying on a bed, working on a laptop">
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="work">
+      <h2 id="work" class="label rv">Selected Work</h2>
+      <div class="rows">
+
+        <article class="row rv" data-loop="/work/groww/loop.html"
+          data-say="This is the real prototype. A first-time investor types what they're saving for, the guide fills in the sentence, and Groww suggests two funds at thirteen thousand rupees a month."
+          style="--hero-1:#e6f6ee;--hero-2:#d9f1e6;--hero-3:#e4f0f7;--hero-glow:rgba(4,180,136,.2)">
+          <a class="tile" href="/work/groww" style="view-transition-name: hero-groww" aria-label="Open the Groww case study">
+            <div class="hero-phone"><img src="/work/groww/hero-1.webp" alt=""></div>
+            <div class="hero-phone"><img src="/work/groww/hero-2.webp" alt=""><div class="live"></div></div>
+            <div class="hero-phone"><img src="/work/groww/hero-3.webp" alt=""></div>
+          </a>
+          <div>
+            <h3><a href="/work/groww">The missing step between opening Groww and starting a SIP</a></h3>
+            <p class="what">Everyone I interviewed who started a SIP had someone say it was fine. This puts that go-ahead inside Groww.</p>
+            <p class="k">Groww · Feature addition · Prototype, user tested</p>
+            <div class="acts">
+              <a class="read" href="/work/groww">Read case study</a>
+              <button class="listen" type="button" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg><span>Play with sound</span></button>
+            </div>
+            <p class="cc" aria-live="polite" hidden></p>
+          </div>
+        </article>
+
+        <article class="row rv" data-loop="/work/bookmyshow/tap-peek.html"
+          data-say="This is the real prototype. Tapping an event card opens a preview sheet, so people can check out an event without losing the page they were browsing."
+          style="--hero-1:#fef2f4;--hero-2:#feecef;--hero-3:#f7f4fb;--hero-glow:rgba(235,0,40,.1)">
+          <a class="tile" href="/work/bookmyshow" style="view-transition-name: hero-bookmyshow" aria-label="Open the BookMyShow case study">
+            <div class="hero-phone"><img src="/work/bookmyshow/assets/hero-home.png" alt=""></div>
+            <div class="hero-phone"><img src="/work/bookmyshow/assets/movie-detail-also.png" alt=""><div class="live"></div></div>
+            <div class="hero-phone"><img src="/work/bookmyshow/assets/fork-events-row.png" alt=""></div>
+          </a>
+          <div>
+            <h3><a href="/work/bookmyshow">Improving Event Discovery for BookMyShow</a></h3>
+            <p class="what">Most people never see the comedy shows, concerts and sports BookMyShow sells. I redesigned how the app helps them find Events.</p>
+            <p class="k">BookMyShow · Product designer · Figma, Cursor</p>
+            <div class="acts">
+              <a class="read" href="/work/bookmyshow">Read case study</a>
+              <button class="listen" type="button" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg><span>Play with sound</span></button>
+            </div>
+            <p class="cc" aria-live="polite" hidden></p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="quests" style="margin-top: 160px">
+      <div class="quests-head">
+        <h2 id="quests" class="rv">Side quests, shipped or not</h2>
+        <p class="rv">Ship it? Maybe. Learn? Always.</p>
+      </div>
+      <div class="zone rv">
+        <div class="zone-light" aria-hidden="true"></div>
+        <div class="zone-frame">
+          <p class="zone-say">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="spark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b6cf0"/><stop offset="1" stop-color="#4f9be8"/></linearGradient></defs><path fill="url(#spark)" d="M12 2c.6 4.6 2.9 7.2 7.6 8-4.7.8-7 3.4-7.6 8-.6-4.6-2.9-7.2-7.6-8 4.7-.8 7-3.4 7.6-8Z"/><path fill="url(#spark)" d="M19 15c.25 1.9 1.1 2.75 3 3-1.9.25-2.75 1.1-3 3-.25-1.9-1.1-2.75-3-3 1.9-.25 2.75-1.1 3-3Z"/></svg>
+            Things I built with AI to learn how it feels to design with it.
+          </p>
+          <div class="quests">
+            <a class="quest" href="#" aria-label="Project name (placeholder)">
+              <div class="q-shot"><div class="fill">Screenshot placeholder</div></div>
+              <h3>Project name<span class="ph">Placeholder</span></h3>
+              <p>One line on what it is and what it tried.</p>
+            </a>
+            <a class="quest" href="#" aria-label="Project name (placeholder)">
+              <div class="q-shot"><div class="fill">Screenshot placeholder</div></div>
+              <h3>Project name<span class="ph">Placeholder</span></h3>
+              <p>One line on what it is and what it tried.</p>
+            </a>
+            <a class="quest" href="#" aria-label="Project name (placeholder)">
+              <div class="q-shot"><div class="fill">Screenshot placeholder</div></div>
+              <h3>Project name<span class="ph">Placeholder</span></h3>
+              <p>One line on what it is and what it tried.</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><span>Dev Dixit · Product designer · devdixit.fun</span><a href="mailto:devdixit@gmail.com">devdixit@gmail.com</a></div></footer>
+  <script src="/system/case-study.js"></script>
+  <script>
+  (function () {
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = matchMedia('(hover: hover)').matches;
+    var hasSpeech = 'speechSynthesis' in window;
+
+    /* the AI zone only animates while it is on screen */
+    var zone = document.querySelector('.zone');
+    new IntersectionObserver(function (e) { zone.classList.toggle('on-screen', e[0].isIntersecting); }).observe(zone);
+
+    /* project rows: hover plays the real prototype inside the middle screen;
+       "Play with sound" also reads a short description aloud, with captions */
+    var stopOther = null;
+    document.querySelectorAll('.row').forEach(function (row) {
+      var tile = row.querySelector('.tile'), slot = row.querySelector('.live'), phone = slot.parentElement;
+      var btn = row.querySelector('.listen'), label = btn.querySelector('span'), cc = row.querySelector('.cc'), frame;
+
+      function fit() { if (frame) frame.style.transform = 'scale(' + phone.clientWidth / 390 + ')'; }
+      function play() {
+        if (reduced) return;
+        row.classList.add('playing');
+        if (frame) return;
+        frame = document.createElement('iframe');
+        frame.src = row.dataset.loop; frame.title = ''; frame.tabIndex = -1; frame.setAttribute('aria-hidden', 'true');
+        frame.addEventListener('load', function () { slot.classList.add('ready'); });
+        slot.appendChild(frame); fit();
+      }
+      function stop() {
+        if (btn.getAttribute('aria-pressed') === 'true') return;
+        row.classList.remove('playing');
+        setTimeout(function () {
+          if (!row.classList.contains('playing') && frame) { frame.remove(); frame = null; slot.classList.remove('ready'); }
+        }, 450);
+      }
+      new ResizeObserver(fit).observe(phone);
+      if (canHover) { tile.addEventListener('pointerenter', play); tile.addEventListener('pointerleave', stop); }
+      tile.addEventListener('focus', play); tile.addEventListener('blur', stop);
+
+      function quiet() {
+        if (hasSpeech) speechSynthesis.cancel();
+        btn.setAttribute('aria-pressed', 'false'); label.textContent = 'Play with sound';
+        cc.hidden = true; cc.textContent = '';
+        if (stopOther === quiet) stopOther = null;
+        stop();
+      }
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('aria-pressed') === 'true') { quiet(); return; }
+        if (stopOther) stopOther();
+        stopOther = quiet;
+        btn.setAttribute('aria-pressed', 'true'); label.textContent = 'Stop';
+        play();
+        cc.hidden = false; cc.textContent = row.dataset.say;
+        if (hasSpeech) {
+          var u = new SpeechSynthesisUtterance(row.dataset.say);
+          u.lang = 'en-IN';
+          u.onend = function () { if (stopOther === quiet) quiet(); };
+          speechSynthesis.speak(u);
+        }
+      });
+    });
+    addEventListener('pagehide', function () { if (hasSpeech) speechSynthesis.cancel(); });
+  })();
+  </script>
+</body>
+</html>

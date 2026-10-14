@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: side quests, dark</title>
+<link rel="stylesheet" href="../../public/system/tokens.css">
+<style>
+  /* Three takes on a dark, soft-futuristic AI section. Mockup only: nothing here is in the site yet.
+     Copy is the current placeholder copy; we rewrite it together once a look is picked. */
+  @font-face { font-family: "Nimbus Sans"; src: url("../../public/system/fonts/NimbusSans-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Nimbus Sans"; src: url("../../public/system/fonts/NimbusSans-Bold.otf"); font-weight: 700; }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--ls-body);
+    color: var(--body);
+    background: var(--page);
+    -webkit-font-smoothing: antialiased;
+  }
+  h2, h3, p { margin: 0; }
+  h2, h3 { font-weight: 700; text-wrap: balance; }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .wrap { width: min(calc(1200px + 2 * var(--gutter)), 100%); margin-inline: auto; padding-inline: var(--gutter); }
+
+  /* mockup chrome: variant switcher and labels */
+  .switch {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; gap: 8px; justify-content: center; padding: 14px var(--gutter);
+    background: rgba(252, 252, 252, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair);
+    font-size: 15px; letter-spacing: -0.01em;
+  }
+  .switch a { padding: 8px 14px; border-radius: 999px; background: var(--bubble); color: var(--ink); }
+  .switch a:hover { background: #e2e2df; }
+  .variant { padding-block: 96px 120px; scroll-margin-top: 60px; }
+  .variant + .variant { border-top: 1px solid var(--hair); }
+  .tag { margin-bottom: 40px; font-size: 15px; letter-spacing: -0.01em; color: var(--soft); max-width: 70ch; }
+  .tag b { color: var(--ink); }
+  /* a stand-in for the project row above, so the jump from light to dark is visible */
+  .above { height: 72px; margin-bottom: 64px; border-radius: var(--r-panel); background: var(--panel); display: grid; place-items: center; font-size: 14px; color: var(--soft); letter-spacing: 0; }
+
+  /* ── shared parts ────────────────────────────────────────────────────── */
+  .dark { position: relative; isolation: isolate; overflow: hidden; color: rgba(255, 255, 255, 0.92); }
+  .light { position: absolute; z-index: -1; pointer-events: none; }
+  .grid { display: grid; gap: 28px; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+  .card { display: block; height: 100%; transition: translate 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color var(--ease), box-shadow 240ms ease; }
+  a.card:hover, a.card:focus-visible { translate: 0 -3px; }
+  .dark :focus-visible { outline-color: #fff; }
+  .media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; display: grid; place-items: center; font-size: 13px; letter-spacing: 0; color: rgba(255, 255, 255, 0.58); }
+  .media .kind { display: inline-flex; align-items: center; gap: 8px; }
+  .media svg { width: 14px; height: 14px; }
+  .meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .meta h3 { font-size: var(--t-card-title); line-height: 1.25; letter-spacing: -0.02em; color: #fff; }
+  .meta p { margin-top: 6px; font-size: var(--t-card-text); line-height: 1.35; color: rgba(255, 255, 255, 0.6); }
+  .out { flex: none; width: 18px; height: 18px; margin-top: 2px; color: rgba(255, 255, 255, 0.45); transition: color var(--ease), translate var(--ease); }
+  a.card:hover .out, a.card:focus-visible .out { color: #fff; translate: 2px -2px; }
+
+  /* the ambient light: very slow, only while on screen, off with reduced motion */
+  @media (prefers-reduced-motion: no-preference) {
+    .dark:not(.on) .light { animation-play-state: paused !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .light { animation: none !important; }
+    .card, .out { transition: none; }
+    a.card:hover, a.card:focus-visible { translate: none; }
+  }
+
+  /* ── A: Linear. Light from above, precise hairlines ─────────────────── */
+  .a { padding: 56px 48px 52px; border-radius: var(--r-card); background: #0a0a0b; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.9); }
+  /* a thin lit edge along the top, brightest in the middle */
+  .a::before { content: ""; position: absolute; inset: 0 10% auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent); }
+  .a .light {
+    top: -260px; left: 10%; width: 80%; height: 520px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(168, 178, 255, 0.22), rgba(168, 178, 255, 0.06) 55%, transparent);
+    filter: blur(20px);
+    animation: a-drift 46s ease-in-out infinite alternate;
+  }
+  @keyframes a-drift { from { translate: -14% 0; } to { translate: 14% 0; } }
+  .a-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+  .a-head h2 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.035em; color: #fff; }
+  .a-head p { font-size: 16px; color: rgba(255, 255, 255, 0.55); }
+  .a-say { margin-top: 14px; max-width: 60ch; font-size: 16px; color: rgba(255, 255, 255, 0.6); }
+  .a .grid { margin-top: 44px; }
+  .a .card { padding: 10px 10px 20px; border-radius: 14px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.08); }
+  .a a.card:hover, .a a.card:focus-visible { border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.04); }
+  .a .media { border-radius: 8px; background: linear-gradient(180deg, #17171a, #111113); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05); }
+  .a .meta { margin-top: 18px; padding-inline: 8px; }
+
+  /* ── B: Apple. A dark stage, projects lit like objects ──────────────── */
+  .b { padding: 96px 72px 88px; border-radius: var(--r-card); background: #000; }
+  .b .light {
+    left: 50%; top: 52%; width: 1100px; height: 760px; margin: -380px 0 0 -550px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(255, 248, 240, 0.11), rgba(255, 248, 240, 0.035) 50%, transparent);
+    animation: b-breathe 34s ease-in-out infinite alternate;
+  }
+  @keyframes b-breathe { from { scale: 0.92; translate: -4% 2%; opacity: 0.8; } to { scale: 1.06; translate: 4% -2%; opacity: 1; } }
+  .b-head { text-align: center; }
+  .b-head h2 { font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.04em; color: #fff; }
+  .b-head p { margin-top: 16px; font-size: 18px; color: rgba(255, 255, 255, 0.58); }
+  .b .grid { margin-top: 72px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 48px; }
+  .b .media { border-radius: 14px; background: linear-gradient(160deg, #1c1c1f, #0e0e10 70%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 40px 80px -20px rgba(0, 0, 0, 0.9), 0 -1px 0 rgba(255, 255, 255, 0.12); }
+  .b a.card:hover .media, .b a.card:focus-visible .media { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 48px 90px -20px rgba(0, 0, 0, 0.95), 0 -1px 0 rgba(255, 255, 255, 0.18); }
+  .b .meta { margin-top: 22px; }
+
+  /* ── C: Blend. Heading stays on the page; the dark panel holds the work ─ */
+  .c-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+  .c-head h2 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.035em; color: var(--ink); }
+  .c-head p { color: var(--soft); }
+  .c { margin-top: 48px; padding: 32px 36px 40px; border-radius: var(--r-card); background: #121211; }
+  .c .light {
+    top: -40%; right: -20%; width: 70%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(150, 170, 255, 0.2), rgba(190, 160, 255, 0.07) 55%, transparent);
+    filter: blur(30px);
+    animation: c-orbit 60s linear infinite;
+  }
+  @keyframes c-orbit {
+    0% { translate: 0 0; } 25% { translate: -18% 14%; } 50% { translate: -30% 0; } 75% { translate: -12% -10%; } 100% { translate: 0 0; }
+  }
+  .c-say { display: flex; align-items: center; gap: 10px; font-size: 15px; letter-spacing: -0.01em; color: rgba(255, 255, 255, 0.62); }
+  .c-say svg { flex: none; width: 15px; height: 15px; color: #fff; }
+  .c .grid { margin-top: 28px; }
+  .c .media { border-radius: 10px; background: linear-gradient(180deg, #1d1d1c, #161615); }
+  /* light catches the top edge of each screenshot */
+  .c .media::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 40%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  .c a.card:hover .media::after, .c a.card:focus-visible .media::after { background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.05) 45%); }
+  .c .meta { margin-top: 16px; }
+
+  @media (max-width: 1199px) {
+    .grid, .b .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .b { padding: 72px 40px; }
+  }
+  @media (max-width: 809px) {
+    .grid, .b .grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .a { padding: 36px 20px 28px; }
+    .b { padding: 56px 20px 48px; }
+    .b .grid { margin-top: 48px; }
+    .c { padding: 24px 20px 28px; }
+    .variant { padding-block: 64px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="switch" aria-label="Variants">
+  <a href="#va">A · Linear</a>
+  <a href="#vb">B · Apple stage</a>
+  <a href="#vc">C · Blend</a>
+</nav>
+
+<!-- reused bits -->
+<template id="cards">
+  <li>
+    <a class="card" href="#">
+      <div class="media"><span class="kind"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="m1.5 11 3.5-3.5 3 3 2-2 4.5 4"/></svg>Screenshot</span></div>
+      <div class="meta">
+        <div><h3>Project name</h3><p>One line on what it is and what it tried.</p></div>
+        <svg class="out" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-label="Opens in a new tab"><path d="M5.5 12.5 12.5 5.5M6.5 5.5h6v6"/></svg>
+      </div>
+    </a>
+  </li>
+  <li>
+    <a class="card" href="#">
+      <div class="media"><span class="kind"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.2v9.6L12.6 8 5 3.2Z"/></svg>Video loop</span></div>
+      <div class="meta">
+        <div><h3>Project name</h3><p>One line on what it is and what it tried.</p></div>
+        <svg class="out" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-label="Opens in a new tab"><path d="M5.5 12.5 12.5 5.5M6.5 5.5h6v6"/></svg>
+      </div>
+    </a>
+  </li>
+  <li>
+    <div class="card">
+      <div class="media"><span class="kind"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="m1.5 11 3.5-3.5 3 3 2-2 4.5 4"/></svg>Screenshot</span></div>
+      <div class="meta">
+        <div><h3>Project name</h3><p>One line on what it is. No link, so no arrow and no lift.</p></div>
+      </div>
+    </div>
+  </li>
+</template>
+
+<section class="variant" id="va">
+  <div class="wrap">
+    <p class="tag"><b>A · Linear.</b> Near-black panel, a cool light from above that slides side to side over about 45 seconds, and a thin lit edge on top. Cards are faint glass with hairline borders. Heading inside the panel.</p>
+    <div class="above">project rows above</div>
+    <div class="dark a">
+      <div class="light" aria-hidden="true"></div>
+      <div class="a-head">
+        <h2>Side quests, shipped or not</h2>
+        <p>Ship it? Maybe. Learn? Always.</p>
+      </div>
+      <p class="a-say">Things I built with AI to learn how it feels to design with it.</p>
+      <ul class="grid" data-cards></ul>
+    </div>
+  </div>
+</section>
+
+<section class="variant" id="vb">
+  <div class="wrap">
+    <p class="tag"><b>B · Apple stage.</b> Pure black stage with a large, warm, soft pool of light that slowly breathes behind the work. No card boxes: the screenshots float like lit objects. Centred heading, bigger cards in two columns.</p>
+    <div class="above">project rows above</div>
+    <div class="dark b">
+      <div class="light" aria-hidden="true"></div>
+      <div class="b-head">
+        <h2>Side quests, shipped or not</h2>
+        <p>Things I built with AI to learn how it feels to design with it.</p>
+      </div>
+      <ul class="grid" data-cards></ul>
+    </div>
+  </div>
+</section>
+
+<section class="variant" id="vc">
+  <div class="wrap">
+    <p class="tag"><b>C · Blend.</b> The heading stays on the light page like every other homepage section; a warm graphite panel holds the work. One cool light circles slowly in the top corner (about a minute per loop) and catches the top edge of each screenshot.</p>
+    <div class="above">project rows above</div>
+    <div class="c-head">
+      <h2>Side quests, shipped or not</h2>
+      <p>Ship it? Maybe. Learn? Always.</p>
+    </div>
+    <div class="dark c">
+      <div class="light" aria-hidden="true"></div>
+      <p class="c-say"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.6 4.6 2.9 7.2 7.6 8-4.7.8-7 3.4-7.6 8-.6-4.6-2.9-7.2-7.6-8 4.7-.8 7-3.4 7.6-8Z"/><path d="M19 15c.25 1.9 1.1 2.75 3 3-1.9.25-2.75 1.1-3 3-.25-1.9-1.1-2.75-3-3 1.9-.25 2.75-1.1 3-3Z"/></svg>Things I built with AI to learn how it feels to design with it.</p>
+      <ul class="grid" data-cards></ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const tpl = document.getElementById("cards");
+  document.querySelectorAll("[data-cards]").forEach((ul) => ul.append(tpl.content.cloneNode(true)));
+  document.querySelectorAll("a.card").forEach((a) => a.addEventListener("click", (e) => e.preventDefault()));
+  // the light only drifts while its panel is on screen
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => e.target.classList.toggle("on", e.isIntersecting)));
+  document.querySelectorAll(".dark").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

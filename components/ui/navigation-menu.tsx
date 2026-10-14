@@ -81,7 +81,7 @@ function NavigationMenuContent({
   className,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Content>) {
-  // Case Study System: nothing slides or zooms; the card appears in place
+  // Case Study System v1.5: the card grows out of its button (.nav-card in nav.css)
   return (
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"

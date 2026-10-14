@@ -1,0 +1,143 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-v3.html"
+        ],
+        "createdAt": "2026-10-12T09:16:28.036Z",
+        "reason": "Claude: the case-study tile clips its phone screens at the bottom edge on purpose (Case Study System §6.2); no menus inside"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-v3.html"
+        ],
+        "createdAt": "2026-10-12T09:17:10.685Z",
+        "reason": "Claude: 24px intro uses the Case Study System's ask-line spec (line-height 1.25, RULEBOOK §5.2)"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-v3.html"
+        ],
+        "createdAt": "2026-10-12T09:17:11.045Z",
+        "reason": "Claude: comes from the shared case-study.css live-prototype dot (RULEBOOK §14); this page has no live dot"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/side-quests-dark.html"
+        ],
+        "createdAt": "2026-10-13T08:24:28.625Z",
+        "reason": "Claude: line heights come from the Case Study System tokens (--lh-h1 1.1, tablet --lh-body 1.26), which PRODUCT.md makes binding"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/side-quests-scroll.html"
+        ],
+        "createdAt": "2026-10-13T08:24:28.951Z",
+        "reason": "Claude: line heights come from the Case Study System tokens (--lh-h1 1.1, tablet --lh-body 1.26), which PRODUCT.md makes binding"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/mockups/side-quests-dark.html"
+        ],
+        "createdAt": "2026-10-13T08:24:29.261Z",
+        "reason": "Claude: flagged element is the mockup's variant divider (border-top with 96px padding), not a container with flush text"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/side-quests-scroll-edge.html"
+        ],
+        "createdAt": "2026-10-13T08:27:08.078Z",
+        "reason": "Claude: line heights come from the Case Study System tokens, which PRODUCT.md makes binding"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-work-first.html"
+        ],
+        "createdAt": "2026-10-13T09:11:40.544Z",
+        "reason": "Claude: the case-study tile clips its phone screens at the edge on purpose (Case Study System §6.2); no menus inside"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-work-first.html"
+        ],
+        "createdAt": "2026-10-13T09:12:56.184Z",
+        "reason": "Claude: project titles use the Case Study System's --lh-h1 1.1 token, which PRODUCT.md makes binding"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-work-first.html"
+        ],
+        "createdAt": "2026-10-13T09:12:56.498Z",
+        "reason": "Claude: comes from the shared case-study.css live-prototype dot (RULEBOOK §14); this page has no live dot"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-work-first-bold.html"
+        ],
+        "createdAt": "2026-10-14T13:37:21.930Z",
+        "reason": "Claude: each project stage clips its phones at the bottom edge on purpose, so they rise from it; no menus inside"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-work-first-bold.html"
+        ],
+        "createdAt": "2026-10-14T13:38:05.843Z",
+        "reason": "Claude: large display headlines (36-68px) and the system's --lh-h1 1.1 statement; tight leading is right at display sizes"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "docs/mockups/home-work-first-bold.html"
+        ],
+        "createdAt": "2026-10-14T13:38:06.201Z",
+        "reason": "Claude: comes from the shared case-study.css live-prototype dot (RULEBOOK §14); this page has no live dot"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "docs/mockups/work-sand.html"
+        ],
+        "createdAt": "2026-10-14T13:44:55.202Z",
+        "reason": "Claude: flagged lines are display headings (1.04-1.25) following the Case Study System's --lh-h1 1.1; body text uses 1.36"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "docs/mockups/work-sand.html"
+        ],
+        "createdAt": "2026-10-14T13:44:55.495Z",
+        "reason": "Claude: the brand dot is static, no animation exists in the file"
+      }
+    ]
+  }
+}

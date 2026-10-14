@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: sand in the work</title>
+<link rel="stylesheet" href="../../public/system/case-study.css">
+<style>
+  /* Mockup only. Three ways to carry the sand of the portrait video down into Selected Work,
+     each with the same rebuilt text side. Switch with the bar at the bottom, or #a / #b / #c.
+     The sand tones are sampled from public/images/hero-still.jpg (the blanket and the bed). */
+  :root {
+    --sand-1: #f4ede4;      /* linen: panels */
+    --sand-2: #eadfd1;      /* a step deeper: the sound button, chips */
+    --sand-3: #dccbb8;      /* the blanket itself: hairlines, hover */
+    --sand-ink: #6e5b48;    /* toasted brown: labels on sand, 5.9:1 on --sand-1 */
+    --sand-deep: #3f3328;   /* text on the sand button */
+    --gap-block: 140px;
+  }
+  body { background: var(--page); }
+  ::selection { background: var(--sand-3); color: var(--ink); }
+  .wrap { width: min(calc(1600px + 2 * var(--gutter)), 100%); margin-inline: auto; padding-inline: var(--gutter); }
+
+  /* ── a stand-in for the nav ── */
+  .bar { position: fixed; inset: 0 0 auto; z-index: 20; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding-inline: var(--gutter); background: rgba(252, 252, 252, 0.86); backdrop-filter: blur(12px); font-size: 15px; letter-spacing: 0; }
+  .bar b { color: var(--ink); }
+  .bar .sw { display: flex; gap: 2px; padding: 4px; border-radius: 999px; background: var(--bubble); }
+  .bar .sw span { padding: 7px 14px; border-radius: 999px; color: var(--soft); }
+  .bar .sw span:first-child { background: #fff; color: var(--ink); }
+  .bar .ct { padding: 8px 16px; border-radius: 999px; background: var(--bubble); color: var(--ink); }
+
+  /* ── the intro, as it is on the site ── */
+  .intro { min-height: min(calc(100svh - 24px), 900px); padding-top: var(--nav-h); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; column-gap: 48px; }
+  .statement { font-size: clamp(1.75rem, 3.05vw, 2.75rem); line-height: 1.1; letter-spacing: -0.04em; color: var(--ink); font-weight: 400; text-wrap: pretty; }
+  .statement strong { font-weight: 700; }
+  .statement .quiet { color: var(--mute); }
+  .face { display: inline-block; width: 0.92em; height: 0.92em; margin: 0 0.06em 0 0.02em; vertical-align: -0.12em; border-radius: 50%; background: var(--bubble) url("../../public/images/face.png") center / cover no-repeat; }
+  .hello { margin-top: 32px; color: var(--body); }
+  /* the one small sand touch up top: the email's underline is the blanket */
+  .hello a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--sand-3); text-decoration-thickness: 2px; text-underline-offset: 6px; transition: text-decoration-color var(--ease); }
+  .hello a:hover { text-decoration-color: var(--sand-ink); }
+  .me { width: 80%; aspect-ratio: 1; justify-self: center; }
+  .me video { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(closest-side, #000 72%, rgba(0,0,0,.6) 86%, transparent 100%);
+    mask-image: radial-gradient(closest-side, #000 72%, rgba(0,0,0,.6) 86%, transparent 100%); }
+
+  /* ── Selected Work ── */
+  .work { margin-top: 80px; }
+  .work-title { font-size: 14px; font-weight: 400; letter-spacing: 0; color: var(--soft); }
+  .rows { display: grid; gap: 96px; margin-top: 24px; }
+
+  .row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 56px; align-items: center; }
+  .tile { display: block; position: relative; overflow: hidden; aspect-ratio: 7 / 5; border-radius: var(--r-panel); container-type: inline-size;
+    background:
+      radial-gradient(60cqw 38cqw at 78% 8%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
+      radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow), rgba(255,255,255,0) 70%),
+      linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%); }
+  .tile .ph { position: absolute; width: 30cqw; border-radius: 2.9cqw; overflow: hidden; background: #fff; box-shadow: var(--shadow-device); }
+  .tile .ph img { display: block; width: 100%; height: auto; }
+  .tile .ph:nth-child(1) { left: 6cqw; top: 16cqw; }
+  .tile .ph:nth-child(2) { left: 35cqw; top: 10cqw; z-index: 2; }
+  .tile .ph:nth-child(3) { left: 64cqw; top: 4cqw; }
+
+  /* ── the rebuilt text side, shared by all three options ──
+     Order of reading: what it is (title) → the one thing I found (finding) → what I did
+     (rest) → the facts → the way in. Each step is a different size or weight. */
+  .txt { display: flex; flex-direction: column; }
+  /* the project's own colour appears once on this side, as a dot by its name */
+  .facts .prod { display: flex; align-items: center; gap: 8px; }
+  .prod i { width: 9px; height: 9px; border-radius: 50%; background: var(--brand); flex: none; }
+  .txt h3 { font-size: clamp(2rem, 2.9vw, 2.75rem); line-height: 1.04; letter-spacing: -0.04em; text-wrap: balance; }
+  .txt h3 a { color: inherit; text-decoration: none; }
+  .finding { margin-top: 24px; font-size: 22px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ink); max-width: 34ch; text-wrap: pretty; }
+  .rest { margin-top: 12px; color: var(--soft); max-width: 44ch; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); justify-content: start; column-gap: 36px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--hair); }
+  .facts dt { font-size: 13px; letter-spacing: 0; color: var(--mute); }
+  .facts dd { margin-top: 4px; font-size: 15px; line-height: 1.3; letter-spacing: -0.01em; color: var(--ink); }
+  .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; letter-spacing: 0; text-decoration: none; cursor: pointer; transition: background-color var(--ease), gap var(--ease); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn-read { background: var(--ink); color: #fff; }
+  .btn-read:hover { gap: 14px; }
+  .btn-snd { padding-inline: 18px 20px; background: var(--bubble); color: var(--ink); }
+  .btn-snd:hover { background: #e2e2df; }
+
+  /* ═════ A · Sand card: the text side sits on its own linen panel ═════ */
+  [data-opt="a"] .row { align-items: stretch; column-gap: 16px; }
+  [data-opt="a"] .txt { justify-content: space-between; padding: clamp(32px, 3.4vw, 56px); border-radius: var(--r-panel); background: var(--sand-1); }
+  [data-opt="a"] .rest { color: #5a4c3e; }
+  [data-opt="a"] .facts { border-color: var(--sand-3); }
+  [data-opt="a"] .facts dt { color: var(--sand-ink); }
+  [data-opt="a"] .btn-snd { background: var(--sand-2); color: var(--sand-deep); }
+  [data-opt="a"] .btn-snd:hover { background: var(--sand-3); }
+
+  /* ═════ B · Accents only: white page, sand in the small things ═════ */
+  /* the finding gets a sand highlighter, like a pen over the line that matters */
+  [data-opt="b"] .finding span { background: linear-gradient(transparent 58%, var(--sand-2) 58%, var(--sand-2) 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: 2px; }
+  [data-opt="b"] .facts { border-top: 2px solid var(--sand-3); }
+  [data-opt="b"] .facts dt { color: var(--sand-ink); }
+  [data-opt="b"] .btn-snd { background: var(--sand-2); color: var(--sand-deep); }
+  [data-opt="b"] .btn-snd:hover { background: var(--sand-3); }
+
+  /* ═════ C · Sand section: the whole of Selected Work lies on linen ═════ */
+  [data-opt="c"] .work { margin-top: 0; padding-block: 72px 120px; background: var(--sand-1); }
+  [data-opt="c"] .work-title { font-size: var(--t-h2); line-height: 1.1; letter-spacing: -0.03em; font-weight: 700; color: var(--ink); }
+  [data-opt="c"] .rows { margin-top: 40px; }
+  [data-opt="c"] .tile { box-shadow: 0 10px 40px rgba(110, 91, 72, 0.12); }
+  [data-opt="c"] .facts dt { color: var(--sand-ink); }
+  [data-opt="c"] .rest { color: #5a4c3e; }
+  [data-opt="c"] .facts { border-color: var(--sand-3); }
+  [data-opt="c"] .btn-snd { background: #fff; color: var(--sand-deep); }
+  [data-opt="c"] .btn-snd:hover { background: var(--sand-2); }
+  [data-opt="c"] .after { margin-top: 0; }
+
+  /* the dark AI section begins here on the real page */
+  .after { margin-top: var(--gap-block); height: 160px; background: var(--night); color: var(--night-soft); display: grid; place-items: center; font-size: 14px; letter-spacing: 0; }
+
+  /* ── which option ── */
+  .pick { position: fixed; left: 50%; bottom: 20px; translate: -50% 0; z-index: 30; display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--ink); box-shadow: 0 8px 30px rgba(0,0,0,.18); }
+  .pick a { padding: 9px 16px; border-radius: 999px; color: rgba(255,255,255,.7); font-size: 14px; letter-spacing: 0; text-decoration: none; white-space: nowrap; }
+  .pick a:hover { color: #fff; }
+  .pick a[aria-current] { background: var(--sand-2); color: var(--sand-deep); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .pick a:focus-visible { outline-color: #fff; }
+
+  @media (max-width: 1199px) {
+    .intro { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+    .row, [data-opt="a"] .row { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+    [data-opt="a"] .row { row-gap: 12px; }
+    .rows { gap: 80px; }
+  }
+  @media (max-width: 809px) {
+    .intro { grid-template-columns: 1fr; min-height: 0; padding-top: calc(var(--nav-h) + 40px); row-gap: 8px; }
+    .bar .sw { display: none; }
+    .txt h3 { font-size: 30px; }
+    .finding { font-size: 19px; }
+    .facts { grid-template-columns: 1fr 1fr; row-gap: 14px; }
+    .rows { gap: 64px; }
+    .pick a { padding: 9px 12px; font-size: 13px; }
+    .pick a span { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body data-opt="a">
+
+<header class="bar"><b>Dev Dixit</b><div class="sw"><span>Work</span><span>About</span></div><span class="ct">Contact</span></header>
+
+<main>
+  <div class="wrap">
+    <section class="intro">
+      <div>
+        <h1 class="statement">I'm <span class="face"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck. Lately: why first-time investors freeze on</span> <strong>Groww</strong><span class="quiet">, and why nobody finds the concerts on</span> <strong>BookMyShow</strong><span class="quiet">.</span></h1>
+        <p class="hello">Say hi at <a href="#">devdixit@gmail.com</a></p>
+      </div>
+      <div class="me"><video autoplay muted loop playsinline poster="../../public/images/hero-still.jpg"><source src="../../public/images/hero-portrait.mp4" type="video/mp4"></video></div>
+    </section>
+  </div>
+
+  <section class="work" id="work">
+    <div class="wrap">
+      <h2 class="work-title">Selected Work</h2>
+      <div class="rows">
+
+        <article class="row" style="--brand:#04b488;--hero-1:#e6f6ee;--hero-2:#d9f1e6;--hero-3:#e4f0f7;--hero-glow:rgba(4,180,136,.2)">
+          <a class="tile" href="#">
+            <div class="ph"><img src="../../public/work/groww/hero-1.webp" alt=""></div>
+            <div class="ph"><img src="../../public/work/groww/hero-2.webp" alt=""></div>
+            <div class="ph"><img src="../../public/work/groww/hero-3.webp" alt=""></div>
+          </a>
+          <div class="txt">
+            <div>
+              <h3><a href="#">The missing step between opening Groww and starting a SIP</a></h3>
+              <p class="finding"><span>Everyone I interviewed who started a SIP had someone say it was fine.</span></p>
+              <p class="rest">This puts that go-ahead inside Groww.</p>
+            </div>
+            <div>
+              <dl class="facts">
+                <div><dt>Product</dt><dd class="prod"><i></i>Groww</dd></div>
+                <div><dt>Type</dt><dd>Feature addition</dd></div>
+                <div><dt>Stage</dt><dd>Prototype, user tested</dd></div>
+              </dl>
+              <div class="acts">
+                <a class="btn btn-read" href="#">Read case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+                <button class="btn btn-snd" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6v4h2.5L8.5 13V3L5 6H2.5z"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.6a6 6 0 0 1 0 8.8"/></svg>Play with sound</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="row" style="--brand:#eb0028;--hero-1:#fef2f4;--hero-2:#feecef;--hero-3:#f7f4fb;--hero-glow:rgba(235,0,40,.1)">
+          <a class="tile" href="#">
+            <div class="ph"><img src="../../public/work/bookmyshow/assets/hero-home.png" alt=""></div>
+            <div class="ph"><img src="../../public/work/bookmyshow/assets/movie-detail-also.png" alt=""></div>
+            <div class="ph"><img src="../../public/work/bookmyshow/assets/fork-events-row.png" alt=""></div>
+          </a>
+          <div class="txt">
+            <div>
+              <h3><a href="#">Improving Event Discovery for BookMyShow</a></h3>
+              <p class="finding"><span>Most people never see the comedy shows, concerts and sports BookMyShow sells.</span></p>
+              <p class="rest">I redesigned how the app helps them find Events.</p>
+            </div>
+            <div>
+              <dl class="facts">
+                <div><dt>Product</dt><dd class="prod"><i></i>BookMyShow</dd></div>
+                <div><dt>Role</dt><dd>Product designer</dd></div>
+                <div><dt>Tools</dt><dd>Figma, Cursor</dd></div>
+              </dl>
+              <div class="acts">
+                <a class="btn btn-read" href="#">Read case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+                <button class="btn btn-snd" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6v4h2.5L8.5 13V3L5 6H2.5z"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.6a6 6 0 0 1 0 8.8"/></svg>Play with sound</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="after">The dark AI section starts here</div>
+</main>
+
+<nav class="pick" aria-label="Mockup options">
+  <a href="#a">A<span> · Sand card</span></a>
+  <a href="#b">B<span> · Accents only</span></a>
+  <a href="#c">C<span> · Sand section</span></a>
+</nav>
+
+<script>
+  function show() {
+    var opt = (location.hash.slice(1) || "a").toLowerCase();
+    if (!/^[abc]$/.test(opt)) opt = "a";
+    document.body.dataset.opt = opt;
+    document.querySelectorAll(".pick a").forEach(function (a) {
+      if (a.hash === "#" + opt) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+    });
+  }
+  // switch without jumping to the top
+  document.querySelectorAll(".pick a").forEach(function (a) {
+    a.addEventListener("click", function (e) { e.preventDefault(); history.replaceState(null, "", a.hash); show(); });
+  });
+  window.addEventListener("hashchange", show);
+  show();
+</script>
+</body>
+</html>

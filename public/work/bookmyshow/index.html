@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/system/case-study.css">
+<!-- v1.5: first paint waits for the hero, so a homepage tile can grow into it -->
+<link rel="expect" href="#top" blocking="render">
 <style id="page">
     /* page-specific: brand tokens only */
     :root {
@@ -69,20 +71,16 @@
     <nav class="site-nav-in" aria-label="Primary">
       <a class="nav-name" href="/">Dev Dixit</a>
       <ul class="nav-switch">
-        <li><a class="nav-item" href="/" aria-current="page">Work</a></li>
+        <li><a class="nav-item" href="/#work" aria-current="page">Work</a></li>
         <li><a class="nav-item" href="/about">About</a></li>
-        <li class="nav-contact">
-          <button class="nav-item" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
-          <div class="nav-card" id="nav-contact-card" hidden>
-            <div class="nav-row"><a href="mailto:devdixit@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit@gmail.com">Copy</button></div>
-            <a class="nav-row" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-            <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
-          </div>
-        </li>
       </ul>
-      <div class="nav-ext">
-        <a href="#">Resume</a>
-        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <div class="nav-ext nav-contact">
+        <button class="nav-contact-btn" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
+        <div class="nav-card" id="nav-contact-card" hidden>
+          <div class="nav-row"><a href="mailto:devdixit@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit@gmail.com">Copy</button></div>
+          <a class="nav-row" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
+        </div>
       </div>
     </nav>
   </header>
@@ -93,10 +91,10 @@
     <h1>Improving Event Discovery for BookMyShow</h1>
     <p class="lede">BookMyShow is an app people in India use to book movie tickets. It also sells tickets to comedy shows, concerts and sports, which I’ll call Events. Most people never see them. I redesigned how the app helps people discover Events.</p>
 
-    <div class="hero-panel">
-      <div class="hero-phone"><img src="/work/bookmyshow/assets/hero-home.png" alt="Redesigned homepage with equal Movies and Events entry points" width="393" height="875"></div>
-      <div class="hero-phone"><img src="/work/bookmyshow/assets/movie-detail-also.png" alt="Movie page with a nearby events row above recommendations" width="393" height="875"></div>
-      <div class="hero-phone"><img src="/work/bookmyshow/assets/fork-events-row.png" alt="" width="398" height="888"></div>
+    <div class="hero-panel" style="view-transition-name: hero-bookmyshow">
+      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/hero-home.png" alt="Redesigned homepage with equal Movies and Events entry points" width="393" height="875"></div>
+      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/movie-detail-also.png" alt="Movie page with a nearby events row above recommendations" width="393" height="875"></div>
+      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/fork-events-row.png" alt="" width="398" height="888"></div>
     </div>
 
     <div class="panel grid tight">

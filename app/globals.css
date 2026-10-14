@@ -26,7 +26,14 @@
   --input: var(--hair);
   --ring: var(--ink);
   --radius: var(--r-panel);
+
+  /* the system's hand-note face, as next/font names it */
+  --hand: var(--font-caveat), "Segoe Print", cursive;
+  /* space between the big blocks of a portfolio page */
+  --gap-block: 140px;
 }
+@media (max-width: 1199px) { :root { --gap-block: 112px; } }
+@media (max-width: 809px) { :root { --gap-block: 80px; } }
 
 @theme inline {
   /* the system's three layouts: phone (default), tablet 810+, desktop 1200+ */
@@ -45,6 +52,7 @@
   --color-mute: var(--mute);
   --color-hair: var(--hair);
   --color-bubble: var(--bubble);
+  --color-sketch: var(--sketch);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -70,7 +78,7 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
   body {
     font-family: var(--font);
     font-size: var(--t-body);
@@ -105,11 +113,106 @@
 }
 .skip:focus { top: 16px; }
 
-/* Project door: the case study's own hero panel, same recipe */
-.door-panel {
+/* Radix gives the Contact trigger its own list; it shouldn't draw the switcher's pill */
+.nav-switch.nav-contact { display: contents; }
+
+/* Page width: the system's frame (content up to 1600px), as in the case studies and the nav */
+.page-width {
+  width: min(var(--page-max), 100%);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* A section title on a portfolio page, at the case studies' h1 size */
+.block-title { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.04em; }
+/* one step down, for titles inside a section */
+.sub-title { font-size: var(--t-h2); line-height: var(--lh-h2); letter-spacing: -0.03em; }
+
+/* small text links get an invisible 44px-tall touch area */
+.hit { position: relative; }
+.hit::after { content: ""; position: absolute; inset: -14px -8px; }
+
+/* The system's hand note (case-study.css §16), used to annotate things */
+.hand {
+  font-family: var(--hand);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--sketch);
+}
+@media (max-width: 1199px) { .hand { font-size: 20px; } }
+
+/* One sentence in two tones: ink says it, mute keeps going */
+.statement {
+  font-size: clamp(1.75rem, 3.05vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.statement strong { font-weight: 700; }
+.statement .quiet { color: var(--mute); }
+
+/* ── Home: intro ─────────────────────────────────────────────────────── */
+.intro {
+  /* short of a full screen, so "Selected work" shows at the bottom of the first one */
+  min-height: clamp(560px, calc(100svh - 150px), 820px);
+  padding-top: var(--nav-h);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  column-gap: 48px;
+}
+/* your face, inline, as part of the sentence */
+.face {
+  display: inline-block;
+  width: 0.92em;
+  height: 0.92em;
+  margin: 0 0.06em 0 0.02em;
+  vertical-align: -0.12em;
+  border-radius: 50%;
+  background: var(--bubble) url("/images/face.png") center / cover no-repeat;
+}
+/* the sand starts here: the email is underlined in the blanket's colour */
+.hello a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--sand-3); text-decoration-thickness: 2px; text-underline-offset: 6px; transition: text-decoration-color var(--ease); }
+.hello a:hover { text-decoration-color: var(--sand-ink); }
+/* the video is square, at 80% of its column, and multiply drops its white ground into the page */
+.me { position: relative; width: 80%; aspect-ratio: 1; justify-self: center; container-type: inline-size; }
+.me video, .me img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, rgba(0, 0, 0, 0.6) 86%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 72%, rgba(0, 0, 0, 0.6) 86%, transparent 100%);
+}
+.me img { display: none; }
+/* hand notes in the video's white corners, placed in its 1000 × 1000 square */
+.me-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; color: var(--sketch); pointer-events: none; }
+.me-lines path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.me-note { position: absolute; margin: 0; font-size: clamp(14px, 3.7cqw, 22px); }
+@media (prefers-reduced-motion: reduce) {
+  .me video { display: none; }
+  .me img { display: block; }
+}
+@media (max-width: 1199px) {
+  .intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
+}
+@media (max-width: 809px) {
+  .intro { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-top: calc(var(--nav-h) + var(--hero-top)); row-gap: 8px; }
+}
+
+/* ── Home: project rows ──────────────────────────────────────────────── */
+/* picture and text share the row evenly, so the picture doesn't fill the screen and the next project shows */
+.row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 64px; align-items: center; }
+/* the case study's own hero recipe, in a 3:2 tile (the Groww cover's own shape) */
+.tile {
+  display: block;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 100 / 86;
+  aspect-ratio: 3 / 2;
   border-radius: var(--r-panel);
   container-type: inline-size;
   background:
@@ -117,29 +220,372 @@
     radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow), rgba(255, 255, 255, 0) 70%),
     linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%);
 }
-@media (min-width: 810px) { .door-panel { aspect-ratio: 7 / 4; } }
-@media (min-width: 1200px) { .door-panel { aspect-ratio: 21 / 9; } }
-
-.door-phone {
+.tile-phone {
   position: absolute;
-  width: 24cqw;
-  border-radius: 2.3cqw;
+  width: 30cqw;
+  border-radius: 2.9cqw;
   overflow: hidden;
   background: #fff;
   box-shadow: var(--shadow-device);
 }
-.door-phone:nth-child(1) { left: 17cqw; top: 11cqw; }
-.door-phone:nth-child(2) { left: 38cqw; top: 6.5cqw; }
-.door-phone:nth-child(3) { left: 59cqw; top: 2cqw; }
-@media (max-width: 1199px) { .door-phone { width: 27cqw; } .door-phone:nth-child(1) { left: 10cqw; } .door-phone:nth-child(2) { left: 36.5cqw; } .door-phone:nth-child(3) { left: 63cqw; } }
-@media (max-width: 809px) { .door-phone { width: 36cqw; } .door-phone:nth-child(1) { left: -4cqw; top: 14cqw; } .door-phone:nth-child(2) { left: 32cqw; top: 8cqw; } .door-phone:nth-child(3) { left: 68cqw; top: 2cqw; } }
-
-/* Portrait video (hero version C): soft elliptical dissolve into the page.
-   Multiply drops the footage's white ground into the page colour, so no halo. */
-.hero-video-mask {
-  mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse 70% 68% at 50% 46%, #000 0%, #000 38%, rgba(0, 0, 0, 0.92) 52%, rgba(0, 0, 0, 0.55) 68%, rgba(0, 0, 0, 0.18) 82%, rgba(0, 0, 0, 0.04) 92%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 68% at 50% 46%, #000 0%, #000 38%, rgba(0, 0, 0, 0.92) 52%, rgba(0, 0, 0, 0.55) 68%, rgba(0, 0, 0, 0.18) 82%, rgba(0, 0, 0, 0.04) 92%, transparent 100%);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+.tile-phone img { display: block; width: 100%; height: auto; }
+/* a finished image in place of the three screens; it fills the tile edge to edge */
+.tile-cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tile-phone:nth-child(1) { left: 6cqw; top: 16cqw; }
+.tile-phone:nth-child(2) { left: 35cqw; top: 10cqw; z-index: 2; }
+.tile-phone:nth-child(3) { left: 64cqw; top: 4cqw; }
+/* the live prototype plays inside the middle screen, never on top of the tile */
+.tile-live { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 400ms ease; }
+/* it only plays; a click goes through it to the tile, which opens the case study */
+.tile-live iframe { position: absolute; top: 0; left: 0; width: 390px; height: 875px; border: 0; transform-origin: 0 0; pointer-events: none; }
+.row[data-playing] .tile-live[data-ready] { opacity: 1; }
+/* The text side reads in steps, each a different size or weight:
+   title, the finding (with a sand highlighter), the rest, the facts, the way in. */
+/* the headline is the loudest thing on this side; ~22 characters a line keeps it in 2–3 even lines */
+.row-title { max-width: 22ch; font-size: clamp(2rem, 2.9vw, 2.75rem); line-height: 1.06; letter-spacing: -0.04em; overflow-wrap: break-word; }
+.finding { margin-top: 28px; max-width: 32ch; font-size: 22px; line-height: 1.28; letter-spacing: -0.025em; color: var(--ink); text-wrap: balance; }
+.finding span {
+  padding-inline: 2px;
+  background: linear-gradient(transparent 58%, var(--sand-2) 58%, var(--sand-2) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
+.solution { margin-top: 12px; max-width: 44ch; font-size: 16px; line-height: 1.4; letter-spacing: -0.01em; color: var(--soft); text-wrap: pretty; }
+/* three columns on one left edge, the last a little wider for longer values;
+   on a phone the third wraps under the first */
+.facts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px 24px; max-width: 520px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--sand-3); }
+.facts dt { font-size: 13px; line-height: 1.3; letter-spacing: 0; color: var(--sand-ink); }
+.facts dd { margin-top: 4px; font-size: 15px; line-height: 1.3; letter-spacing: -0.01em; color: var(--ink); }
+.brand-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--brand); }
+/* both actions share one 48px height; the black one leads, the sand one follows */
+.row-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 32px; }
+.row-acts > * { height: 48px; padding-block: 0; }
+.read-btn { gap: 10px; }
+.read-btn svg { transition: translate 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+@media (hover: hover) and (pointer: fine) { .read-btn:hover svg { translate: 4px 0; } }
+.sand-btn { background: var(--sand-2); color: var(--sand-deep); }
+.sand-btn:hover, .sand-btn[aria-pressed="true"] { background: var(--sand-3); }
+@media (prefers-reduced-motion: reduce) { .read-btn svg { transition: none; } .read-btn:hover svg { translate: none; } }
+@media (max-width: 809px) {
+  .finding { margin-top: 20px; font-size: 19px; }
+  .solution { font-size: 15px; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 28px; }
+  .facts > :nth-child(3) { grid-column: 1 / -1; }
+  .row-acts { margin-top: 28px; }
+}
+
+/* captions for the spoken description; the space is kept so nothing jumps */
+.cc { min-height: 2.7em; font-size: 15px; line-height: 1.35; letter-spacing: -0.01em; color: var(--soft); }
+@media (prefers-reduced-motion: reduce) { .tile-live { transition: none; } }
+@media (max-width: 1199px) { .row { grid-template-columns: minmax(0, 1fr); row-gap: 28px; } }
+/* side by side, the text fills its half of the row; stacked, the line limits above keep it readable */
+@media (min-width: 1200px) {
+  .row-title, .finding, .solution, .facts { max-width: none; }
+  /* and its lines run to the column's edge instead of being evened out short of it */
+  .row-title, .finding { text-wrap: pretty; }
+}
+
+/* ── Home: motion ────────────────────────────────────────────────────────
+   On load, once: the sentence comes into focus word by word, the video
+   develops out of soft focus, then the hand notes write themselves on.
+   On scroll, tied to the scroll: the intro drifts away with the video a
+   little slower than the words, and each project card rises and settles,
+   its text at a different speed. The phones inside a tile never move.
+   Reduced motion: none of it; everything sits still and visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .statement .w { display: inline-block; animation: word-in 600ms cubic-bezier(0.16, 1, 0.3, 1) calc(120ms + var(--i) * 22ms) both; }
+  .intro .hello { animation: rise-in 700ms cubic-bezier(0.16, 1, 0.3, 1) 950ms both; }
+  .me video { animation: develop 1400ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both; }
+  .me-lines path { stroke-dasharray: 1; animation: draw 900ms cubic-bezier(0.16, 1, 0.3, 1) calc(1450ms + var(--i) * 280ms) both; }
+  .me-note { animation: rise-in 500ms ease calc(1350ms + var(--i) * 280ms) both; }
+
+  @keyframes word-in { from { opacity: 0; filter: blur(8px); translate: 0 0.2em; } }
+  @keyframes rise-in { from { opacity: 0; translate: 0 8px; } }
+  @keyframes develop { from { opacity: 0; filter: blur(18px); scale: 0.94; } }
+  @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* how far a card travels; less on smaller screens */
+    :root { --ride: 110px; --drift: 80px; }
+    /* the scroll takes over from the one-off fade */
+    .reveal-ready :is(.row, #work-title).rv { opacity: 1; transform: none; transition: none; }
+
+    .intro-copy { animation: copy-away linear both; animation-timeline: scroll(root); animation-range: 0 90vh; }
+    .me { animation: me-away linear both; animation-timeline: scroll(root); animation-range: 0 90vh; }
+    /* section titles: each word sharpens a moment after the one before, as the title scrolls in */
+    .fw { display: inline-block; animation: word-in linear both; animation-timeline: view(); animation-range: entry calc(var(--i) * 18%) cover calc(28% + var(--i) * 5%); }
+    /* the sign-off in the dark lights up word by word, grey to white, as you reach it */
+    .lw { animation: light-up linear both; animation-timeline: view(); animation-range: cover calc(6% + var(--i) * 5%) cover calc(16% + var(--i) * 5%); }
+    .tile { animation: tile-ride linear both; animation-timeline: view(); animation-range: cover; }
+    .row-copy { animation: copy-ride linear both; animation-timeline: view(); animation-range: cover; }
+
+    @keyframes copy-away { to { translate: 0 -56px; opacity: 0.25; } }
+    @keyframes me-away { to { translate: 0 var(--drift); scale: 0.94; } }
+    @keyframes light-up { from { color: rgba(255, 255, 255, 0.2); } to { color: #fff; } }
+    @keyframes tile-ride {
+      /* it opens like a window as it rises: the clip widens to the tile's own edge,
+         then steps out past it so the hover shadow isn't cut off */
+      0% { translate: 0 var(--ride); scale: 0.92; clip-path: inset(7% 9% round 48px); animation-timing-function: cubic-bezier(0.25, 0.6, 0.35, 1); }
+      42% { translate: 0 0; scale: 1; clip-path: inset(0 round var(--r-panel)); }
+      46% { clip-path: inset(-60px round 0); }
+      100% { translate: 0 calc(var(--ride) * -0.45); scale: 1; clip-path: inset(-60px round 0); }
+    }
+    @keyframes copy-ride {
+      0% { translate: 0 calc(var(--ride) * 1.5); opacity: 0; animation-timing-function: cubic-bezier(0.25, 0.6, 0.35, 1); }
+      30% { opacity: 1; }
+      40% { translate: 0 0; }
+      100% { translate: 0 calc(var(--ride) * -0.75); opacity: 1; }
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) and (max-width: 1199px) { :root { --ride: 64px; } }
+  @media (prefers-reduced-motion: no-preference) and (max-width: 809px) { :root { --ride: 40px; --drift: 0px; } }
+}
+
+/* ── Small feedback: hover, press and swaps ──────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Copy → Copied: the new word blurs in, so the swap reads as one change */
+  .swap { display: inline-block; animation: swap-in 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+  @keyframes swap-in { from { opacity: 0; filter: blur(3px); scale: 0.96; } }
+
+  /* while it talks, the speaker's two waves pulse in turn */
+  .sand-btn[aria-pressed="true"] svg path:nth-of-type(n + 2) { animation: wave 1.2s ease-in-out infinite; }
+  .sand-btn[aria-pressed="true"] svg path:nth-of-type(3) { animation-delay: 200ms; }
+  @keyframes wave { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+  /* a project tile lifts a little under the mouse; transform, so it stacks on the scroll ride */
+  @media (hover: hover) and (pointer: fine) {
+    .tile { transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .tile:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.22); }
+  }
+}
+
+/* the switcher's white segment slides between Work and About (useSlidingPill in Navbar) */
+.nav-switch[data-pill] { position: relative; }
+.nav-switch[data-pill]::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: var(--pill-w, 0);
+  height: 30px;
+  border-radius: 999px;
+  background: var(--card);
+  opacity: var(--pill-o, 0);
+  translate: var(--pill-x, 0) 0;
+  transition: translate 320ms cubic-bezier(0.77, 0, 0.175, 1), width 320ms cubic-bezier(0.77, 0, 0.175, 1), opacity 180ms ease, background-color var(--ease);
+}
+.nav-switch[data-pill-jump]::before { transition: opacity 180ms ease, background-color var(--ease); }
+.nav-switch[data-pill] .nav-item[aria-current] { background: none; }
+html[data-dark] .nav-switch[data-pill]::before { background: var(--night-fill-on); }
+@media (prefers-reduced-motion: reduce) { .nav-switch[data-pill]::before { transition: none; } }
+
+/* ── Home: AI experiments and products, in the dark ─────────────────────
+   The one place the portfolio leaves the light (PRODUCT.md): a full-width warm
+   graphite section with a clean top edge, ending the homepage. Its content
+   comes into focus as it rises (--p, set by IntoTheDark), one cool light
+   circles slowly in the corner, and the nav and footer turn dark with it. */
+.after-dark {
+  --p: 1;
+  position: relative;
+  overflow: clip;
+  margin-top: var(--gap-block);
+  min-height: 100svh;
+  padding: calc(var(--nav-h) + 56px) 0 96px;
+  background: var(--night);
+  color: var(--night-ink);
+}
+.after-dark :focus-visible { outline-color: #fff; }
+.dk-glow {
+  position: absolute;
+  top: -10vmax;
+  right: -24vmax;
+  width: 70vmax;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(150, 170, 255, 0.2), rgba(190, 160, 255, 0.07) 55%, transparent);
+  filter: blur(30px);
+  opacity: var(--p);
+}
+/* blur to sharp as the dark arrives */
+.dk-focus {
+  position: relative;
+  opacity: var(--p);
+  filter: blur(calc((1 - var(--p)) * 14px));
+  scale: calc(0.94 + 0.06 * var(--p));
+  transform-origin: 50% 0;
+}
+/* a step below the case-study headlines, so the work stays the loudest type */
+.dk-title { font-size: var(--t-h2); line-height: var(--lh-h2); letter-spacing: -0.03em; color: #fff; }
+.dk-say { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 16px; line-height: 1.35; letter-spacing: -0.01em; color: var(--night-soft); }
+.dk-say svg { flex: none; color: #fff; }
+.dk-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 28px; margin-top: 48px; }
+
+.quest { display: block; color: inherit; text-decoration: none; transition: translate 240ms cubic-bezier(0.22, 1, 0.36, 1); }
+a.quest:hover, a.quest:focus-visible { translate: 0 -3px; }
+.q-shot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1d1d1c, #161615);
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--night-soft);
+}
+.q-shot img, .q-shot video { width: 100%; height: 100%; object-fit: cover; }
+/* the light catches the top edge of each screenshot */
+.q-shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 40%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+a.quest:hover .q-shot::after, a.quest:focus-visible .q-shot::after { background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.05) 45%); }
+.q-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-top: 16px; }
+.q-meta h3 { font-size: var(--t-card-title); line-height: 1.25; letter-spacing: -0.02em; color: #fff; }
+.q-meta p { margin-top: 6px; font-size: var(--t-card-text); line-height: 1.35; color: var(--night-soft); }
+.q-out { flex: none; margin-top: 2px; color: var(--night-mute); transition: color var(--ease), translate var(--ease); }
+a.quest:hover .q-out, a.quest:focus-visible .q-out { color: #fff; translate: 2px -2px; }
+
+/* the sign-off at the end of the homepage, in the dark */
+.on-night .statement { color: #fff; }
+.on-night .statement .quiet { color: var(--night-soft); }
+.on-night .signoff-email { color: #fff; }
+.on-night .signoff-email:hover { text-decoration-color: #fff; }
+
+/* the nav turns dark while the dark is under it */
+/* colour and background change together, so nothing flashes on the way in */
+.nav-name, .nav-switch, .nav-item, .nav-contact-btn { transition: color var(--ease), background-color var(--ease); }
+html[data-dark] .nav-name { color: #fff; }
+html[data-dark] .nav-switch { background: var(--night-fill); }
+html[data-dark] .nav-item { color: var(--night-soft); }
+html[data-dark] .nav-item:hover { color: #fff; }
+html[data-dark] .nav-item[aria-current] { background: var(--night-fill-on); color: #fff; }
+html[data-dark] .nav-contact-btn { background: var(--night-fill); color: #fff; }
+html[data-dark] .nav-contact-btn:hover, html[data-dark] .nav-contact-btn[aria-expanded="true"] { background: var(--night-fill-on); }
+html[data-dark] :is(.nav-name, .nav-item, .nav-contact-btn):focus-visible { outline-color: #fff; }
+
+/* the homepage ends in the dark, so its footer does too */
+body:has(.after-dark) .site-foot { margin-top: 0; background: var(--night); border-color: var(--night-hair); color: var(--night-soft); }
+body:has(.after-dark) .site-foot a { color: var(--night-soft); }
+body:has(.after-dark) .site-foot a:hover { color: #fff; }
+body:has(.after-dark) .site-foot :focus-visible { outline-color: #fff; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dk-glow { animation: orbit 60s linear infinite; }
+  @keyframes orbit {
+    0% { translate: 0 0; }
+    25% { translate: -12vmax 8vmax; }
+    50% { translate: -20vmax 0; }
+    75% { translate: -8vmax -6vmax; }
+    100% { translate: 0 0; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dk-focus { opacity: 1; filter: none; scale: none; }
+  .dk-glow { opacity: 1; }
+  .quest, .q-out { transition: none; }
+  a.quest:hover, a.quest:focus-visible, a.quest:hover .q-out { translate: none; }
+}
+@media (max-width: 1199px) { .dk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 809px) {
+  .after-dark { padding-top: calc(var(--nav-h) + 32px); }
+  .dk-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+}
+
+/* ── About: Fig. 1, the portrait annotated in the case studies' hand ───────
+   The stage is 1800 × 1536 units: the 1024 × 1536 cut-out in the middle, the
+   notes either side. Notes and arrows are placed in those units, so they scale
+   with the stage. Multiply drops the cut-out's white ground into the panel. */
+.fig-stage { position: relative; width: min(100%, 780px); aspect-ratio: 1800 / 1536; margin-inline: auto; }
+.fig-stage img { position: absolute; left: 21.556%; top: 0; width: 56.889%; height: 100%; mix-blend-mode: multiply; }
+.fig-arrows { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; color: var(--sketch); }
+.fig-arrows path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.fig-note { position: absolute; width: 31%; }
+.fig-note.r { left: var(--x); bottom: var(--y); }
+.fig-note.l { right: var(--x); bottom: var(--y); text-align: right; }
+/* the one authored moment: once the figure is in view, the notes write themselves in */
+@media (prefers-reduced-motion: no-preference) {
+  .fig-arrows path { stroke-dasharray: 1; transition: stroke-dashoffset 900ms cubic-bezier(0.16, 1, 0.3, 1) calc(300ms + var(--i) * 260ms); }
+  .fig-note { transition: opacity 500ms ease calc(200ms + var(--i) * 260ms), translate 500ms ease calc(200ms + var(--i) * 260ms); }
+  .reveal-ready .fig:not(.is-visible) .fig-arrows path { stroke-dashoffset: 1; }
+  .reveal-ready .fig:not(.is-visible) .fig-note { opacity: 0; translate: 0 6px; }
+}
+@media (max-width: 809px) {
+  .fig-stage { aspect-ratio: auto; width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .fig-stage img { position: static; width: min(260px, 70%); height: auto; }
+  .fig-arrows { display: none; }
+  .fig-note { position: static; width: auto; text-align: center !important; margin-top: 12px; }
+  .fig-note:first-of-type { margin-top: 20px; }
+}
+
+/* ── About: the desk of photos ───────────────────────────────────────── */
+.desk { position: relative; height: 560px; border-radius: var(--r-panel); background: var(--panel); overflow: hidden; }
+.polaroid {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 236px;
+  padding: 12px 12px 0;
+  border-radius: 6px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  rotate: var(--r);
+  user-select: none;
+}
+.polaroid[data-draggable] { cursor: grab; }
+.polaroid[data-held] { cursor: grabbing; box-shadow: 0 18px 60px rgba(0, 0, 0, 0.16); scale: 1.04; rotate: calc(var(--r) * 0.4); }
+.polaroid-shot { aspect-ratio: 1; overflow: hidden; border-radius: 2px; background: var(--bubble); }
+.polaroid-shot img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.polaroid-empty {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--soft);
+  background: repeating-linear-gradient(-45deg, transparent 0 10px, rgba(0, 0, 0, 0.035) 10px 11px), var(--bubble);
+}
+.polaroid figcaption { padding: 12px 2px 16px; text-align: center; }
+.desk-hint { position: absolute; right: 32px; bottom: 28px; width: 190px; text-align: right; }
+.desk-hint svg { display: block; width: 46px; height: 22px; margin: 6px 0 0 auto; rotate: 180deg; }
+@media (prefers-reduced-motion: no-preference) {
+  .polaroid { transition: scale 200ms ease, rotate 200ms ease, box-shadow 200ms ease; }
+}
+@media not ((hover: hover) and (pointer: fine)) { .desk-hint { display: none; } }
+@media (max-width: 1199px) {
+  .desk { height: auto; overflow: visible; padding: 40px 32px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 20px; }
+  .polaroid { position: relative; left: auto; top: auto; width: auto; translate: none !important; }
+  .desk-hint { display: none; }
+}
+@media (max-width: 809px) {
+  .desk { padding: 32px 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── About: say hi ───────────────────────────────────────────────────── */
+.signoff-email {
+  font-size: clamp(2rem, 5.4vw, 4.75rem);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
+  overflow-wrap: anywhere;
+  transition: text-decoration-color var(--ease);
+}
+.signoff-email:hover { text-decoration-color: var(--ink); }
+

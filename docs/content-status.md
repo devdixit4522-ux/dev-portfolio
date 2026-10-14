@@ -11,14 +11,18 @@ Legend: ✅ real and confirmed · 🟡 placeholder, shipping for now · ❓ need
 
 | Item | Where it shows | Status now |
 |---|---|---|
-| Email address | Contact card, footer, hero C | 🟡 `devdixit@gmail.com` from the old site, which may be wrong |
-| Resume link | Nav (right), Contact card | 🟡 `#`, goes nowhere |
-| LinkedIn URL | Nav (right), Contact card | 🟡 `https://www.linkedin.com/`, the generic homepage |
-| AI concept projects: name, one line, real screenshot, link for each | Homepage, "AI Concept Projects" | 🟡 drawn placeholder cards, labelled "Placeholder" on the page |
-| Is "Right now he's at Hebbia, building the leading AI platform for finance" true? | Homepage intro | ❓ kept because you asked to keep the current intro. Remove it if it isn't true. |
-| About page copy | About | 🟡 Claude's draft (below), to be replaced or edited by Dev |
-| Experience: roles, companies, dates | About | 🟡 shown as `[Role, Company, Year–Year]` |
-| Portrait on About? | About | 🟡 using `public/images/hero-portrait.png` |
+| Email address | Contact card, homepage intro, About sign-off, footer | 🟡 `devdixit@gmail.com` from the old site, which may be wrong |
+| Resume link | Contact card, About sign-off, footer | 🟡 `#`, goes nowhere |
+| LinkedIn URL | Contact card, About sign-off, footer | 🟡 `https://www.linkedin.com/`, the generic homepage |
+| AI experiments and products: name, one line, screenshot or short video, link for each | Homepage, the dark section at the end (hidden for now, see `app/page.tsx`) | 🟡 three placeholder cards; the section is off until the products are ready |
+| Matching project lines: the same kind of fact for both (e.g. role · what was made · status), and the two titles in one style | Homepage project rows | ❓ Groww says "Feature addition · Prototype, user tested", BookMyShow says "Product designer · Figma, Cursor"; the titles differ too ("The missing step…" vs "Improving Event Discovery for BookMyShow") |
+| Homepage intro sentence | Homepage | 🟡 Claude's wording, approved in the mockup. Rewrite it in your own words when you like. |
+| Hand notes around the homepage video: "where the case studies get made", "socks on: deep-work mode", "this blanket gave the site its sand colour" | Homepage intro | 🟡 Claude's wording. Change them in `heroNotes` in `lib/content.ts`. |
+| About page copy | About | 🟡 Claude's draft (below) |
+| Experience: roles, companies, dates | About, "Before this" | 🟡 shown as `[Role] at [Company]`, `[Year–Year]` |
+| Three photos from outside work, with a caption each | About, "Away from Figma" | 🟡 drawn "Your photo" slots and `[Your caption]` |
+
+Email, Resume and LinkedIn all live in `public/system/site.json`. Change them there once and every page, including the case studies' nav, picks them up.
 
 ## Real (from Dev's own files)
 
@@ -26,16 +30,20 @@ Legend: ✅ real and confirmed · 🟡 placeholder, shipping for now · ❓ need
 |---|---|
 | ✅ Groww case study, its headline, lede and screens | `Desktop\case studies\Groww\case-study-draft\groww-case-study-v10.html` |
 | ✅ BookMyShow case study, its headline, lede and screens | `Desktop\case studies\bookmy show\case-study-portfolio-v2-system.html` |
-| ✅ Groww card meta: "Feature addition · Prototype, user tested" | Groww facts strip |
-| ✅ BookMyShow card meta: "Product designer · Figma, Cursor" | BookMyShow facts strip (it has no Type or Status cell) |
+| ✅ Groww row meta: "Feature addition · Prototype, user tested" | Groww facts strip |
+| ✅ BookMyShow row meta: "Product designer · Figma, Cursor" | BookMyShow facts strip (it has no Type or Status cell) |
+| ✅ BookMyShow row text, shortened from its lede | BookMyShow lede |
+| ✅ "Listen to the walkthrough" scripts: the Groww guide and ₹13,000 a month with two funds; the BookMyShow preview sheet | The two prototypes |
+| ✅ About receipts: 15 interviews and 12 of 15 needing a go-ahead (Groww, The Evidence); 3 people across 3 tasks (BookMyShow, testing); two rejected designs (Groww, Rejected Designs) | The case studies, linked from each receipt |
+| ✅ Tools: Figma, Cursor | BookMyShow facts strip |
 | ✅ Site name: devdixit.fun | Groww footer |
-| ✅ Homepage intro lines (kept as on the current site) | `lib/content.ts` |
-| ✅ Portrait video and still | `public/images/hero-portrait.mp4`, `.png` |
+| ✅ Portrait video, its still, and the walking cut-out | `public/images/hero-portrait.mp4`, `hero-still.jpg`, `hero-portrait.png` |
 
 ## Removed
 
 | Item | Why |
 |---|---|
+| ❌ "Right now he's at Hebbia, building the leading AI platform for finance" | It's Shaun Tan's line from shaun.design, not Dev's |
 | ❌ Famli App case study and its "28%↑" outcome | Not confirmed as real work |
 | ❌ Scrolling word ticker | Breaks the system (motion, uppercase labels) |
 | ❌ Old `public/bookmyshow.html` | A pre-system version, replaced by the real case study |
@@ -45,17 +53,23 @@ Legend: ✅ real and confirmed · 🟡 placeholder, shipping for now · ❓ need
 
 ## About page: Claude's draft (🟡 placeholder)
 
-It only uses facts already true from the case studies. Nothing about employers, years or results is invented.
+The facts come from the case studies. The jokes are mine, so keep or cut them. All of it lives in `lib/content.ts` under `about`.
 
-**Headline:** I design by finding out what people actually need
+**Opening:** **Hi, I'm Dev.** The longer version: I talk to people before I draw anything, I prototype until the evidence says stop, and I keep the designs that didn't make it.
 
-**Lede:** I'm Dev, a product designer in India. I start with interviews, test with prototypes, and only keep what the evidence supports.
+**Fig. 1, hand notes on the portrait:**
+- On your head: "Dev Dixit. Product designer, based in India."
+- On the bag: "Figma and Cursor live in here"
+- On your shoes: "Will walk you through any flow"
+- Caption: "Fig. 1: Dev, in the wild"
 
-**How I Work**
-- **Talk to people first.** Before I design, I interview the people who'll use it. On Groww, 12 of 15 people I spoke to needed someone to say it was fine before starting a SIP.
-- **Prototype to learn.** I build working prototypes early, so testing is about real behaviour, not opinions.
-- **Drop what doesn't hold up.** I keep a record of the designs I rejected and why. They're in every case study.
+**How I work, with receipts**
+- **I talk to people first.** For Groww, I interviewed 15 people. 12 said they needed someone's go-ahead before starting a SIP, so the design gives them one. → Groww, The Evidence
+- **I prototype to learn.** The BookMyShow redesign is a working prototype. I tested it with 3 people across 3 tasks, and the case study says what still needs testing. → BookMyShow, testing
+- **I keep what didn't make it.** Groww's case study shows two designs I rejected, and why. → Groww, Rejected Designs
 
-**Experience:** `[Role, Company, Year–Year]` × 2–3 (placeholder)
+**Before this:** `[Role] at [Company]`, `[Year–Year]` × 2 (placeholder)
 
-**Tools:** Figma, Cursor (from the BookMyShow case study)
+**Away from Figma:** the bed still from your video, captioned "This counts, right?", plus three empty photo slots.
+
+**Sign-off:** **Say hi.** Tell me what you're building. Then the email, a Copy button, LinkedIn and Resume.

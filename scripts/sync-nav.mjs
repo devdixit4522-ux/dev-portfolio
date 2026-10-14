@@ -24,18 +24,14 @@ ${site.pages
       `        <li><a class="nav-item" href="${esc(p.href)}"${p.label === "Work" ? ' aria-current="page"' : ""}>${esc(p.label)}</a></li>`
   )
   .join("\n")}
-        <li class="nav-contact">
-          <button class="nav-item" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
-          <div class="nav-card" id="nav-contact-card" hidden>
-            <div class="nav-row"><a href="mailto:${esc(site.email)}"><span class="nav-row-label">Email</span><span class="nav-row-value">${esc(site.email)}</span></a><button class="nav-copy" type="button" data-copy="${esc(site.email)}">Copy</button></div>
-            <a class="nav-row" href="${esc(site.linkedinUrl)}" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span>${ARROW_UP_RIGHT}</a>
-            <a class="nav-row" href="${esc(site.resumeUrl)}"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span>${ARROW_DOWN}</a>
-          </div>
-        </li>
       </ul>
-      <div class="nav-ext">
-        <a href="${esc(site.resumeUrl)}">Resume</a>
-        <a href="${esc(site.linkedinUrl)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <div class="nav-ext nav-contact">
+        <button class="nav-contact-btn" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
+        <div class="nav-card" id="nav-contact-card" hidden>
+          <div class="nav-row"><a href="mailto:${esc(site.email)}"><span class="nav-row-label">Email</span><span class="nav-row-value">${esc(site.email)}</span></a><button class="nav-copy" type="button" data-copy="${esc(site.email)}">Copy</button></div>
+          <a class="nav-row" href="${esc(site.linkedinUrl)}" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span>${ARROW_UP_RIGHT}</a>
+          <a class="nav-row" href="${esc(site.resumeUrl)}"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span>${ARROW_DOWN}</a>
+        </div>
       </div>
     </nav>
   </header>

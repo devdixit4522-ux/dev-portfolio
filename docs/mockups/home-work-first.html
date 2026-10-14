@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: projects first</title>
+<link rel="stylesheet" href="../../public/system/case-study.css">
+<style>
+  /* Mockup only. Three first screens for the homepage, so a recruiter sees the work at once.
+     Colours, type, surfaces and motion come from the Case Study System. */
+
+  main.wrap { padding-bottom: 140px; }
+
+  /* ── a short line about Dev (A and B) ── */
+  .lead { padding-top: calc(var(--nav-h) + 40px); }
+  .lead h1 { font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.15; letter-spacing: -0.035em; font-weight: 400; color: var(--ink); max-width: 30ch; text-wrap: balance; }
+  .lead h1 strong { font-weight: 700; }
+  .quiet { color: var(--mute); }
+  .face { display: inline-block; width: 0.92em; height: 0.92em; margin: 0 0.06em 0 0.02em; vertical-align: -0.12em; border-radius: 50%;
+    background: var(--bubble) url("../../public/images/face.png") center / cover no-repeat; }
+
+  /* ── project rows (A and C): the homepage's row, as it is today ── */
+  .rows { display: grid; gap: 96px; }
+  .lead + .rows { margin-top: 40px; }
+  .row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 56px; align-items: center; }
+  .row h2 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.04em; }
+  .row h2 a, .pair h2 a { color: inherit; text-decoration: none; }
+  .what { margin-top: 16px; }
+  .k { margin-top: 20px; font-size: 14px; letter-spacing: 0; color: var(--soft); }
+  .acts { margin-top: 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .read { display: inline-flex; align-items: center; padding: 12px 22px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 15px; letter-spacing: 0; text-decoration: none; }
+  .listen { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border: 0; border-radius: 999px; background: var(--panel); color: var(--ink); font: inherit; font-size: 15px; letter-spacing: 0; cursor: pointer; transition: background-color var(--ease); }
+  .listen:hover { background: var(--bubble); }
+
+  /* the case study's own hero, in a 7:5 tile; the live prototype plays in the middle screen */
+  .tile { display: block; position: relative; overflow: hidden; aspect-ratio: 7 / 5; border-radius: var(--r-panel); container-type: inline-size;
+    background:
+      radial-gradient(60cqw 38cqw at 78% 8%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
+      radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow), rgba(255,255,255,0) 70%),
+      linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%); }
+  .tile .hero-phone { width: 30cqw; }
+  .tile .hero-phone:nth-child(1) { left: 6cqw; top: 16cqw; }
+  .tile .hero-phone:nth-child(2) { left: 35cqw; top: 10cqw; z-index: 2; }
+  .tile .hero-phone:nth-child(3) { left: 64cqw; top: 4cqw; }
+  .live { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 400ms ease; }
+  .live iframe { position: absolute; top: 0; left: 0; width: 390px; height: 875px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .playing .live.ready { opacity: 1; }
+
+  /* ── B: both projects side by side ── */
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 32px; margin-top: 40px; }
+  .pair h2 { margin-top: 24px; font-size: var(--t-h2); line-height: var(--lh-h2); letter-spacing: -0.03em; }
+  .pair .what { margin-top: 10px; max-width: 46ch; }
+  .pair .k { margin-top: 14px; }
+  .pair .acts { margin-top: 18px; }
+
+  /* ── C: the intro, after the work ── */
+  .first { padding-top: calc(var(--nav-h) + 32px); }
+  .intro { margin-top: var(--gap-section); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; column-gap: 48px; }
+  .statement { font-size: clamp(1.75rem, 3.05vw, 2.75rem); line-height: 1.1; letter-spacing: -0.04em; color: var(--ink); font-weight: 400; text-wrap: pretty; }
+  .statement strong { font-weight: 700; }
+  .me { width: 80%; aspect-ratio: 1; justify-self: center; }
+  .me video, .me img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(closest-side, #000 72%, rgba(0,0,0,.6) 86%, transparent 100%);
+            mask-image: radial-gradient(closest-side, #000 72%, rgba(0,0,0,.6) 86%, transparent 100%); }
+  .me img { display: none; }
+
+  /* what follows on every version: the page as it is now */
+  .rest { margin-top: 120px; padding: 28px; border-radius: var(--r-panel); background: #121211; color: rgba(255,255,255,.62); font-size: 15px; letter-spacing: -0.01em; text-align: center; }
+
+  /* only the chosen version shows */
+  .v { display: none; }
+  body[data-v="a"] .v-a, body[data-v="b"] .v-b, body[data-v="c"] .v-c { display: block; }
+
+  /* mockup chrome: the version picker, at the bottom so the first screen stays clean */
+  .picker { position: fixed; left: 50%; bottom: 20px; z-index: 70; translate: -50% 0; display: flex; align-items: center; gap: 4px; padding: 4px;
+    border-radius: 999px; background: var(--ink); box-shadow: var(--shadow-card); font-size: 14px; letter-spacing: 0; white-space: nowrap; }
+  .picker > span { padding: 0 10px 0 12px; color: rgba(255,255,255,.62); }
+  .picker button { height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: #fff; font: inherit; cursor: pointer; transition: background-color var(--ease); }
+  .picker button:hover { background: rgba(255,255,255,.14); }
+  .picker button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+  .picker :focus-visible { outline-color: #fff; }
+
+  @media (prefers-reduced-motion: reduce) { .me video { display: none; } .me img { display: block; } .live { transition: none; } }
+  @media (max-width: 1199px) {
+    .row { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+    .rows { gap: 80px; }
+    .intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
+  }
+  @media (max-width: 809px) {
+    .lead { padding-top: calc(var(--nav-h) + 24px); }
+    .lead + .rows, .pair { margin-top: 28px; }
+    .pair { grid-template-columns: minmax(0, 1fr); gap: 64px; }
+    .rows { gap: 64px; }
+    .intro { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+    .picker > span, .picker .lb { display: none; }
+    .picker button { min-width: 44px; height: 40px; }
+  }
+</style>
+</head>
+<body data-v="a">
+  <a class="skip" href="#main">Skip to content</a>
+  <!-- site-nav -->
+  <header class="site-nav">
+    <div class="nav-frost-pane" aria-hidden="true"></div>
+    <nav class="site-nav-in" aria-label="Primary">
+      <a class="nav-name" href="#">Dev Dixit</a>
+      <ul class="nav-switch">
+        <li><a class="nav-item" href="#" aria-current="page">Work</a></li>
+        <li><a class="nav-item" href="#">About</a></li>
+      </ul>
+      <div class="nav-ext nav-contact">
+        <button class="nav-contact-btn" type="button" aria-expanded="false" aria-controls="nav-contact-card">Contact</button>
+        <div class="nav-card" id="nav-contact-card" hidden>
+          <div class="nav-row"><a href="mailto:devdixit@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit@gmail.com">Copy</button></div>
+          <a class="nav-row" href="#"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span></a>
+          <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span></a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- /site-nav -->
+
+  <main id="main" class="wrap">
+
+    <!-- A · Groww big: one short line, then the work -->
+    <div class="v v-a">
+      <section class="lead"><h1>I'm <span class="face" aria-hidden="true"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck.</span></h1></section>
+      <div class="rows" data-fill="rows"></div>
+      <p class="rest">The AI section and the footer continue here, as they are now. Your video isn't on this version; it could move to About.</p>
+    </div>
+
+    <!-- B · Side by side: one short line, then both projects at once -->
+    <div class="v v-b">
+      <section class="lead"><h1>I'm <span class="face" aria-hidden="true"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck.</span></h1></section>
+      <div class="pair" data-fill="pair"></div>
+      <p class="rest">The AI section and the footer continue here, as they are now. Your video isn't on this version; it could move to About.</p>
+    </div>
+
+    <!-- C · Work, then you: no intro on top; the sentence and the video come after the projects -->
+    <div class="v v-c">
+      <div class="rows first" data-fill="rows"></div>
+      <section class="intro" aria-label="About Dev">
+        <div>
+          <h2 class="statement">I'm <span class="face" aria-hidden="true"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck. Lately: why first-time investors freeze on</span> <strong>Groww</strong><span class="quiet">, and why nobody finds the concerts on</span> <strong>BookMyShow</strong><span class="quiet">.</span></h2>
+        </div>
+        <div class="me">
+          <video autoplay muted loop playsinline preload="metadata" poster="../../public/images/hero-still.jpg" aria-label="Dev Dixit lying on a bed, working on a laptop"><source src="../../public/images/hero-portrait.mp4" type="video/mp4"></video>
+          <img src="../../public/images/hero-still.jpg" alt="Dev Dixit lying on a bed, working on a laptop">
+        </div>
+      </section>
+      <p class="rest">The AI section and the footer continue here, as they are now.</p>
+    </div>
+  </main>
+
+  <div class="picker" role="group" aria-label="Mockup versions">
+    <span>Mockup</span>
+    <button type="button" data-pick="a">A<span class="lb"> · Groww big</span></button>
+    <button type="button" data-pick="b">B<span class="lb"> · Side by side</span></button>
+    <button type="button" data-pick="c">C<span class="lb"> · Work, then you</span></button>
+  </div>
+
+  <!-- the two projects, written once and placed into each version -->
+  <template id="projects">
+    <article class="project" data-loop="../../public/work/groww/loop.html"
+      style="--hero-1:#e6f6ee;--hero-2:#d9f1e6;--hero-3:#e4f0f7;--hero-glow:rgba(4,180,136,.2)">
+      <a class="tile" href="#" tabindex="-1" aria-hidden="true">
+        <div class="hero-phone"><img src="../../public/work/groww/hero-1.webp" alt=""></div>
+        <div class="hero-phone"><img src="../../public/work/groww/hero-2.webp" alt=""><div class="live"></div></div>
+        <div class="hero-phone"><img src="../../public/work/groww/hero-3.webp" alt=""></div>
+      </a>
+      <div>
+        <h2><a href="#">The missing step between opening Groww and starting a SIP</a></h2>
+        <p class="what">Everyone I interviewed who started a SIP had someone say it was fine. This puts that go-ahead inside Groww.</p>
+        <p class="k">Groww · Feature addition · Prototype, user tested</p>
+        <div class="acts"><a class="read" href="#">Read case study</a><button class="listen" type="button">Play with sound</button></div>
+      </div>
+    </article>
+    <article class="project" data-loop="../../public/work/bookmyshow/tap-peek.html"
+      style="--hero-1:#fef2f4;--hero-2:#feecef;--hero-3:#f7f4fb;--hero-glow:rgba(235,0,40,.1)">
+      <a class="tile" href="#" tabindex="-1" aria-hidden="true">
+        <div class="hero-phone"><img src="../../public/work/bookmyshow/assets/hero-home.png" alt=""></div>
+        <div class="hero-phone"><img src="../../public/work/bookmyshow/assets/movie-detail-also.png" alt=""><div class="live"></div></div>
+        <div class="hero-phone"><img src="../../public/work/bookmyshow/assets/fork-events-row.png" alt=""></div>
+      </a>
+      <div>
+        <h2><a href="#">Improving Event Discovery for BookMyShow</a></h2>
+        <p class="what">Most people never see the comedy shows, concerts and sports BookMyShow sells. I redesigned how the app helps them find Events.</p>
+        <p class="k">BookMyShow · Product designer · Figma, Cursor</p>
+        <div class="acts"><a class="read" href="#">Read case study</a><button class="listen" type="button">Play with sound</button></div>
+      </div>
+    </article>
+  </template>
+
+  <script src="../../public/system/case-study.js"></script>
+  <script>
+  (function () {
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = matchMedia('(hover: hover)').matches;
+    var tpl = document.getElementById('projects');
+
+    // place the projects: rows in A and C, plain cards side by side in B
+    document.querySelectorAll('[data-fill]').forEach(function (slot) {
+      var copy = tpl.content.cloneNode(true);
+      copy.querySelectorAll('.project').forEach(function (p) { if (slot.dataset.fill === 'rows') p.classList.add('row'); });
+      slot.appendChild(copy);
+    });
+
+    // hovering a project plays its real prototype inside the middle screen
+    document.querySelectorAll('.project').forEach(function (p) {
+      var slot = p.querySelector('.live'), phone = slot.parentElement, frame;
+      function fit() { if (frame) frame.style.transform = 'scale(' + phone.clientWidth / 390 + ')'; }
+      function play() {
+        if (reduced) return;
+        p.classList.add('playing');
+        if (frame) return;
+        frame = document.createElement('iframe');
+        frame.src = p.dataset.loop; frame.title = ''; frame.tabIndex = -1; frame.setAttribute('aria-hidden', 'true');
+        frame.addEventListener('load', function () { slot.classList.add('ready'); });
+        slot.appendChild(frame); fit();
+      }
+      function stop() {
+        p.classList.remove('playing');
+        setTimeout(function () { if (!p.classList.contains('playing') && frame) { frame.remove(); frame = null; slot.classList.remove('ready'); } }, 450);
+      }
+      new ResizeObserver(fit).observe(phone);
+      var tile = p.querySelector('.tile');
+      if (canHover) { tile.addEventListener('pointerenter', play); tile.addEventListener('pointerleave', stop); }
+      p.addEventListener('focusin', play);
+      p.addEventListener('focusout', function (e) { if (!p.contains(e.relatedTarget)) stop(); });
+    });
+
+    // the version picker; the choice stays in the address, so a reload keeps it
+    var buttons = document.querySelectorAll('[data-pick]');
+    function pick(v) {
+      document.body.dataset.v = v;
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.pick === v)); });
+      history.replaceState(null, '', '#' + v);
+      scrollTo({ top: 0, behavior: 'instant' });
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { pick(b.dataset.pick); }); });
+    pick(/^#[abc]$/.test(location.hash) ? location.hash.slice(1) : 'a');
+  })();
+  </script>
+</body>
+</html>

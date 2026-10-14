@@ -20,7 +20,24 @@
   --yes: #23875a;
   --yes-mark: #2fa36b;
   --no: #e5532d;
-  --sketch: #2f6fde;
+  --sketch: #2a66d0; /* v1.3: darker, so hand notes read at 4.5:1 on panels */
+
+  /* night: the portfolio homepage's dark AI section, its one exit from the light */
+  --night: #121211;
+  --night-ink: rgba(255, 255, 255, 0.92);
+  --night-soft: rgba(255, 255, 255, 0.62);
+  --night-mute: rgba(255, 255, 255, 0.45);
+  --night-hair: rgba(255, 255, 255, 0.1);
+  --night-fill: rgba(255, 255, 255, 0.08);
+  --night-fill-on: rgba(255, 255, 255, 0.14);
+
+  /* sand: the blanket in the portfolio's intro video, carried into the homepage's work.
+     Small touches only: a highlighter, a rule, a button. Never a brand visual. */
+  --sand-1: #f4ede4;
+  --sand-2: #eadfd1;
+  --sand-3: #dccbb8;
+  --sand-ink: #6e5b48;   /* labels on white or sand: 5.9:1 on --sand-1 */
+  --sand-deep: #3f3328;  /* text on --sand-2 */
 
   /* brand: the ONLY colours that change per case study (override in the page) */
   --brand: #04b488;
@@ -52,7 +69,7 @@
   /* measure */
   --read: 850px;
   --read-hero: 800px;
-  --page-max: 1680px;
+  --page-max: calc(1600px + 2 * var(--gutter)); /* content up to 1600px, plus the gutters */
   --gutter: 30px;
   --inset: 80px;
   --rail-w: 200px;

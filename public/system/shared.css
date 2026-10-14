@@ -13,3 +13,32 @@
 }
 
 ::selection { background: var(--bubble); color: var(--ink); }
+
+/* v1.1: walking from a homepage project into its case study. The project tile
+   and the case study's hero panel share a view-transition name, so the tile
+   grows into the hero. Browsers without cross-document view transitions, and
+   anyone with reduced motion, get a normal page load. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(*) {
+    animation-duration: 600ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 300ms; }
+
+  /* v1.5: the tile (7:5) and the hero (21:10) are different shapes, and the
+     Groww tile is a different picture from its hero. So neither snapshot is
+     stretched: each covers the morphing box and is cropped instead. The tile
+     fades out early and the hero fades in behind it, through a slight blur,
+     so the two pictures never sit on top of each other at full strength. */
+  .tile, .hero-panel { view-transition-class: hero; }
+  ::view-transition-old(*.hero), ::view-transition-new(*.hero) {
+    block-size: 100%;
+    object-fit: cover;
+    overflow: clip;
+  }
+  ::view-transition-old(*.hero) { animation: vt-hero-out 220ms ease-out both; }
+  ::view-transition-new(*.hero) { animation: vt-hero-in 380ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both; }
+  @keyframes vt-hero-out { to { opacity: 0; filter: blur(6px); } }
+  @keyframes vt-hero-in { from { opacity: 0; filter: blur(6px); } }
+}

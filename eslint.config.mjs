@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Case studies are static copies from the Case Study System, with their own vendored scripts
+    "public/work/**",
   ]),
 ]);
 

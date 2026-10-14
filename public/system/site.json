@@ -6,7 +6,7 @@
   "resumeUrl": "#",
   "linkedinUrl": "https://www.linkedin.com/",
   "pages": [
-    { "label": "Work", "href": "/" },
+    { "label": "Work", "href": "/#work" },
     { "label": "About", "href": "/about" }
   ]
 }

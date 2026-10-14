@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: next case study</title>
+<link rel="stylesheet" href="../../public/system/case-study.css">
+<style>
+  /* Mockup only. The end of the Groww case study, then three ways to recommend the
+     other project (BookMyShow). Switch with the bar at the bottom, or #a / #b / #c.
+     Every word in the recommendation is already on the site (lib/content.ts). */
+  :root {
+    --brand: #04b488; --brand-ink: #059a75;
+    --hero-1: #e6f6ee; --hero-2: #d9f1e6; --hero-3: #e4f0f7; --hero-glow: rgba(4, 180, 136, 0.2);
+    --out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* the recommended project brings its own tint, the way its homepage row does */
+  .next {
+    --brand: #eb0028;
+    --hero-1: #fef2f4; --hero-2: #feecef; --hero-3: #f7f4fb; --hero-glow: rgba(235, 0, 40, 0.1);
+  }
+  /* the mockup's main is short; on the real page it is far taller than the rail */
+  @media (min-width: 1280px) { .rail { height: 560px; } }
+  .opt { display: none; }
+  body[data-opt="a"] .opt-a, body[data-opt="b"] .opt-b, body[data-opt="c"] .opt-c { display: block; }
+
+  /* shared pieces */
+  .who { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.3; letter-spacing: 0; color: var(--soft); }
+  .dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--brand); }
+  .btn svg { width: 16px; height: 16px; margin-left: 10px; transition: translate 200ms var(--out); }
+  .cover {
+    position: relative; overflow: hidden; border-radius: var(--r-panel);
+    background: linear-gradient(135deg, var(--hero-1), var(--hero-2) 55%, var(--hero-3));
+  }
+  .cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale 700ms var(--out); }
+  .hit { color: inherit; text-decoration: none; }
+  /* one link covers the whole recommendation; the button inside is only a picture of it */
+  .hit::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  @media (hover: hover) and (pointer: fine) {
+    .rec:hover .cover img { scale: 1.03; }
+    .rec:hover .btn { background: #333; }
+    .rec:hover .btn svg { translate: 4px 0; }
+  }
+  .rec:has(.hit:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .hit:focus-visible { outline: none; }
+
+  /* ── A · Card: one white card in a panel, inside the reading column ── */
+  .rec-a { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: center; padding: 20px 40px 20px 20px; border-radius: var(--r-card); }
+  .rec-a .cover { aspect-ratio: 3 / 2; }
+  .rec-a h3 { margin-top: 14px; font-size: 26px; line-height: 1.12; letter-spacing: -0.03em; text-wrap: balance; }
+  .rec-a p.say { margin-top: 14px; font-size: var(--t-card-text); line-height: 1.4; color: var(--soft); text-wrap: pretty; }
+  .rec-a .btn { margin-top: 28px; }
+  .opt-a .panel { padding: 32px; }
+
+  /* ── B · Menu: a short list, the other project first, then where else to go ── */
+  .menu { padding: 32px; }
+  .menu ul { list-style: none; background: var(--card); border-radius: var(--r-card); padding: 8px; }
+  .menu li + li { border-top: 1px solid var(--hair); }
+  .menu li { position: relative; }
+  .item { position: relative; display: grid; grid-template-columns: 168px minmax(0, 1fr) auto; align-items: center; gap: 28px; padding: 16px; border-radius: 10px; transition: background-color var(--ease); }
+  .item .cover { aspect-ratio: 3 / 2; }
+  .item h3 { margin-top: 8px; font-size: 22px; line-height: 1.15; letter-spacing: -0.025em; }
+  .item p.say { margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--soft); max-width: 52ch; }
+  .go { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--panel); color: var(--ink); transition: background-color var(--ease), color var(--ease); }
+  .go svg { width: 18px; height: 18px; transition: translate 200ms var(--out); }
+  .item.small { grid-template-columns: minmax(0, 1fr) auto; padding-block: 14px; }
+  .item.small h3 { margin: 0; font-size: 17px; font-weight: 400; letter-spacing: -0.01em; }
+  .item.small .who { font-size: 14px; color: var(--mute); }
+  @media (hover: hover) and (pointer: fine) {
+    .item:hover { background: #fafaf7; }
+    .item:hover .go { background: var(--ink); color: #fff; }
+    .item:hover .go svg { translate: 3px 0; }
+  }
+  .item:has(.hit:focus-visible) { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+  /* ── C · Curtain: the page ends on the next project's own hero, full width ── */
+  .curtain { margin-top: 0; padding-bottom: 120px; }
+  .curtain h2 { margin-bottom: 24px; }
+  .rec-c { position: relative; display: block; overflow: hidden; border-radius: var(--r-panel); container-type: inline-size;
+    background:
+      radial-gradient(60cqw 38cqw at 78% 8%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 70%),
+      radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow), rgba(255, 255, 255, 0) 70%),
+      linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%); }
+  .rec-c .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; padding: 56px 56px 44px; }
+  .rec-c h3 { margin-top: 14px; max-width: 18ch; font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.04em; text-wrap: balance; }
+  .rec-c p.say { margin-top: 16px; max-width: 46ch; font-size: var(--t-body); line-height: 1.4; color: var(--body); }
+  .rec-c .cover { border-radius: 0; aspect-ratio: 21 / 8; background: none; }
+  .rec-c .cover img { object-position: 50% 42%; }
+  .opt-c-tail .layout { padding-bottom: 80px; }
+
+  @media (max-width: 1199px) {
+    .rec-a { grid-template-columns: 1fr; gap: 24px; padding: 16px 16px 28px; }
+    .rec-a .copy { padding-inline: 8px; }
+    .item { grid-template-columns: 120px minmax(0, 1fr) auto; gap: 20px; }
+    .rec-c .top { flex-direction: column; align-items: flex-start; padding: 40px 32px 32px; }
+    .rec-c .cover { aspect-ratio: 16 / 9; }
+  }
+  @media (max-width: 809px) {
+    .opt-a .panel, .menu { padding: 12px; }
+    .item { grid-template-columns: minmax(0, 1fr) auto; gap: 16px; padding: 12px; }
+    .item .cover { grid-column: 1 / -1; }
+    .rec-a h3 { font-size: 22px; }
+    .rec-c .top { padding: 28px 20px 24px; }
+    .rec-c .cover { aspect-ratio: 4 / 3; }
+    .curtain { padding-bottom: 80px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover img, .btn svg, .go svg { transition: none; }
+  }
+
+  /* the option switcher (mockup only) */
+  .pick { position: fixed; left: 50%; bottom: 20px; translate: -50% 0; z-index: 30; display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--ink); box-shadow: 0 8px 30px rgba(0,0,0,.18); }
+  .pick a { padding: 9px 16px; border-radius: 999px; color: rgba(255,255,255,.7); font-size: 14px; letter-spacing: 0; text-decoration: none; white-space: nowrap; }
+  .pick a:hover { color: #fff; }
+  .pick a[aria-current] { background: #fff; color: var(--ink); }
+  .pick a:focus-visible { outline-color: #fff; }
+  @media (max-width: 600px) { .pick a { padding: 9px 12px; font-size: 13px; } .pick a span { display: none; } }
+</style>
+</head>
+<body data-opt="a">
+
+  <header class="site-nav">
+    <div class="nav-frost-pane" aria-hidden="true"></div>
+    <nav class="site-nav-in" aria-label="Primary">
+      <a class="nav-name" href="#">Dev Dixit</a>
+      <ul class="nav-switch">
+        <li><a class="nav-item" href="#" aria-current="page">Work</a></li>
+        <li><a class="nav-item" href="#">About</a></li>
+      </ul>
+      <div class="nav-ext nav-contact"><button class="nav-contact-btn" type="button">Contact</button></div>
+    </nav>
+  </header>
+
+  <div style="height: calc(var(--nav-h) + 40px)"></div>
+
+  <div class="layout">
+    <aside class="rail" aria-label="Case study contents">
+      <p class="toc-title">Content</p>
+      <nav class="toc">
+        <a href="#">The Problem</a>
+        <a href="#">Both Sides</a>
+        <a href="#">The Evidence</a>
+        <a href="#">The Solution</a>
+        <a href="#">Rejected Designs</a>
+        <a href="#" class="active">My Learnings</a>
+      </nav>
+      <a class="back-top" href="#">Back To Top</a>
+    </aside>
+
+    <main id="main">
+      <!-- the real last chapter of the Groww case study -->
+      <section class="chapter" id="learnings">
+        <h2>My Learnings</h2>
+        <div class="panel ask">
+          <div class="card">
+            <p class="k">From user testing</p>
+            <p class="ask-line">Most testers agreed: with assurance like this, they would <span>invest more</span>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A · Card -->
+      <section class="chapter opt opt-a next">
+        <h2>Next Case Study</h2>
+        <div class="panel">
+          <article class="rec rec-a card">
+            <div class="cover"><img src="../../public/work/bookmyshow/cover.webp" alt=""></div>
+            <div class="copy">
+              <p class="who"><i class="dot" aria-hidden="true"></i>BookMyShow · Events discovery</p>
+              <h3><a class="hit" href="#">Improving Event Discovery for BookMyShow</a></h3>
+              <p class="say">Most people never see the comedy shows, concerts and sports BookMyShow sells. I redesigned how the app helps them find Events.</p>
+              <span class="btn" aria-hidden="true">Read case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- B · Menu -->
+      <section class="chapter opt opt-b next">
+        <h2>Keep Reading</h2>
+        <div class="panel menu">
+          <ul>
+            <li>
+              <div class="rec item">
+                <div class="cover"><img src="../../public/work/bookmyshow/cover.webp" alt=""></div>
+                <div>
+                  <p class="who"><i class="dot" aria-hidden="true"></i>BookMyShow · Events discovery</p>
+                  <h3><a class="hit" href="#">Improving Event Discovery for BookMyShow</a></h3>
+                  <p class="say">Most people never see the comedy shows, concerts and sports BookMyShow sells.</p>
+                </div>
+                <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+              </div>
+            </li>
+            <li>
+              <div class="rec item small">
+                <div><h3><a class="hit" href="#">All my work</a></h3></div>
+                <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+              </div>
+            </li>
+            <li>
+              <div class="rec item small">
+                <div><h3><a class="hit" href="#">About me</a></h3></div>
+                <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- C · Curtain: full page width, past the contents rail -->
+  <section class="opt opt-c next curtain wrap">
+    <h2>Next Case Study</h2>
+    <article class="rec rec-c">
+      <div class="top">
+        <div>
+          <p class="who"><i class="dot" aria-hidden="true"></i>BookMyShow · Events discovery</p>
+          <h3><a class="hit" href="#">Improving Event Discovery for BookMyShow</a></h3>
+          <p class="say">Most people never see the comedy shows, concerts and sports BookMyShow sells. I redesigned how the app helps them find Events.</p>
+        </div>
+        <span class="btn" aria-hidden="true">Read case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+      </div>
+      <div class="cover"><img src="../../public/work/bookmyshow/cover.webp" alt=""></div>
+    </article>
+  </section>
+
+  <footer><div class="wrap">Groww · AI-assisted Start a SIP — Dev Dixit · devdixit.fun</div></footer>
+
+<nav class="pick" aria-label="Mockup options">
+  <a href="#a">A<span> · Card</span></a>
+  <a href="#b">B<span> · Menu</span></a>
+  <a href="#c">C<span> · Full width</span></a>
+</nav>
+
+<script>
+  function show() {
+    var opt = (location.hash.slice(1) || "a").toLowerCase();
+    if (!/^[abc]$/.test(opt)) opt = "a";
+    document.body.dataset.opt = opt;
+    document.querySelectorAll(".pick a").forEach(function (a) {
+      if (a.hash === "#" + opt) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+    });
+  }
+  document.querySelectorAll(".pick a").forEach(function (a) {
+    a.addEventListener("click", function (e) { e.preventDefault(); history.replaceState(null, "", a.hash); show(); });
+  });
+  window.addEventListener("hashchange", show);
+  show();
+</script>
+</body>
+</html>

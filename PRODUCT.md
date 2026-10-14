@@ -29,14 +29,16 @@ The case studies are built on Dev's own Case Study System: a fixed, documented f
 ## Capabilities and Constraints
 
 - Next.js 16 App Router, Tailwind v4, TypeScript.
-- Pages: Work (home), About. Contact is a small menu in the nav, not a page.
-- Light only. No dark mode.
+- Pages: Home (the work) and About. The nav's Work link scrolls to the work on the homepage, and the name always goes home. There's no Contact page: a Contact button on the right of the nav opens a card with the email, LinkedIn and Resume.
+- Light only. No dark mode. The homepage's AI section is dark by design (see Brand Commitments); that is not a dark mode.
 
 ## Brand Commitments
 
 - The Case Study System is binding: Nimbus Sans in 400 and 700, warm neutrals, beige panels with white cards, rationed colour, space-only rhythm, quiet motion.
 - The portfolio has no accent colour of its own. Colour arrives only with a project (its hero tint).
-- Dev likes the three-part nav: name on the left, a centred page switcher, contact links on the right.
+- One warm neutral of its own, chosen by Dev on 2026-10-14: **sand**, taken from the blanket in the intro video (`--sand-1` to `--sand-deep` in `tokens.css`). It ties the hero to the work in small touches only: the email underline, a highlighter on each project's finding, the line above its facts, and the "Listen to the walkthrough" button. It never goes on a project's visual. Dev rejected a sand panel behind the text and a full sand section.
+- One exception, chosen by Dev on 2026-10-13: the homepage ends in the dark. "AI experiments and products" is a full-width warm graphite section (`--night`, #121211) with a clean top edge and one slow cool light in the corner, which sets the AI work apart from the case studies. The mood is soft futuristic, after Linear and Apple. Scrolling in, the content comes into focus, and past 40% the page glides the rest of the way. The nav and footer turn dark with it. Keep it to this one section.
+- Dev likes the three-part nav: name on the left, a centred page switcher, a Contact button on the right that opens a card.
 - First-person, plain, factual voice.
 
 ## Evidence on Hand
@@ -44,7 +46,7 @@ The case studies are built on Dev's own Case Study System: a fixed, documented f
 - Two finished case studies (above), with real product screens.
 - AI concept projects: real ones exist, but Dev hasn't supplied the list yet. The six on the current site are drawn placeholders and must not ship as real work.
 - Portrait photo and video: `public/images/hero-portrait.png` and `.mp4`.
-- Not verified, so it must not be reused without confirmation: the "Hebbia" employment line, the Famli project and its "28%" outcome, and the email `devdixit@gmail.com`.
+- Not verified, so it must not be reused without confirmation: the Famli project and its "28%" outcome, and the email `devdixit@gmail.com`. The old "Hebbia" line was Shaun Tan's copy and is gone.
 
 ## Product Principles
 

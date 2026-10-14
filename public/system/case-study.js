@@ -78,12 +78,12 @@
   });
 })();
 
-/* site nav (v1.1): the Contact card opens on hover, click, tap or keyboard,
+/* site nav: the Contact card opens on hover, click, tap or keyboard,
    and closes on Escape, an outside click, or when the pointer leaves */
 (function () {
   var item = document.querySelector('.nav-contact');
   if (!item) return;
-  var btn = item.querySelector('.nav-item'), card = item.querySelector('.nav-card'), timer;
+  var btn = item.querySelector('.nav-contact-btn'), card = item.querySelector('.nav-card'), timer;
   function set(open) {
     clearTimeout(timer);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -109,4 +109,10 @@
       });
     });
   });
+})();
+
+/* v1.1: name the hero panel after the page, so a homepage tile can grow into it */
+(function () {
+  var m = location.pathname.match(/\/work\/([\w-]+)/), panel = document.querySelector('.hero-panel');
+  if (m && panel) panel.style.viewTransitionName = 'hero-' + m[1];
 })();
