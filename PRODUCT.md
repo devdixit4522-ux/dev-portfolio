@@ -46,7 +46,8 @@ The case studies are built on Dev's own Case Study System: a fixed, documented f
 - Two finished case studies (above), with real product screens.
 - AI concept projects: real ones exist, but Dev hasn't supplied the list yet. The six on the current site are drawn placeholders and must not ship as real work.
 - Portrait photo and video: `public/images/hero-portrait.png` and `.mp4`.
-- Not verified, so it must not be reused without confirmation: the Famli project and its "28%" outcome, and the email `devdixit@gmail.com`. The old "Hebbia" line was Shaun Tan's copy and is gone.
+- Contact, confirmed by Dev: email `devdixit4522@gmail.com`, LinkedIn `linkedin.com/in/devdixit4522`. The old `devdixit@gmail.com` was wrong.
+- Not verified, so it must not be reused without confirmation: the Famli project and its "28%" outcome. The old "Hebbia" line was Shaun Tan's copy and is gone.
 
 ## Product Principles
 

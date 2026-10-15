@@ -11,9 +11,7 @@ Legend: ✅ real and confirmed · 🟡 placeholder, shipping for now · ❓ need
 
 | Item | Where it shows | Status now |
 |---|---|---|
-| Email address | Contact card, homepage intro, About sign-off, footer | 🟡 `devdixit@gmail.com` from the old site, which may be wrong |
-| Resume link | Contact card, About sign-off, footer | 🟡 `#`, goes nowhere |
-| LinkedIn URL | Contact card, About sign-off, footer | 🟡 `https://www.linkedin.com/`, the generic homepage |
+| Resume link | Contact card, About sign-off, footer | 🟡 `#`, goes nowhere. Dev will send it later. |
 | AI experiments and products: name, one line, screenshot or short video, link for each | Homepage, the dark section at the end (hidden for now, see `app/page.tsx`) | 🟡 three placeholder cards; the section is off until the products are ready |
 | Matching project lines: the same kind of fact for both (e.g. role · what was made · status), and the two titles in one style | Homepage project rows | ❓ Groww says "Feature addition · Prototype, user tested", BookMyShow says "Product designer · Figma, Cursor"; the titles differ too ("The missing step…" vs "Improving Event Discovery for BookMyShow") |
 | Homepage intro sentence | Homepage | 🟡 Claude's wording, approved in the mockup. Rewrite it in your own words when you like. |
@@ -37,6 +35,8 @@ Email, Resume and LinkedIn all live in `public/system/site.json`. Change them th
 | ✅ About receipts: 15 interviews and 12 of 15 needing a go-ahead (Groww, The Evidence); 3 people across 3 tasks (BookMyShow, testing); two rejected designs (Groww, Rejected Designs) | The case studies, linked from each receipt |
 | ✅ Tools: Figma, Cursor | BookMyShow facts strip |
 | ✅ Site name: devdixit.fun | Groww footer |
+| ✅ Email: `devdixit4522@gmail.com` | Dev, 2026-10-15 |
+| ✅ LinkedIn: `https://www.linkedin.com/in/devdixit4522/` | Dev, 2026-10-15 |
 | ✅ Portrait video, its still, and the walking cut-out | `public/images/hero-portrait.mp4`, `hero-still.jpg`, `hero-portrait.png` |
 
 ## Removed

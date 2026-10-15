@@ -2,6 +2,17 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-15: Real email and LinkedIn
+
+**Branch:** `master` · deployed
+
+- **Email** is now `devdixit4522@gmail.com`. The old one, `devdixit@gmail.com`, came from the old site and was wrong.
+- **LinkedIn** now opens Dev's profile (`linkedin.com/in/devdixit4522`) instead of LinkedIn's homepage.
+- Both change everywhere at once: the nav contact card, the homepage, About's "Say hi", the footer, and both case studies.
+- The resume link still goes nowhere. Dev will send it later.
+
+Files: `public/system/site.json`, both `public/work/*/index.html` (nav re-synced), `docs/content-status.md`, `PRODUCT.md`.
+
 ## 2026-10-14: Smaller text everywhere, project cards top-aligned
 
 **Branch:** `master` · deployed
