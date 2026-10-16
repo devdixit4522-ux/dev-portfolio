@@ -131,17 +131,28 @@
    React's card leaves with data-state="closed"; the case studies' with [hidden]. */
 @media (prefers-reduced-motion: no-preference) {
   .nav-card {
-    transform-origin: top right;
-    transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1), scale 180ms cubic-bezier(0.23, 1, 0.32, 1), display 180ms allow-discrete;
+    /* v1.6: grows from a point under the middle of the Contact text, mostly in size, a little in fade */
+    transform-origin: calc(100% - var(--nav-contact-half, 38px)) 0;
+    transition: opacity 140ms ease-out, scale 200ms cubic-bezier(0.34, 1.2, 0.64, 1), display 200ms allow-discrete;
   }
-  @starting-style { .nav-card { opacity: 0; scale: 0.96; } }
-  .nav-card[hidden] { opacity: 0; scale: 0.97; transition-duration: 120ms; }
-  .nav-card[data-state="closed"] { animation: nav-card-out 120ms ease-out forwards; }
-  @keyframes nav-card-out { to { opacity: 0; scale: 0.97; } }
+  @starting-style { .nav-card { opacity: 0; scale: 0.2; } }
+  .nav-card[hidden] { opacity: 0; scale: 0.2; transition-duration: 110ms, 160ms, 160ms; transition-timing-function: ease-in; }
+  .nav-card[data-state="closed"] { animation: nav-card-out 160ms ease-in forwards; }
+  @keyframes nav-card-out { to { opacity: 0; scale: 0.2; } }
 
   /* buttons give a little when pressed */
   .nav-contact-btn, .nav-copy { transition-property: background-color, scale; }
   .nav-contact-btn:active, .nav-copy:active { scale: 0.97; }
+}
+/* v1.7: on screens wide enough to have room beside the button, the card is centred under
+   the Contact text. Narrower than that it stays flush right so it never leaves the screen. */
+@media (min-width: 1440px) {
+  .nav-card {
+    right: auto;
+    left: 50%;
+    translate: -50% 0;
+    transform-origin: 50% 0;
+  }
 }
 /* invisible bridge so the pointer can travel from the button to the card */
 .nav-card::before {

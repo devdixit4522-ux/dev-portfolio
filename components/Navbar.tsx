@@ -90,7 +90,8 @@ export function Navbar() {
         {/* Contact: hover, click, tap or keyboard opens the card (Radix handles Escape and focus) */}
         <NavigationMenu
           viewport={false}
-          delayDuration={0}
+          delayDuration={200}
+          skipDelayDuration={0}
           value={contact}
           onValueChange={setContact}
           className="nav-ext"

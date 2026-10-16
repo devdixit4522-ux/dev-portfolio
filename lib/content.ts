@@ -9,7 +9,6 @@ export type CaseStudy = {
   href: string;
   product: string;
   project: string;
-  headline: string;
   /** The homepage row's two lines: the finding (highlighted, the bigger one) and what I did.
    *  Groww's are Dev's own wording; BookMyShow's are its case study's lede, split in two */
   finding: string;
@@ -37,46 +36,15 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "groww",
-    href: "/work/groww",
-    product: "Groww",
-    project: "AI-assisted Start a SIP",
-    headline: "The missing step between opening Groww and starting a SIP",
-    finding: "First-time investors often rely on someone else's reassurance before taking the first step.",
-    rest: "I designed an AI-assisted guide to help users move from a financial goal to a clearer understanding of their first SIP.",
-    facts: [
-      { label: "Focus", value: "SIP onboarding" },
-      { label: "Scope", value: "UX research + prototype" },
-    ],
-    loop: "/work/groww/loop.html",
-    say: "This is the real prototype. A first-time investor types what they're saving for, the guide fills in the sentence, and Groww suggests two funds at thirteen thousand rupees a month.",
-    screens: [
-      "/work/groww/hero-1.webp",
-      "/work/groww/hero-2.webp",
-      "/work/groww/hero-3.webp",
-    ],
-    cover: "/work/groww/cover.webp",
-    heroLabel:
-      "Three screens from the design: the guide card above Groww's fund list, the guide sentence filled in, and the investment plan showing ₹13,000 a month with two funds",
-    brand: {
-      "--brand": "#04b488",
-      "--hero-1": "#e6f6ee",
-      "--hero-2": "#d9f1e6",
-      "--hero-3": "#e4f0f7",
-      "--hero-glow": "rgba(4, 180, 136, 0.2)",
-    },
-  },
-  {
     slug: "bookmyshow",
     href: "/work/bookmyshow",
     product: "BookMyShow",
     project: "Events discovery",
-    headline: "Improving Event Discovery for BookMyShow",
-    finding: "Most people never see the comedy shows, concerts and sports BookMyShow sells.",
-    rest: "I redesigned how the app helps them find Events.",
+    finding: "BookMyShow's movie-first experience makes concerts, comedy shows and sports harder to discover.",
+    rest: "I redesigned the discovery experience to help users find events without getting stuck in a movie-first journey.",
     facts: [
       { label: "Role", value: "Product designer" },
-      { label: "Tools", value: "Figma, Cursor" },
+      { label: "Tools", value: "Figma · Cursor" },
     ],
     loop: "/work/bookmyshow/tap-peek.html",
     say: "This is the real prototype. Tapping an event card opens a preview sheet, so people can check out an event without losing the page they were browsing.",
@@ -95,6 +63,35 @@ export const caseStudies: CaseStudy[] = [
       "--hero-2": "#feecef",
       "--hero-3": "#f7f4fb",
       "--hero-glow": "rgba(235, 0, 40, 0.1)",
+    },
+  },
+  {
+    slug: "groww",
+    href: "/work/groww",
+    product: "Groww",
+    project: "AI-assisted Start a SIP",
+    finding: "First-time investors can struggle to decide how much to invest and where to begin.",
+    rest: "I designed an AI-assisted onboarding flow that turns an investment goal into a clear starting amount and relevant fund categories.",
+    facts: [
+      { label: "Focus", value: "SIP onboarding" },
+      { label: "Scope", value: "UX research · Product strategy · Prototyping" },
+    ],
+    loop: "/work/groww/loop.html",
+    say: "This is the real prototype. A first-time investor types what they're saving for, the guide fills in the sentence, and Groww suggests two funds at thirteen thousand rupees a month.",
+    screens: [
+      "/work/groww/hero-1.webp",
+      "/work/groww/hero-2.webp",
+      "/work/groww/hero-3.webp",
+    ],
+    cover: "/work/groww/cover.webp",
+    heroLabel:
+      "Three screens from the design: the guide card above Groww's fund list, the guide sentence filled in, and the investment plan showing ₹13,000 a month with two funds",
+    brand: {
+      "--brand": "#04b488",
+      "--hero-1": "#e6f6ee",
+      "--hero-2": "#d9f1e6",
+      "--hero-3": "#e4f0f7",
+      "--hero-glow": "rgba(4, 180, 136, 0.2)",
     },
   },
 ];

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: distilled project text</title>
+<link rel="stylesheet" href="../../public/system/tokens.css">
+<style>
+  /* Mockup only. The text side of a homepage project row, today and in the two versions Dev asked for.
+     Same type, colours and facts as app/globals.css (.row-title, .finding, .solution, .facts, .row-acts). */
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1280px; margin-inline: auto; padding: 48px var(--gutter) 96px; }
+  .intro { font-size: 15px; color: var(--soft); max-width: 62ch; margin: 0 0 40px; line-height: 1.4; }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; align-items: start; }
+  .col > h2 { margin: 0 0 4px; font-size: 14px; font-weight: 700; letter-spacing: 0; }
+  .col > .note { margin: 0 0 32px; font-size: 13px; line-height: 1.35; color: var(--sand-ink); min-height: 3.6em; }
+  .card { padding-top: 32px; border-top: 1px solid var(--sand-3); margin-bottom: 56px; }
+
+  .row-title { max-width: 22ch; margin: 0; font-size: 30px; font-weight: 400; line-height: 1.08; letter-spacing: -0.04em; }
+  .finding { margin: 24px 0 0; max-width: 32ch; font-size: 19px; line-height: 1.28; letter-spacing: -0.025em; text-wrap: balance; }
+  .finding span { padding-inline: 2px; background: linear-gradient(transparent 58%, var(--sand-2) 58%, var(--sand-2) 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .solution { margin: 10px 0 0; max-width: 44ch; font-size: 15px; line-height: 1.4; letter-spacing: -0.01em; color: var(--soft); text-wrap: pretty; }
+  .facts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px 24px; max-width: 520px; margin: 28px 0 0; padding-top: 18px; border-top: 1px solid var(--sand-3); }
+  .facts dt { font-size: 12px; line-height: 1.3; color: var(--sand-ink); }
+  .facts dd { margin: 4px 0 0; font-size: 14px; line-height: 1.3; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  .dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--brand); }
+  .acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .btn { height: 44px; padding-inline: 20px; border-radius: 999px; display: inline-flex; align-items: center; gap: 10px; font: inherit; font-size: 14px; border: 0; }
+  .btn.read { background: #000; color: #fff; }
+  .btn.sand { background: var(--sand-2); color: var(--sand-deep); padding-inline: 16px; }
+
+  /* Version B: same content, wording and spacing tightened */
+  .tight .finding { margin-top: 16px; }
+  .tight .solution { margin-top: 8px; }
+  .tight .facts { margin-top: 24px; padding-top: 16px; }
+  .tight .acts { margin-top: 24px; }
+
+  @media (max-width: 1100px) { .cols { grid-template-columns: minmax(0, 1fr); row-gap: 56px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="intro">The text side of a project row, three ways. Left: today. Middle: version 1, the "what I did" line removed. Right: version 2, everything kept, with the wording and spacing tightened. Nothing here is live on the site yet.</p>
+
+  <div class="cols">
+    <!-- today -->
+    <section class="col">
+      <h2>Today</h2>
+      <p class="note">Title, finding, what I did, three facts, two buttons.</p>
+
+      <article class="card" style="--brand:#04b488">
+        <h3 class="row-title">The missing step between opening Groww and starting a SIP</h3>
+        <p class="finding"><span>First-time investors often rely on someone else's reassurance before taking the first step.</span></p>
+        <p class="solution">I designed an AI-assisted guide to help users move from a financial goal to a clearer understanding of their first SIP.</p>
+        <dl class="facts">
+          <div><dt>Project</dt><dd><i class="dot"></i>Groww</dd></div>
+          <div><dt>Focus</dt><dd>SIP onboarding</dd></div>
+          <div><dt>Scope</dt><dd>UX research + prototype</dd></div>
+        </dl>
+        <div class="acts"><span class="btn read">Read case study &rarr;</span><span class="btn sand">Listen to the walkthrough</span></div>
+      </article>
+
+      <article class="card" style="--brand:#eb0028">
+        <h3 class="row-title">Improving Event Discovery for BookMyShow</h3>
+        <p class="finding"><span>Most people never see the comedy shows, concerts and sports BookMyShow sells.</span></p>
+        <p class="solution">I redesigned how the app helps them find Events.</p>
+        <dl class="facts">
+          <div><dt>Project</dt><dd><i class="dot"></i>BookMyShow</dd></div>
+          <div><dt>Role</dt><dd>Product designer</dd></div>
+          <div><dt>Tools</dt><dd>Figma, Cursor</dd></div>
+        </dl>
+        <div class="acts"><span class="btn read">Read case study &rarr;</span><span class="btn sand">Listen to the walkthrough</span></div>
+      </article>
+    </section>
+
+    <!-- version 1 -->
+    <section class="col">
+      <h2>Version 1: drop "what I did"</h2>
+      <p class="note">Title, finding, three facts, two buttons. The facts and the case study carry the "what".</p>
+
+      <article class="card" style="--brand:#04b488">
+        <h3 class="row-title">The missing step between opening Groww and starting a SIP</h3>
+        <p class="finding"><span>First-time investors often rely on someone else's reassurance before taking the first step.</span></p>
+        <dl class="facts" style="margin-top:24px">
+          <div><dt>Project</dt><dd><i class="dot"></i>Groww</dd></div>
+          <div><dt>Focus</dt><dd>SIP onboarding</dd></div>
+          <div><dt>Scope</dt><dd>UX research + prototype</dd></div>
+        </dl>
+        <div class="acts"><span class="btn read">Read case study &rarr;</span><span class="btn sand">Listen to the walkthrough</span></div>
+      </article>
+
+      <article class="card" style="--brand:#eb0028">
+        <h3 class="row-title">Improving Event Discovery for BookMyShow</h3>
+        <p class="finding"><span>Most people never see the comedy shows, concerts and sports BookMyShow sells.</span></p>
+        <dl class="facts" style="margin-top:24px">
+          <div><dt>Project</dt><dd><i class="dot"></i>BookMyShow</dd></div>
+          <div><dt>Role</dt><dd>Product designer</dd></div>
+          <div><dt>Tools</dt><dd>Figma, Cursor</dd></div>
+        </dl>
+        <div class="acts"><span class="btn read">Read case study &rarr;</span><span class="btn sand">Listen to the walkthrough</span></div>
+      </article>
+    </section>
+
+    <!-- version 2 -->
+    <section class="col tight">
+      <h2>Version 2: keep all, tighten</h2>
+      <p class="note">Same pieces. Shorter Groww wording, smaller gaps. BookMyShow's lines are already short, so its words stay.</p>
+
+      <article class="card" style="--brand:#04b488">
+        <h3 class="row-title">The missing step between opening Groww and starting a SIP</h3>
+        <p class="finding"><span>First-time investors often need someone else's reassurance before the first step.</span></p>
+        <p class="solution">I designed an AI guide that takes them from a goal to a clearer first SIP.</p>
+        <dl class="facts">
+          <div><dt>Project</dt><dd><i class="dot"></i>Groww</dd></div>
+          <div><dt>Focus</dt><dd>SIP onboarding</dd></div>
+          <div><dt>Scope</dt><dd>UX research + prototype</dd></div>
+        </dl>
+        <div class="acts"><span class="btn read">Read case study &rarr;</span><span class="btn sand">Listen to the walkthrough</span></div>
+      </article>
+
+      <article class="card" style="--brand:#eb0028">
+        <h3 class="row-title">Improving Event Discovery for BookMyShow</h3>
+        <p class="finding"><span>Most people never see the comedy shows, concerts and sports BookMyShow sells.</span></p>
+        <p class="solution">I redesigned how the app helps them find Events.</p>
+        <dl class="facts">
+          <div><dt>Project</dt><dd><i class="dot"></i>BookMyShow</dd></div>
+          <div><dt>Role</dt><dd>Product designer</dd></div>
+          <div><dt>Tools</dt><dd>Figma, Cursor</dd></div>
+        </dl>
+        <div class="acts"><span class="btn read">Read case study &rarr;</span><span class="btn sand">Listen to the walkthrough</span></div>
+      </article>
+    </section>
+  </div>
+</div>
+</body>
+</html>

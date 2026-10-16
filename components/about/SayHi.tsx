@@ -65,20 +65,9 @@ export function SayHi({ inDark = false }: { inDark?: boolean }) {
               {copied === "copied" ? "Copied" : copied === "selected" ? "Selected" : "Copy"}
             </span>
           </Button>
-          {inDark ? (
-            <span className="sr-only" aria-live="polite">
-              {copied === "copied" ? "Copied" : copied === "selected" ? "Selected, now press copy" : ""}
-            </span>
-          ) : (
-            <>
-              <svg className="hidden w-[46px] text-sketch tablet:block" viewBox="0 0 46 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M44 17C32 21 16 19 4 6M12 7 4 6l-1 8" />
-              </svg>
-              <span className="hand" aria-live="polite">
-                {copied === "copied" ? "done, it's yours" : copied === "selected" ? "now press copy" : "copies it for you"}
-              </span>
-            </>
-          )}
+          <span className="sr-only" aria-live="polite">
+            {copied === "copied" ? "Copied" : copied === "selected" ? "Selected, now press copy" : ""}
+          </span>
         </span>
       </div>
       <p className={cn(reveal, "mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[15px] tracking-normal")}>

@@ -2,6 +2,109 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-16: Removed the "copies it for you" note
+
+**Branch:** `master` · deployed
+
+- The hand-written "copies it for you" note and its arrow beside the Copy button on the About page are gone. Screen readers still hear "Copied" when you press the button.
+
+Files: `components/about/SayHi.tsx`.
+
+## 2026-10-15: BookMyShow first
+
+**Branch:** `master` · deployed
+
+- Selected work now lists BookMyShow first, then Groww.
+
+Files: `lib/content.ts`.
+
+## 2026-10-15: Project text is one centred block
+
+**Branch:** `master` · deployed
+
+- On wide screens the text beside each picture is now one compact block, centred on the picture, instead of being split between the top and bottom edges. The empty hole in the middle is gone and both cards have the same space above and below (42px).
+- The facts use the same column widths on both cards, so "UX research · Product strategy · Prototyping" stays on one line and the divider sits at the same height.
+- The finding and the line under it stop at one shared width. The facts line runs the full column.
+- Stacked layouts (under 1200px) keep their order; only the facts column widths changed.
+
+Files: `app/globals.css`.
+
+## 2026-10-15: Project cards: new copy, no highlighter
+
+**Branch:** `master` · deployed
+
+- Both cards use Dev's new wording for the finding, the "what I did" line and the facts (Groww's scope now reads "UX research · Product strategy · Prototyping"; the tools read "Figma · Cursor").
+- The finding is black type, a little larger than the line under it and balanced to wrap evenly. (The sand highlighter behind it was removed here, then brought back at Dev's request.)
+- The three facts are evenly spaced columns. The secondary button reads "Listen to walkthrough".
+- PRODUCT.md lists the highlighter among the sand touches again.
+
+Files: `lib/content.ts`, `components/home/ProjectRow.tsx`, `app/globals.css`, `PRODUCT.md`.
+
+## 2026-10-15: Project text lines up with the picture's top and bottom
+
+**Branch:** `master` · deployed
+
+- On wide screens (1200px and up) the text beside each project now spans the picture's height. The title and the two lines hang from the top edge. The facts and the two buttons sit on the bottom edge.
+- The spoken captions now appear below the buttons without pushing them up.
+- Stacked layouts (under 1200px) are unchanged.
+
+Files: `app/globals.css`.
+
+## 2026-10-15: Shorter, bolder project headings
+
+**Branch:** `master` · deployed
+
+- Each project's heading is now just its name: "AI-assisted Start a SIP" and "Events discovery". The long sentence headings are gone.
+- Headings are smaller and bold (700).
+- Groww's two lines are a little shorter, and the gaps between title, lines, facts and buttons are tighter (version 2 of the mockup).
+
+Files: `lib/content.ts`, `components/home/ProjectRow.tsx`, `app/globals.css`.
+
+## 2026-10-15: Mockup for distilling the project card text
+
+**Branch:** `master` · deployed · site unchanged
+
+- Added a side-by-side mockup of the text beside each homepage project: today, version 1 (the "what I did" line removed) and version 2 (everything kept, wording and spacing tightened).
+- Nothing on the live pages changed. Waiting for Dev to pick one.
+
+Files: `docs/mockups/distill-project-text.html`.
+
+## 2026-10-15: Contact card opens from the middle of the button
+
+**Branch:** `master` · deployed
+
+- The card used to grow from its top-right corner. It now grows from a point right under the middle of the word "Contact".
+- It starts very small (a fifth of its size) and swells open and settles smoothly, like the Dynamic Island. The fade is short and quick, so the size does most of the work.
+- Closing shrinks it back toward the same point, a bit faster.
+- On screens 1440px wide and up, the card is now centred under the word "Contact". Below that it stays flush with the right edge, because a centred card would run off the screen.
+
+Files: `public/system/nav.css`.
+
+## 2026-10-15: Contact card waits for a real hover
+
+**Branch:** `master` · deployed
+
+- The card now opens only after the pointer rests on "Contact" for about 0.2 seconds. Sweeping across it quickly does nothing.
+- Click, tap and keyboard focus still open it straight away.
+
+Files: `components/Navbar.tsx`.
+
+## 2026-10-15: Contact card opens faster
+
+**Branch:** `master` · deployed
+
+- The card's opening animation is now 0.2 seconds, down from 0.38.
+
+Files: `public/system/nav.css`.
+
+## 2026-10-15: Very slight bounce on the Contact card
+
+**Branch:** `master` · deployed
+
+- The card overshoots its size by a hair as it opens, then settles. Still 0.2 seconds.
+
+Files: `public/system/nav.css`.
+
 ## 2026-10-15: Real email and LinkedIn
 
 **Branch:** `master` · deployed
@@ -46,7 +149,7 @@ Files: `public/system/tokens.css`, `app/globals.css`, `public/system/CHANGES.md`
 
 ## 2026-10-14: BookMyShow cover, fuller card text, AI section hidden
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **BookMyShow** now has a finished cover picture, like Groww: one phone on a pink cinema scene, filling the card edge to edge. The picture is a bit wider than the card, so a thin strip is trimmed off each side. Hovering it no longer plays the prototype, same as Groww.
 - **Card text** on a laptop now runs to the right edge of its half. Before, the title and the highlighted line were evened out and stopped short.
@@ -56,7 +159,7 @@ Files: `lib/content.ts`, `public/work/bookmyshow/cover.webp`, `app/page.tsx`, `a
 
 ## 2026-10-14: Smaller pictures on the project cards
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - On a laptop, each project's picture now takes half the row instead of about 60%, and it's a little flatter (3:2 instead of 7:5). That's about 20% shorter. The text is unchanged.
 - The space between the two projects is a little smaller, so on a 1440×900 screen the BookMyShow card now peeks in below Groww.
@@ -65,7 +168,7 @@ Files: `lib/content.ts`, `public/work/bookmyshow/cover.webp`, `app/page.tsx`, `a
 
 ## 2026-10-14: Work always scrolls, and Back returns to your place
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **Work in the nav** now scrolls to the projects every time. Before, a second tap did nothing once the address already ended in `#work`.
 - **Back from a case study** lands where you left the homepage:
@@ -76,7 +179,7 @@ Files: `components/Navbar.tsx`, `components/home/IntoTheDark.tsx`, `components/h
 
 ## 2026-10-14: Smoother card-to-case-study animation
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 Tapping a project card grew it into the case study, but it stuttered. There were four causes, and each is fixed:
 
@@ -89,7 +192,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-14: Finer motion, and three new scroll moments
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **Buttons** shrink very slightly when pressed. On "Read case study", only the arrow slides on hover now, so the button no longer changes width.
 - **The Contact card** grows out of its button and closes a little faster than it opens. This is in the shared nav, so the case studies get it too (system v1.5 in `public/system/CHANGES.md`).
@@ -102,7 +205,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-14: The homepage moves
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **Opening:** your sentence comes into focus word by word, the bed video fades up out of soft focus, then three handwritten notes draw themselves on around it (the laptop, the socks, the blanket). About 2 seconds, once per visit to the page.
 - **Scrolling:** the top drifts away, the video a little slower than the words. Each project card rises and settles as you scroll, and its text moves at a slightly different speed, so it feels layered. The phones inside the cards don't move.
@@ -112,7 +215,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-14: New picture on the Groww card
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - The Groww card on the homepage now shows Dev's three-phone image (`public/work/groww/cover.webp`) instead of the three separate screens.
 - Hovering it no longer plays the prototype. "Listen to the walkthrough" still reads the description aloud with captions.
@@ -120,7 +223,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-14: The homepage ends with "Say hi"
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - The dark AI section now ends the way About does: "Say hi. Tell me what you're building.", your email in large white text with a Copy button, then LinkedIn and Resume.
 - It reuses About's sign-off, so both stay the same. In the dark there's no blue hand note.
@@ -130,7 +233,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-14: Project card text, tightened
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **Groww card, new words (Dev's):** the highlighted line is now "First-time investors often rely on someone else's reassurance before taking the first step." Under it: "I designed an AI-assisted guide to help users move from a financial goal to a clearer understanding of their first SIP."
 - **Groww facts:** Project: Groww · Focus: SIP onboarding · Scope: UX research + prototype. On both cards the first fact is now called "Project".
@@ -144,7 +247,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-14: Sand in the work, and clearer project cards
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **The video's sand colour now carries down the page**, in small touches: the email underline, a highlighter over each project's main finding, the line above its facts, and the "Play with sound" button. The project pictures keep their own brand colours.
 - **Project cards read in steps:** a bigger title, then the main finding in larger text, then the rest of the sentence, then a facts row (Product, plus Type and Stage or Role and Tools), then the buttons.
@@ -153,7 +256,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-13: Fixes from the design review
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - **Dark section:**
   - It now lines up with the rest of the page on Windows, and the page no longer scrolls a few pixels sideways.
@@ -179,7 +282,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-13: The homepage ends in the dark
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - The "AI zone" with the spinning rainbow lights is gone.
 - In its place, "AI experiments and products" is a full-width dark section (warm graphite) at the end of the homepage, with a clean top edge.
@@ -197,7 +300,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-13: Contact card is back, on the right
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - The right side of the nav is now one "Contact" button instead of the Resume and LinkedIn links. Hover, click, tap or keyboard opens a white card with your email (with Copy), LinkedIn and Resume.
 - Same on every page, including both case studies.
@@ -206,7 +309,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-12: New homepage live in the site, About redone, Contact menu gone
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - The approved homepage mockup is now the real homepage:
   - one sentence beside the big square video
@@ -232,7 +335,7 @@ Files: `public/system/shared.css`, both `public/work/*/index.html`, `app/layout.
 
 ## 2026-10-12: Portfolio rebuilt in the Case Study System family
 
-**Branch:** `family-restyle` · not deployed
+**Branch:** `family-restyle` · deployed
 
 - New homepage. Version A (work first) is at `/`; version C (with the portrait video) is at `/?hero=video`.
 - Each case study card shows that case study's own hero tint and three screens.

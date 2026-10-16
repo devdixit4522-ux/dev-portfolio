@@ -13,7 +13,7 @@ let silenceOther: (() => void) | null = null;
  * A project: the case study's own hero tile, then its title and a way in.
  * Hovering the tile, or tabbing into the row, plays the real prototype inside the middle screen.
  * The tile is a mouse shortcut; keyboard and screen readers get the title and the button.
- * "Listen to the walkthrough" does the same and reads a short description aloud, with captions.
+ * "Listen to walkthrough" does the same and reads a short description aloud, with captions.
  * The tile shares a view-transition name with the case study's hero, so it grows into it.
  */
 export function ProjectRow({ study }: { study: CaseStudy }) {
@@ -140,11 +140,11 @@ export function ProjectRow({ study }: { study: CaseStudy }) {
         ))}
       </a>
 
-      {/* reading order: title, the finding, the rest, the facts, the way in */}
+      {/* reading order: title (the project, 2–4 words), the finding, the rest, the facts, the way in */}
       <div className="row-copy">
         <h3 className="row-title">
           <a className="text-inherit no-underline" href={study.href}>
-            {study.headline}
+            {study.project}
           </a>
         </h3>
         <p className="finding">
@@ -182,7 +182,7 @@ export function ProjectRow({ study }: { study: CaseStudy }) {
             className="sand-btn gap-2 rounded-full px-[16px] text-[14px] font-normal tracking-normal"
           >
             <Volume2 aria-hidden />
-            {speaking ? "Stop" : "Listen to the walkthrough"}
+            {speaking ? "Stop" : "Listen to walkthrough"}
           </Button>
         </div>
         <p className="cc mt-4" aria-live="polite">
