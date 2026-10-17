@@ -2,6 +2,15 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-17: Bigger hero video
+
+**Branch:** `master` · deployed
+
+- The homepage hero video is about 1.15x bigger (80% to 92% of its column), to balance the left text visually.
+- It grows around its own centre. The left text stays exactly where it was; nothing was re-centred.
+
+Files: `app/globals.css`.
+
 ## 2026-10-16: Removed the "copies it for you" note
 
 **Branch:** `master` · deployed
