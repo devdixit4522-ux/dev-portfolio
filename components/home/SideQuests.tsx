@@ -1,10 +1,14 @@
-import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SayHi } from "@/components/about/SayHi";
 import { IntoTheDark } from "@/components/home/IntoTheDark";
 import { wordSplitter } from "@/components/Words";
-import { Badge } from "@/components/ui/badge";
-import { sideQuests, type SideQuest } from "@/lib/content";
+import { StepRepeatLive } from "@/components/lab/StepRepeatLive";
+import { labProjects, type LabProject } from "@/lib/content";
+
+const art: Record<string, React.ReactNode> = {
+  "step-repeat": <StepRepeatLive mode="tile" />,
+};
 
 /** AI experiments and products: the homepage ends in the dark, set apart from the case studies */
 export function SideQuests() {
@@ -20,9 +24,9 @@ export function SideQuests() {
           Things I built with AI to learn how it feels to design with it.
         </p>
         <ul className="dk-grid">
-          {sideQuests.map((quest) => (
-            <li key={quest.id}>
-              <Quest quest={quest} />
+          {labProjects.map((project) => (
+            <li key={project.slug}>
+              <Quest project={project} />
             </li>
           ))}
         </ul>
@@ -33,43 +37,19 @@ export function SideQuests() {
   );
 }
 
-function Quest({ quest }: { quest: SideQuest }) {
-  const body = (
-    <>
-      <div className="q-shot">
-        {quest.video ? (
-          <video src={quest.video} poster={quest.image} muted loop playsInline autoPlay aria-label={`${quest.name} recording`} />
-        ) : quest.image ? (
-          <Image src={quest.image} alt={`${quest.name} screenshot`} width={1200} height={900} />
-        ) : (
-          "Screenshot placeholder"
-        )}
-      </div>
+function Quest({ project }: { project: LabProject }) {
+  // each experiment opens its own dark page, the art drawn live where the tool allows
+  return (
+    <Link className="quest" href={`/lab/${project.slug}`}>
+      <div className="q-shot">{art[project.slug] ?? "Screenshot coming"}</div>
       <div className="q-meta">
         <div>
-          <h3>
-            {quest.name}
-            {quest.placeholder && (
-              <Badge variant="secondary" className="ml-2 h-auto border-0 bg-white/10 px-2 py-0.5 align-[2px] text-[12px] font-normal tracking-normal text-white/70">
-                Placeholder
-              </Badge>
-            )}
-          </h3>
-          <p>{quest.line}</p>
+          <h3>{project.name}</h3>
+          <p>{project.line}</p>
         </div>
-        {quest.link && <ArrowUpRight className="q-out" size={18} strokeWidth={1.5} aria-hidden />}
+        <ArrowUpRight className="q-out" size={18} strokeWidth={1.5} aria-hidden />
       </div>
-    </>
-  );
-
-  // placeholders aren't links yet; real ones open the project
-  return quest.link ? (
-    <a className="quest" href={quest.link} target="_blank" rel="noopener noreferrer">
-      {body}
-      <span className="sr-only">(opens in a new tab)</span>
-    </a>
-  ) : (
-    <div className="quest">{body}</div>
+    </Link>
   );
 }
 

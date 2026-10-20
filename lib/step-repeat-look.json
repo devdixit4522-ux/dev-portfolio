@@ -1,0 +1,14 @@
+{
+  "source": "text",
+  "text": "DEV",
+  "face": "grotesk",
+  "size": 390,
+  "density": 13,
+  "shiftX": 62,
+  "shiftY": 67,
+  "squeeze": -15,
+  "compression": 3,
+  "rotation": 0,
+  "motion": 1,
+  "speed": 5
+}

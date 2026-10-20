@@ -2,6 +2,53 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-20: Tune the STEP/REPEAT banner yourself
+
+**Branch:** `master` · not deployed
+
+- The banner has a Tune button (sliders icon, next to pause). It opens the tool's own controls: Size, Density, Shift X, Shift Y, Squeeze, Compress, Twist, Drift and Speed. Every change shows on the banner straight away.
+- **Save** keeps the look. It's written to `lib/step-repeat-look.json`, and the banner and the homepage tile both use it. **Undo changes** goes back to the last save.
+- Only you see this, on your computer while `npm run dev` runs. On the live site there's no Tune button, and the save address does nothing.
+- The Tune panel can also show text instead of the picture: switch **Picture / Text** at the top, type a letter or a word, and pick a typeface (Grotesk, Narrow or Didone, the tool's own). Text is set in the tool's bromide white on the dark banner. Switching sets a sensible starting size, and Size now goes down to 10, as in the tool.
+
+- You saved the banner as the word **DEV** in Grotesk, sliced lightly with a slow drift. The homepage tile shows it too.
+- On narrow screens a word now shrinks to fit instead of losing its sides. Wide screens look the same.
+
+Files: `components/lab/LookTuner.tsx`, `components/lab/StepRepeatLive.tsx`, `app/api/lab-look/route.ts`, `lib/step-repeat-look.json`, `app/globals.css`.
+
+## 2026-10-20: STEP/REPEAT banner uses your robot illustration
+
+**Branch:** `master` · not deployed
+
+- The banner and the homepage tile now show the illustration you sent: the robot kneeling by the forest pond. The tool cuts it into a fine grid, shifted only a little, so it reads as the picture with a light graphic grid over it. It drifts slowly. Pause and reduced motion work as before.
+- The image's black bars are cropped off. It's saved as `public/lab/step-repeat/robot.webp` (about 100 KB).
+- The banner is dark again, to match the picture.
+
+Files: `components/lab/StepRepeatLive.tsx`, `app/globals.css`, `public/lab/step-repeat/robot.webp`, `docs/content-status.md`.
+
+## 2026-10-20: STEP/REPEAT banner shows a photo
+
+**Branch:** `master` · not deployed
+
+- The banner was too distorted to tell what it was showing. Now the tool slices a photo, finely and only a little, so it reads as a picture first and a grid second. It drifts slowly. The pause button stays, and with reduced motion it's still.
+- The preset rotation and the preset names are gone. The banner has its photo's white paper, with small dark "Live" and pause pills.
+- For now it uses your hero photo (`/images/hero-still.jpg`), until you send the image you want. To swap it, change `image` (and `paper` to match its background) in `components/lab/StepRepeatLive.tsx`.
+- The homepage tile uses the same picture.
+
+Files: `components/lab/StepRepeatLive.tsx`, `app/globals.css`, `docs/content-status.md`.
+
+## 2026-10-20: AI section is back, with STEP/REPEAT
+
+**Branch:** `master` · not deployed
+
+- The dark "AI experiments and products" section at the end of the homepage is back on, with your first real project, STEP/REPEAT, in place of the placeholders. While it's the only project, its tile is wider (two of the three columns). The placeholder cards are gone.
+- Tapping the tile opens a new page, `/lab/step-repeat`. It's one dark screen that doesn't scroll on a laptop or desktop. On a phone it scrolls a little, so the banner doesn't get squashed. Footer hidden, nav dark.
+- The banner is the tool itself, running live with the project's own engine (no video). It goes through the five presets, Fracture, Splinter, Compress, Echo and Chaos, every 6 seconds. There's a pause button, and you can pick a preset. With reduced motion it shows one still proof.
+- Under the banner: the name and description, what you can do (Type, Distort, Export, Share), the facts (year, what it's built with, works on), and the open button. It says "Link coming soon" until you send the link. A back link goes to the AI section, and a "Next" link will show up once there's a second project.
+- The player and three fonts are copied from the project into `public/lab/step-repeat/`. If the engine changes, copy them again.
+
+Files: `app/page.tsx`, `app/lab/[slug]/page.tsx`, `components/home/SideQuests.tsx`, `components/lab/StepRepeatLive.tsx`, `lib/content.ts`, `app/globals.css`, `app/layout.tsx`, `public/lab/step-repeat/`, `docs/content-status.md`.
+
 ## 2026-10-17: Bigger hero video
 
 **Branch:** `master` · deployed

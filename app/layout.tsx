@@ -42,7 +42,7 @@ if(y>0)window.scrollTo({top:y,behavior:"instant"});
 }catch(e){}})()`;
 
 const SPECULATION = JSON.stringify({
-  prerender: [{ where: { href_matches: "/work/*" }, eagerness: "moderate" }],
+  prerender: [{ where: { href_matches: ["/work/*", "/lab/*"] }, eagerness: "moderate" }],
 });
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

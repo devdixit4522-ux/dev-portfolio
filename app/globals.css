@@ -391,7 +391,7 @@
 }
 .nav-switch[data-pill-jump]::before { transition: opacity 180ms ease, background-color var(--ease); }
 .nav-switch[data-pill] .nav-item[aria-current] { background: none; }
-html[data-dark] .nav-switch[data-pill]::before { background: var(--night-fill-on); }
+:is(html[data-dark], html:has(main.lab)) .nav-switch[data-pill]::before { background: var(--night-fill-on); }
 @media (prefers-reduced-motion: reduce) { .nav-switch[data-pill]::before { transition: none; } }
 
 /* ── Home: AI experiments and products, in the dark ─────────────────────
@@ -479,14 +479,14 @@ a.quest:hover .q-out, a.quest:focus-visible .q-out { color: #fff; translate: 2px
 /* the nav turns dark while the dark is under it */
 /* colour and background change together, so nothing flashes on the way in */
 .nav-name, .nav-switch, .nav-item, .nav-contact-btn { transition: color var(--ease), background-color var(--ease); }
-html[data-dark] .nav-name { color: #fff; }
-html[data-dark] .nav-switch { background: var(--night-fill); }
-html[data-dark] .nav-item { color: var(--night-soft); }
-html[data-dark] .nav-item:hover { color: #fff; }
-html[data-dark] .nav-item[aria-current] { background: var(--night-fill-on); color: #fff; }
-html[data-dark] .nav-contact-btn { background: var(--night-fill); color: #fff; }
-html[data-dark] .nav-contact-btn:hover, html[data-dark] .nav-contact-btn[aria-expanded="true"] { background: var(--night-fill-on); }
-html[data-dark] :is(.nav-name, .nav-item, .nav-contact-btn):focus-visible { outline-color: #fff; }
+:is(html[data-dark], html:has(main.lab)) .nav-name { color: #fff; }
+:is(html[data-dark], html:has(main.lab)) .nav-switch { background: var(--night-fill); }
+:is(html[data-dark], html:has(main.lab)) .nav-item { color: var(--night-soft); }
+:is(html[data-dark], html:has(main.lab)) .nav-item:hover { color: #fff; }
+:is(html[data-dark], html:has(main.lab)) .nav-item[aria-current] { background: var(--night-fill-on); color: #fff; }
+:is(html[data-dark], html:has(main.lab)) .nav-contact-btn { background: var(--night-fill); color: #fff; }
+:is(html[data-dark], html:has(main.lab)) .nav-contact-btn:hover, :is(html[data-dark], html:has(main.lab)) .nav-contact-btn[aria-expanded="true"] { background: var(--night-fill-on); }
+:is(html[data-dark], html:has(main.lab)) :is(.nav-name, .nav-item, .nav-contact-btn):focus-visible { outline-color: #fff; }
 
 /* the homepage ends in the dark, so its footer does too */
 body:has(.after-dark) .site-foot { margin-top: 0; background: var(--night); border-color: var(--night-hair); color: var(--night-soft); }
@@ -514,6 +514,196 @@ body:has(.after-dark) .site-foot :focus-visible { outline-color: #fff; }
 @media (max-width: 809px) {
   .after-dark { padding-top: calc(var(--nav-h) + 32px); }
   .dk-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+}
+
+/* while there's only one experiment, it takes two of the three columns */
+@media (min-width: 810px) {
+  .dk-grid > li:only-child { grid-column: span 2; }
+  .dk-grid > li:only-child .q-shot { aspect-ratio: 16 / 9; }
+}
+.q-shot .sr-stage { position: absolute; inset: 0; }
+
+/* ── Lab: one AI experiment, on one dark screen ──────────────────────────
+   Not a case study: the same dark as the homepage's AI section, the thing
+   itself as the banner, then what it is, what it does and the way in.
+   On desktop it fits the screen and doesn't scroll. */
+.lab {
+  position: relative;
+  overflow: clip;
+  height: 100svh;
+  padding-top: var(--nav-h);
+  background: var(--night);
+  color: var(--night-ink);
+}
+.lab :focus-visible { outline-color: #fff; }
+body:has(main.lab) { background: var(--night); }
+body:has(main.lab) .site-foot { display: none; }
+.lab .dk-glow { opacity: 0.8; }
+.lab-frame { position: relative; display: flex; flex-direction: column; height: 100%; padding-bottom: 32px; }
+
+.lab-trail { display: flex; justify-content: space-between; gap: 24px; padding: 4px 0 16px; font-size: 14px; }
+.lab-back { display: inline-flex; align-items: center; gap: 6px; color: var(--night-soft); text-decoration: none; transition: color var(--ease); }
+.lab-back:hover { color: #fff; }
+.lab-back svg { transition: translate var(--ease); }
+.lab-back:hover svg:first-child { translate: -2px 0; }
+.lab-back:hover svg:last-child:not(:first-child) { translate: 2px 0; }
+
+/* the banner: the project drawing itself, on a sheet a step lighter than the night */
+.lab-banner { position: relative; flex: 1; min-height: 220px; overflow: hidden; border-radius: var(--r-browser); background: #181817; }
+.lab-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 40%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.sr-stage { position: absolute; inset: 0; }
+.sr-layer { position: absolute; inset: 0; }
+
+/* along the banner's foot: it's live, and a pause. Small dark pills, so they sit on any picture */
+.lab-live {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+  font-size: 13px;
+  letter-spacing: 0;
+}
+.lab-live > * { pointer-events: auto; }
+.lab-live-tag { display: inline-flex; align-items: center; gap: 8px; height: 32px; white-space: nowrap; padding: 0 14px 0 12px; border-radius: 999px; background: var(--night); color: #fff; }
+.lab-live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--night-mute); }
+.lab-live-dot[data-on] { background: #fff; }
+.lab-pause {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--night);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color var(--ease);
+}
+.lab-pause:hover { background: #2a2a28; }
+.lab-tune-btn { margin-left: auto; margin-right: -8px; }
+.lab-live > .lab-tune-btn + .lab-pause { margin-left: 0; }
+
+/* dev only: the tool's sliders over the banner */
+.lab-tuner {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: min(300px, calc(100% - 20px));
+  max-height: calc(100% - 20px);
+  overflow: auto;
+  padding: 10px 14px 10px;
+  border-radius: 12px;
+  background: var(--night);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  color: var(--night-ink);
+  font-size: 13px;
+  letter-spacing: 0;
+}
+.lab-tuner-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; color: #fff; }
+.lab-tuner-head button { border: 0; background: none; color: var(--night-soft); cursor: pointer; }
+.lab-tuner-seg { display: grid; grid-auto-columns: 1fr; grid-auto-flow: column; gap: 2px; margin: 6px 0; padding: 2px; border-radius: 999px; background: var(--night-fill); }
+.lab-tuner-seg button { height: 28px; border: 0; border-radius: 999px; background: none; color: var(--night-soft); font: inherit; cursor: pointer; }
+.lab-tuner-seg button[aria-pressed="true"] { background: var(--night-fill-on); color: #fff; }
+.lab-tuner-text textarea {
+  display: block;
+  width: 100%;
+  margin: 4px 0 0;
+  padding: 8px 10px;
+  border: 1px solid var(--night-hair);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  resize: vertical;
+}
+.lab-tuner-text textarea:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lab-tuner-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) 40px; align-items: center; gap: 10px; height: 25px; color: var(--night-soft); }
+.lab-tuner-row input { width: 100%; accent-color: #fff; }
+.lab-tuner-row output { text-align: right; font-variant-numeric: tabular-nums; color: #fff; }
+.lab-tuner-foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+.lab-tuner-foot button { height: 32px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--night-fill-on); color: #fff; font: inherit; cursor: pointer; }
+.lab-tuner-foot button:disabled { opacity: 0.4; cursor: default; }
+.lab-tuner-foot .is-main { background: #fff; color: var(--night); font-weight: 700; }
+.lab-tuner-status { margin-top: 8px; color: var(--night-mute); }
+
+/* under the banner: what it is · what it does · the facts and the way in */
+.lab-info { display: grid; grid-template-columns: 5fr 4fr 3fr; gap: 56px; padding-top: 28px; }
+.lab-what h1 { font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: -0.03em; color: #fff; }
+.lab-kind { margin-top: 8px; font-size: var(--t-card-title); line-height: 1.3; letter-spacing: -0.02em; color: var(--night-ink); }
+.lab-about { max-width: 62ch; margin-top: 14px; font-size: var(--t-card-text); line-height: 1.45; letter-spacing: -0.01em; color: var(--night-soft); }
+.lab-can > div, .lab-facts > div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--night-hair); }
+.lab-can > div:last-child, .lab-facts > div:last-child { border-bottom: 1px solid var(--night-hair); }
+.lab-can dt { font-size: var(--t-card-text); color: #fff; }
+.lab-can dd { font-size: var(--t-card-text); line-height: 1.35; color: var(--night-soft); }
+.lab-facts > div { grid-template-columns: 76px minmax(0, 1fr); }
+.lab-facts dt { font-size: 13px; line-height: 1.5; color: var(--night-mute); }
+.lab-facts dd { font-size: 14px; line-height: 1.4; color: var(--night-ink); }
+.lab-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  margin-top: 20px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--night);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: background-color var(--ease);
+}
+a.lab-open:hover { background: var(--night-ink); }
+a.lab-open svg { transition: translate var(--ease); }
+a.lab-open:hover svg { translate: 2px -2px; }
+.lab-open[aria-disabled] { background: var(--night-fill); color: var(--night-soft); font-weight: 400; cursor: default; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-live-dot[data-on] { animation: live 2.4s ease-in-out infinite; }
+  @keyframes live { 50% { opacity: 0.35; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-back svg, a.lab-open svg { transition: none; }
+  .lab-back:hover svg, a.lab-open:hover svg { translate: none; }
+}
+
+@media (max-width: 1199px) {
+  .lab-info { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 24px 40px; }
+  .lab-what { grid-row: span 2; }
+}
+/* a phone, or a screen too short for it all: the page scrolls rather than squash the banner */
+@media (max-width: 809px), (max-height: 620px) {
+  .lab { height: auto; min-height: 100svh; }
+  .lab-banner { flex: none; height: max(260px, 52svh); }
+}
+@media (max-width: 809px) {
+  .lab-trail { padding-bottom: 12px; }
+  .lab-banner { height: auto; aspect-ratio: 4 / 3.4; }
+  .lab-info { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 28px; padding-top: 24px; }
+  .lab-what { grid-row: auto; }
+  .lab-what h1 { font-size: var(--t-h2); }
 }
 
 /* ── About: Fig. 1, the portrait annotated in the case studies' hand ───────

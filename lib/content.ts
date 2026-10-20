@@ -104,23 +104,45 @@ export const heroNotes = {
   blanket: "this blanket gave the site its sand colour",
 };
 
-export type SideQuest = {
-  id: string;
+/**
+ * AI experiments and products. Each one is a tile in the dark at the end of the homepage
+ * and a single dark page at /lab/<slug>, not a case study.
+ */
+export type LabProject = {
+  slug: string;
   name: string;
+  /** The tile's one line */
   line: string;
-  /** Real screenshot in /public/images; placeholders have none. Also the video's poster */
-  image?: string;
-  /** Short muted loop of the thing working, shown instead of the screenshot */
-  video?: string;
+  /** What kind of thing it is, under the name on its page */
+  kind: string;
+  about: string;
+  can: { verb: string; what: string }[];
+  facts: { label: string; value: string }[];
+  /** The live project. Missing until it's online, so the page says it's coming */
   link?: string;
-  placeholder: boolean;
 };
 
-/** AI experiments and products. Placeholders until Dev sends the real list (docs/content-status.md) */
-export const sideQuests: SideQuest[] = [
-  { id: "p1", name: "Project name", line: "One line on what it is and what it tried.", placeholder: true },
-  { id: "p2", name: "Project name", line: "One line on what it is and what it tried.", placeholder: true },
-  { id: "p3", name: "Project name", line: "One line on what it is and what it tried.", placeholder: true },
+export const labProjects: LabProject[] = [
+  {
+    slug: "step-repeat",
+    name: "STEP/REPEAT",
+    line: "A generative type tool built on one grid.",
+    kind: "A generative typography tool.",
+    about:
+      "Type a letter, a word or drop in an image. It's cut into a grid of square windows, each shifted a little more than the last, so the shape splits, echoes and comes back together. Start from a preset, drag on the art to push it, and take it away as a PNG, a link, a live website embed or a video loop.",
+    can: [
+      { verb: "Type", what: "A letter, a word, a sentence or an image" },
+      { verb: "Distort", what: "Shift, squeeze, compress, twist and drift" },
+      { verb: "Export", what: "PNG, a live website embed or a video loop" },
+      { verb: "Share", what: "A link that rebuilds the exact composition" },
+    ],
+    facts: [
+      { label: "Year", value: "2026" },
+      { label: "Built with", value: "HTML, CSS, JavaScript and Canvas, no libraries" },
+      { label: "Works on", value: "Desktop and phone" },
+    ],
+    // Dev is putting it on its own site and will send the address (docs/content-status.md)
+  },
 ];
 
 

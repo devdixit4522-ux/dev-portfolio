@@ -12,7 +12,7 @@ Legend: ✅ real and confirmed · 🟡 placeholder, shipping for now · ❓ need
 | Item | Where it shows | Status now |
 |---|---|---|
 | Resume link | Contact card, About sign-off, footer | 🟡 `#`, goes nowhere. Dev will send it later. |
-| AI experiments and products: name, one line, screenshot or short video, link for each | Homepage, the dark section at the end (hidden for now, see `app/page.tsx`) | 🟡 three placeholder cards; the section is off until the products are ready |
+| AI experiments and products | Homepage, the dark section at the end, plus one page each at `/lab/<slug>` | 🟢 STEP/REPEAT is in, with copy you approved (2026-10-20). 🟡 Its "Open" link: the page says "Link coming soon" until you send the address of its own site. Add it as `link` in `labProjects` in `lib/content.ts`. More projects go in the same list. 🟢 Banner: the word DEV, as you set it in the banner's Tune panel (saved in `lib/step-repeat-look.json`). Your robot illustration is still there as the Picture option. |
 | Matching project lines: the same kind of fact for both (e.g. role · what was made · status), and the two titles in one style | Homepage project rows | ❓ Groww says "Feature addition · Prototype, user tested", BookMyShow says "Product designer · Figma, Cursor"; the titles differ too ("The missing step…" vs "Improving Event Discovery for BookMyShow") |
 | Homepage intro sentence | Homepage | 🟡 Claude's wording, approved in the mockup. Rewrite it in your own words when you like. |
 | Hand notes around the homepage video: "where the case studies get made", "socks on: deep-work mode", "this blanket gave the site its sand colour" | Homepage intro | 🟡 Claude's wording. Change them in `heroNotes` in `lib/content.ts`. |

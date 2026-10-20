@@ -1,7 +1,7 @@
 import { wordSplitter } from "@/components/Words";
-import { SayHi } from "@/components/about/SayHi";
 import { Intro } from "@/components/home/Intro";
 import { ProjectRow } from "@/components/home/ProjectRow";
+import { SideQuests } from "@/components/home/SideQuests";
 import { ScrollMemory } from "@/components/home/ScrollMemory";
 import { caseStudies } from "@/lib/content";
 
@@ -23,11 +23,10 @@ export default function Home() {
             ))}
           </div>
         </section>
-
-        {/* AI experiments and products (<SideQuests />, in the dark) are hidden until the products and their pages are ready.
-            Until then the homepage ends on the light sign-off, as About does */}
-        <SayHi />
       </div>
+
+      {/* the homepage ends in the dark: AI experiments and products, then the sign-off */}
+      <SideQuests />
 
       <ScrollMemory />
     </main>
