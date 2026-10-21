@@ -601,13 +601,14 @@ body:has(main.lab) .site-foot { display: none; }
 .lab-live > .lab-tune-btn + .lab-pause { margin-left: 0; }
 
 /* dev only: the tool's sliders over the banner */
+/* it floats on the screen, not in the banner, so every control fits however small the banner is */
 .lab-tuner {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  width: min(300px, calc(100% - 20px));
-  max-height: calc(100% - 20px);
+  position: fixed;
+  top: calc(var(--nav-h) + 8px);
+  right: 16px;
+  z-index: 60;
+  width: min(300px, calc(100vw - 32px));
+  max-height: calc(100svh - var(--nav-h) - 24px);
   overflow: auto;
   padding: 10px 14px 10px;
   border-radius: 12px;

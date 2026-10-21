@@ -2,6 +2,15 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-21: New DEV banner look, roomier editor
+
+**Branch:** `master` · not deployed
+
+- You re-tuned the banner: still DEV in Grotesk, now cut into bigger windows (density 7, down from 13) with no squeeze, so the letters read more clearly.
+- The Tune editor now floats on the right of the screen instead of inside the banner, so every slider fits even when the banner is small.
+
+Files: `lib/step-repeat-look.json`, `app/globals.css`.
+
 ## 2026-10-21: About page finished, no placeholders left
 
 **Branch:** `master` · deployed
