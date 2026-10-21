@@ -74,7 +74,7 @@ export function SayHi({ inDark = false }: { inDark?: boolean }) {
         <a className={cn(link, tone)} href={site.linkedinUrl} target="_blank" rel="noopener noreferrer">
           LinkedIn <ArrowUpRight size={16} aria-hidden />
         </a>
-        <a className={cn(link, tone)} href={site.resumeUrl}>
+        <a className={cn(link, tone)} href={site.resumeUrl} download>
           Resume <ArrowDown size={16} aria-hidden />
         </a>
       </p>

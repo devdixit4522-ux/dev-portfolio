@@ -2,6 +2,27 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-21: About page finished, no placeholders left
+
+**Branch:** `master` · deployed
+
+- **Before this** now shows your real experience from your resume: Freelance Product Designer at PrayagrajKumbhMela.com (Dec 2024 – Jan 2025), UI/UX Design Intern at Campaign Studio (Aug – Dec 2024), and your B.Des at Lovely Professional University (2022 – 2026).
+- **Away from Figma** (one photo and three empty slots) is replaced by **Built on my own**: STEP/REPEAT, RepGate, Kept and NameGenius, each with what it does, what it's built with and a link where it's public (Kept and NameGenius open in a new tab; the GitHub repos are private, so they aren't linked).
+- The "Placeholder" and "3 photos to come" tags are gone.
+- The photo desk (`components/about/Desk.tsx`) is kept but not shown, ready for when you send photos.
+- Fixed: the homepage BookMyShow row pointed at three `.png` screens that had been swapped for `.webp`. It now uses the `.webp` files, so the images show on the live site.
+
+Files: `app/about/page.tsx`, `lib/content.ts`, `docs/content-status.md`.
+
+## 2026-10-20: Banner text is dark on light
+
+**Branch:** `master` · not deployed
+
+- When the banner shows text, it's now dark letters (film black) on the tool's light bromide paper, instead of light letters on dark. Your DEV banner and the homepage tile both show it this way.
+- A picture still sits on the dark sheet.
+
+Files: `components/lab/StepRepeatLive.tsx`.
+
 ## 2026-10-20: Tune the STEP/REPEAT banner yourself
 
 **Branch:** `master` · not deployed
@@ -51,12 +72,32 @@ Files: `app/page.tsx`, `app/lab/[slug]/page.tsx`, `components/home/SideQuests.ts
 
 ## 2026-10-17: Bigger hero video
 
-**Branch:** `master` · deployed
+**Branch:** `master` · not deployed
 
 - The homepage hero video is about 1.15x bigger (80% to 92% of its column), to balance the left text visually.
 - It grows around its own centre. The left text stays exactly where it was; nothing was re-centred.
 
 Files: `app/globals.css`.
+
+## 2026-10-17: Resume now downloads
+
+**Branch:** `master` · not deployed
+
+- Your resume PDF (`Dev_Dixit_Resume.pdf`) is now on the site. Tapping Resume downloads it straight away, instead of going nowhere.
+- This works from every place Resume appears: the Contact card in the nav (homepage, About and both case studies), the footer, and the About sign-off.
+- To swap in a new resume later, replace `public/Dev_Dixit_Resume.pdf` with a file of the same name.
+
+Files: `public/Dev_Dixit_Resume.pdf`, `public/system/site.json`, `components/Navbar.tsx`, `components/Footer.tsx`, `components/about/SayHi.tsx`, `scripts/sync-nav.mjs`, `public/work/bookmyshow/index.html`, `public/work/groww/index.html`, `docs/content-status.md`.
+
+## 2026-10-16: Intro on the homepage and case studies, lighter BookMyShow images
+
+**Branch:** `master` · not deployed
+
+- Opening a case study for the first time in a tab now plays a short intro (about 1.2s): your name rises in on a white screen, then the screen lifts away. It does not play again in that tab, not with reduced motion, and not when the homepage tile is already growing into the page.
+- The same intro now plays on the homepage when someone opens the link, so the first thing they see is not a half-loaded page. The hero words, video and notes wait about 0.85s so they start as the screen lifts.
+- BookMyShow's images are now WebP. They went from about 2.5 MB to about 0.4 MB, so the page loads faster. The old PNG files are removed.
+
+Files: `app/layout.tsx`, `app/globals.css`, `public/system/shared.css`, `public/system/CHANGES.md`, `scripts/sync-nav.mjs`, `public/work/*/index.html`, `public/work/bookmyshow/homepage-funnel-2.html`, `public/work/bookmyshow/assets/`.
 
 ## 2026-10-16: Removed the "copies it for you" note
 

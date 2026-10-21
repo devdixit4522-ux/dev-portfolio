@@ -30,20 +30,33 @@ ${site.pages
         <div class="nav-card" id="nav-contact-card" hidden>
           <div class="nav-row"><a href="mailto:${esc(site.email)}"><span class="nav-row-label">Email</span><span class="nav-row-value">${esc(site.email)}</span></a><button class="nav-copy" type="button" data-copy="${esc(site.email)}">Copy</button></div>
           <a class="nav-row" href="${esc(site.linkedinUrl)}" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span>${ARROW_UP_RIGHT}</a>
-          <a class="nav-row" href="${esc(site.resumeUrl)}"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span>${ARROW_DOWN}</a>
+          <a class="nav-row" href="${esc(site.resumeUrl)}" download><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span>${ARROW_DOWN}</a>
         </div>
       </div>
     </nav>
   </header>
   <!-- /site-nav -->`;
 
+// The first-visit intro (public/system/shared.css, "case study intro"). It plays once per tab,
+// never when the homepage tile is already growing into the page (a view transition).
+const intro = `<!-- site-intro -->
+  <script>(function(){try{if(sessionStorage.getItem("cs-intro"))return;sessionStorage.setItem("cs-intro","1")}catch(e){return}
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var h=document.documentElement;h.classList.add("cs-intro");
+  addEventListener("pagereveal",function(e){if(e.viewTransition)h.classList.remove("cs-intro")});})()</script>
+  <div class="cs-intro-veil" aria-hidden="true"><span class="cs-intro-name"><span>${esc(site.name)}</span></span></div>
+  <!-- /site-intro -->`;
+
 const work = join(root, "public/work");
 for (const slug of readdirSync(work)) {
   const file = join(work, slug, "index.html");
   if (!existsSync(file)) continue;
   const html = readFileSync(file, "utf8");
-  const next = html.replace(/<!-- site-nav -->[\s\S]*?<!-- \/site-nav -->/, nav);
-  if (next === html && !html.includes("<!-- site-nav -->")) {
+  let next = html.replace(/<!-- site-nav -->[\s\S]*?<!-- \/site-nav -->/, nav);
+  next = next.includes("<!-- site-intro -->")
+    ? next.replace(/<!-- site-intro -->[\s\S]*?<!-- \/site-intro -->/, () => intro)
+    : next.replace("<body>", () => "<body>\n  " + intro);
+  if (!html.includes("<!-- site-nav -->")) {
     console.warn(`sync-nav: no <!-- site-nav --> marker in ${slug}/index.html`);
     continue;
   }

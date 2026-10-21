@@ -18,7 +18,7 @@ export function Footer() {
           <a className={link} href={site.linkedinUrl} target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
-          <a className={link} href={site.resumeUrl}>
+          <a className={link} href={site.resumeUrl} download>
             Resume
           </a>
         </span>

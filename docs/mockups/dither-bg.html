@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soft background test</title>
+<style>
+  :root { --page: #fcfcfc; --panel: #f4f5ef; --ink: #000; --body: #2b2b2b; --mute: #4c4c4c; --sand-1: #f4ede4; --sand-ink: #6e5b48; }
+  html { background: var(--page); }
+  body { margin: 0; background: transparent; font: 17px/1.36 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: -0.02em; color: var(--body); }
+  #bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 30px 160px; }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 72px; color: var(--ink); }
+  nav b { font-weight: 700; }
+  .pill { border: 1px solid rgba(0,0,0,.1); border-radius: 99px; padding: 6px 14px; font-size: 15px; background: #fff; }
+  h1 { font-size: 34px; line-height: 1.1; color: var(--ink); max-width: 640px; margin: 64px 0 24px; font-weight: 400; }
+  .lede { max-width: 560px; }
+  h2 { font-size: 25px; color: var(--ink); font-weight: 400; margin: 120px 0 40px; }
+  .row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 40px; margin-bottom: 80px; }
+  .row h3 { font-size: 17px; color: var(--ink); margin: 0 0 8px; font-weight: 700; }
+  .row mark { background: var(--sand-1); color: inherit; padding: 0 3px; }
+  .shot { aspect-ratio: 16/10; border-radius: 12px; background: linear-gradient(135deg, #e6f6ee, #e4f0f7); }
+  .shot.b { background: linear-gradient(135deg, #fbe7ea, #f3eefb); }
+  @media (max-width: 809px) { .row { grid-template-columns: 1fr; } }
+
+  /* test controls, not part of the design */
+  .ctl { position: fixed; right: 16px; bottom: 16px; background: #fff; border: 1px solid rgba(0,0,0,.12); border-radius: 12px; padding: 12px 14px; font-size: 13px; box-shadow: 0 6px 24px rgba(0,0,0,.06); display: grid; gap: 8px; z-index: 10; }
+  .ctl div { display: flex; gap: 6px; align-items: center; }
+  .ctl span { width: 64px; color: var(--mute); }
+  .ctl button { font: inherit; border: 1px solid rgba(0,0,0,.12); background: #fff; border-radius: 99px; padding: 4px 10px; cursor: pointer; }
+  .ctl button[aria-pressed="true"] { background: #000; color: #fff; border-color: #000; }
+  .ctl button:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<div class="wrap">
+  <nav><b>Dev Dixit</b><span class="pill">Work · About</span><span class="pill">Contact</span></nav>
+  <h1>I'm Dev, a product designer. I make money and tickets feel simple.</h1>
+  <p class="lede">Placeholder copy so you can judge the background next to text. Move the cursor around the page, slowly, then quickly, then stop.</p>
+
+  <h2>Selected work</h2>
+  <div class="row">
+    <div><h3>Groww</h3><p>AI-assisted Start a SIP. <mark>Placeholder finding line</mark> and a sentence or two of text.</p></div>
+    <div class="shot"></div>
+  </div>
+  <div class="row">
+    <div><h3>BookMyShow</h3><p>Events discovery. <mark>Placeholder finding line</mark> and a sentence or two of text.</p></div>
+    <div class="shot b"></div>
+  </div>
+  <p style="color:var(--mute)">End of test content.</p>
+</div>
+
+<div class="ctl" role="group" aria-label="Test controls">
+  <div><span>Light</span>
+    <button data-k="field" data-v="0.5">Whisper</button>
+    <button data-k="field" data-v="0.8" aria-pressed="true">Quiet</button>
+    <button data-k="field" data-v="1.3">Clear</button>
+    <button data-k="field" data-v="0">Off</button>
+  </div>
+  <div><span>Cursor</span>
+    <button data-k="cursor" data-v="0.6">Soft</button>
+    <button data-k="cursor" data-v="1" aria-pressed="true">Clear</button>
+    <button data-k="cursor" data-v="1.6">Strong</button>
+  </div>
+  <div><span>Grain</span>
+    <button data-k="grain" data-v="0">Off</button>
+    <button data-k="grain" data-v="1" aria-pressed="true">On</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var canvas = document.getElementById("bg");
+  var gl = canvas.getContext("webgl", { antialias: false, alpha: false, powerPreference: "low-power" });
+  if (!gl) return; // no WebGL: the plain page colour stays, nothing is lost
+
+  var opts = { field: 0.8, cursor: 1, grain: 1 };
+
+  var vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
+  var fs = [
+    "precision mediump float;",
+    "uniform vec2 u_res; uniform float u_time; uniform vec2 u_mouse; uniform float u_energy;",
+    "uniform float u_field; uniform float u_cursor; uniform float u_grain;",
+    // simplex noise (Ashima / Ian McEwan, MIT)
+    "vec3 permute(vec3 x){return mod(((x*34.)+1.)*x,289.);}",
+    "float snoise(vec2 v){const vec4 C=vec4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);",
+    "vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);vec2 i1=(x0.x>x0.y)?vec2(1.,0.):vec2(0.,1.);",
+    "vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;i=mod(i,289.);",
+    "vec3 p=permute(permute(i.y+vec3(0.,i1.y,1.))+i.x+vec3(0.,i1.x,1.));",
+    "vec3 m=max(.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.);m=m*m;m=m*m;",
+    "vec3 x=2.*fract(p*C.www)-1.;vec3 h=abs(x)-.5;vec3 ox=floor(x+.5);vec3 a0=x-ox;",
+    "m*=1.79284291400159-.85373472095314*(a0*a0+h*h);vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;",
+    "return 130.*dot(m,g);}",
+    "float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}",
+    "void main(){",
+    "  vec2 px=gl_FragCoord.xy; vec2 uv=px/u_res.y;",
+    "  vec2 m=u_mouse/u_res.y; vec2 dv=uv-m; float d=length(dv);",
+    // the cursor pushes the light aside: shapes bend away from it, more when it moves
+    "  float near=exp(-d*d*9.);",
+    "  float push=near*(.35+.65*u_energy)*u_cursor;",
+    "  vec2 w=uv-dv/(d+.001)*push*.12;",
+    "  float t=u_time*.03;",
+    // large, blurry shapes only: low frequencies, no fine detail
+    "  float a=snoise(w*.7+vec2(t,t*.6));",
+    "  float b=snoise(w*1.3-vec2(t*.8,t*.4)+a*.6);",
+    "  float f=.5+.5*(a*.6+b*.4);",
+    "  f=smoothstep(.25,.95,f);",
+    // a soft warm pool that follows the cursor and swells while it moves, then settles
+    "  float pool=near*(.25+.75*u_energy)*u_cursor;",
+    "  vec3 page=vec3(.988);",
+    "  vec3 sand=vec3(.957,.929,.894);",   // --sand-1
+    "  vec3 deep=vec3(.918,.875,.82);",    // --sand-2
+    "  vec3 col=mix(page,sand,f*.55*u_field);",
+    "  col=mix(col,deep,f*f*.25*u_field);",
+    "  col=mix(col,sand,clamp(pool*.7,0.,1.));",
+    // fixed fine grain: gives the flat areas a paper feel and hides colour banding
+    "  col+=(hash(px)-.5)*.022*u_grain;",
+    "  gl_FragColor=vec4(col,1.);",
+    "}"
+  ].join("\n");
+
+  function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s)); return s; }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  var U = {}; ["u_res", "u_time", "u_mouse", "u_energy", "u_field", "u_cursor", "u_grain"].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+
+  // one canvas pixel per CSS pixel: the grain stays fine, and the shapes are blurry anyway
+  var W = 0, H = 0;
+  function size() { W = innerWidth; H = innerHeight; canvas.width = W; canvas.height = H; gl.viewport(0, 0, W, H); gl.uniform2f(U.u_res, W, H); }
+  size(); addEventListener("resize", size);
+
+  // the cursor is followed with a lag; "energy" rises with speed and fades when it stops
+  var target = { x: innerWidth * 0.7, y: innerHeight * 0.4 }, mouse = { x: target.x, y: target.y };
+  var energy = 0, present = 0, presentTarget = 0;
+  addEventListener("pointermove", function (e) {
+    if (e.pointerType !== "mouse") return;
+    var dx = e.clientX - target.x, dy = e.clientY - target.y;
+    energy = Math.min(1, energy + Math.sqrt(dx * dx + dy * dy) / 400);
+    target.x = e.clientX; target.y = e.clientY; presentTarget = 1;
+  });
+  document.addEventListener("pointerleave", function () { presentTarget = 0; });
+
+  var still = matchMedia("(prefers-reduced-motion: reduce)");
+  var t0 = performance.now(), last = 0, raf = 0;
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    if (now - last < 33) return; // ~30fps is enough for something this slow
+    last = now;
+    mouse.x += (target.x - mouse.x) * 0.08; mouse.y += (target.y - mouse.y) * 0.08;
+    energy *= 0.96;
+    present += (presentTarget - present) * 0.05;
+    gl.uniform1f(U.u_time, (now - t0) / 1000);
+    gl.uniform2f(U.u_mouse, mouse.x, H - mouse.y);
+    gl.uniform1f(U.u_energy, energy);
+    gl.uniform1f(U.u_cursor, opts.cursor * present);
+    gl.uniform1f(U.u_field, opts.field);
+    gl.uniform1f(U.u_grain, opts.grain);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function drawStill() {
+    gl.uniform1f(U.u_time, 12); gl.uniform1f(U.u_cursor, 0); gl.uniform1f(U.u_energy, 0);
+    gl.uniform1f(U.u_field, opts.field); gl.uniform1f(U.u_grain, opts.grain); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function start() { cancelAnimationFrame(raf); if (still.matches || document.hidden) drawStill(); else raf = requestAnimationFrame(frame); }
+  document.addEventListener("visibilitychange", start);
+  still.addEventListener("change", start);
+  start();
+
+  // test controls
+  document.querySelectorAll(".ctl button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var k = b.dataset.k;
+      opts[k] = Number(b.dataset.v);
+      document.querySelectorAll('.ctl button[data-k="' + k + '"]').forEach(function (o) { o.setAttribute("aria-pressed", o === b); });
+      if (still.matches) drawStill();
+    });
+  });
+})();
+</script>
+</body>
+</html>

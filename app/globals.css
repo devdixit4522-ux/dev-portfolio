@@ -303,11 +303,11 @@
    its text at a different speed. The phones inside a tile never move.
    Reduced motion: none of it; everything sits still and visible. */
 @media (prefers-reduced-motion: no-preference) {
-  .statement .w { display: inline-block; animation: word-in 600ms cubic-bezier(0.16, 1, 0.3, 1) calc(120ms + var(--i) * 22ms) both; }
-  .intro .hello { animation: rise-in 700ms cubic-bezier(0.16, 1, 0.3, 1) 950ms both; }
-  .me video { animation: develop 1400ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both; }
-  .me-lines path { stroke-dasharray: 1; animation: draw 900ms cubic-bezier(0.16, 1, 0.3, 1) calc(1450ms + var(--i) * 280ms) both; }
-  .me-note { animation: rise-in 500ms ease calc(1350ms + var(--i) * 280ms) both; }
+  .statement .w { display: inline-block; animation: word-in 600ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--intro-wait, 0ms) + 120ms + var(--i) * 22ms) both; }
+  .intro .hello { animation: rise-in 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--intro-wait, 0ms) + 950ms) both; }
+  .me video { animation: develop 1400ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--intro-wait, 0ms) + 150ms) both; }
+  .me-lines path { stroke-dasharray: 1; animation: draw 900ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--intro-wait, 0ms) + 1450ms + var(--i) * 280ms) both; }
+  .me-note { animation: rise-in 500ms ease calc(var(--intro-wait, 0ms) + 1350ms + var(--i) * 280ms) both; }
 
   @keyframes word-in { from { opacity: 0; filter: blur(8px); translate: 0 0.2em; } }
   @keyframes rise-in { from { opacity: 0; translate: 0 8px; } }

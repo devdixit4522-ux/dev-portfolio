@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Huge loader</title>
+<style>
+@font-face{font-family:"Nimbus Sans";src:url(../../public/system/fonts/NimbusSans-Regular.otf) format("opentype");font-weight:400;font-display:block}
+@font-face{font-family:"Nimbus Sans";src:url(../../public/system/fonts/NimbusSans-Bold.otf) format("opentype");font-weight:700;font-display:block}
+:root{
+  --page:#fcfcfc;--panel:#f4f5ef;--card:#fff;--ink:#000;--soft:#4c4c4c;--mute:#8f8f8f;--bubble:#ececea;
+  --sand-1:#f4ede4;--sand-2:#eadfd1;--sand-3:#dccbb8;--sand-ink:#6e5b48;--sand-deep:#3f3328;
+  --font:"Nimbus Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --out:cubic-bezier(.16,1,.3,1);--gutter:30px
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--sand-2);color:var(--sand-deep)}
+
+/* ── the homepage underneath (a stand-in of the real hero) ── */
+.nav{position:fixed;inset:0 0 auto;height:68px;z-index:10}
+.nav-in{width:min(1260px,100%);height:100%;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.nav-name{justify-self:start;font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1;display:inline-block}
+.nav-switch{display:flex;gap:2px;padding:4px;background:var(--panel);border-radius:999px;font-size:14px}
+.nav-switch span{display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;color:var(--soft)}
+.nav-switch span:first-child{background:var(--card);color:var(--ink)}
+.nav-contact{justify-self:end;display:inline-flex;align-items:center;height:38px;padding:0 18px;border-radius:999px;background:var(--panel);font-size:14px}
+.intro{width:min(1260px,100%);margin:0 auto;padding:68px var(--gutter) 0;min-height:min(820px,calc(100svh - 40px));display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:center;column-gap:48px}
+.statement{margin:0;font-size:clamp(1.5rem,2.4vw,2.125rem);font-weight:400;line-height:1.1;letter-spacing:-.04em;text-wrap:pretty}
+.statement strong{font-weight:700}.quiet{color:var(--mute)}
+.face{display:inline-block;width:.92em;height:.92em;margin:0 .06em 0 .02em;vertical-align:-.12em;border-radius:50%;background:var(--bubble) url(../../public/images/face.png) center/cover}
+.hello{margin:32px 0 0;font-size:17px;letter-spacing:-.02em}
+.hello a{color:var(--ink);text-decoration:underline 2px var(--sand-3);text-underline-offset:6px}
+.me{width:80%;aspect-ratio:1;justify-self:center}
+.me img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 72%,rgba(0,0,0,.6) 86%,transparent 100%);mask-image:radial-gradient(closest-side,#000 72%,rgba(0,0,0,.6) 86%,transparent 100%)}
+@media (max-width:809px){
+  :root{--gutter:16px}
+  .nav-switch{display:none}.nav-in{grid-template-columns:1fr 1fr}
+  .intro{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:28px;padding-top:110px}
+  .me{width:100%;max-width:420px}
+}
+.waiting .nav-in>*,.waiting .intro>*{opacity:0}
+.arrive .nav-in>*,.arrive .intro>*{animation:arrive 820ms var(--out) both}
+.arrive .intro>.me{animation-delay:80ms}
+@keyframes arrive{from{opacity:0;translate:0 14px;filter:blur(6px)}}
+.hold-name .nav-name{animation:none!important;opacity:0}
+
+/* ── the loader ── */
+.veil{position:fixed;inset:0;z-index:50;background:var(--page);pointer-events:none}
+/* huge, in the middle of the screen */
+.words{position:absolute;inset:0;font-weight:700;line-height:1}
+/* each word gets its own centred line, so swapping words never moves anything */
+.line{position:absolute;left:50%;top:calc(50% - .5em);translate:-50% 0;display:flex;white-space:pre;transform-origin:0 0}
+.slot{display:block;flex:none;height:1em;overflow:visible}
+.centred .slot{text-align:center}
+/* a box that is opening or folding shows only the part of its letter that fits */
+.morph .slot{clip-path:inset(-30% 0)}
+.slot i{display:inline-block;font-style:normal;transform-origin:0 50%}
+/* scrambling characters are sand; each letter turns black as it settles */
+.slot.n{color:var(--sand-ink)}
+
+/* ── demo controls (not part of the design) ── */
+.ui{position:fixed;left:50%;top:84px;translate:-50% 0;z-index:200;display:flex;flex-direction:column-reverse;align-items:center;gap:8px;width:max-content;max-width:calc(100vw - 32px)}
+.ui-note{font-size:13px;color:var(--soft);background:rgba(252,252,252,.92);padding:4px 10px;border-radius:999px;text-align:center}
+.ui-note a{color:inherit}
+.ui-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;padding:5px;background:#141414;border-radius:24px;max-width:100%}
+.ui button,.ui label{font:inherit;font-size:13px;color:#fff;background:none;border:0;padding:8px 13px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.ui button:focus-visible,.ui label:focus-within,.ui a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.ui input{accent-color:var(--sand-3);margin:0}
+.ui button[aria-pressed="true"]{background:#fff;color:#000}
+.ui .sep{width:1px;background:rgba(255,255,255,.2);margin:6px 2px}
+.frozen .ui{display:none}
+</style></head><body>
+
+<div class="site waiting hold-name" id="site">
+  <header class="nav"><div class="nav-in">
+    <span class="nav-name" id="navName">Dev Dixit</span>
+    <span class="nav-switch"><span>Work</span><span>About</span></span>
+    <span class="nav-contact">Contact</span>
+  </div></header>
+  <main class="intro">
+    <div>
+      <h1 class="statement">I'm <span class="face"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck. Lately: why first-time investors freeze on</span> <strong>Groww</strong><span class="quiet">, and why nobody finds the concerts on</span> <strong>BookMyShow</strong><span class="quiet">.</span></h1>
+      <p class="hello">Say hi at <a href="#">devdixit4522@gmail.com</a></p>
+    </div>
+    <div class="me"><img src="../../public/images/hero-still.jpg" alt="Dev Dixit lying on a bed, working on a laptop"></div>
+  </main>
+</div>
+
+<div id="slot"></div>
+
+<div class="ui" role="group" aria-label="Demo controls">
+  <span class="ui-note" id="note" aria-live="polite"></span>
+  <div class="ui-bar">
+    <button data-mode="grow">Grow</button>
+    <button data-mode="polished">Polished</button>
+    <button data-mode="wave">Wave</button>
+    <button data-mode="all">All at once</button>
+    <span class="sep" aria-hidden="true"></span>
+    <button id="replay">Replay</button>
+    <label><input type="checkbox" id="slow"> Slow-mo</label>
+  </div>
+</div>
+
+<script>
+/* DEV DIXIT → PRODUCT DESIGNER → DEV DIXIT, set huge and centred. Each word has its own fixed, centred place
+   and never moves: a wave sweeps across the screen left to right, and behind it the new word's letters appear
+   where they belong while ahead of it the old word stays where it is. Scramble letters are sand and always fit
+   their letter's space, never squeezed or clipped. The last DEV DIXIT shrinks into the nav. One clock drives
+   everything, so slow-mo and frozen frames (?at=ms) match full speed exactly. */
+var TEXTS=['DEV DIXIT','PRODUCT DESIGNER','DEV DIXIT'];
+var NOISE='BCDFGHJKLNPQRSTVXZ0123456789';  // no vowels, so the noise never spells a word
+var THIN=['/','|','!'];                    // for the narrow spaces (I, the gap), so nothing is ever squeezed
+var TICK=45, BAND=2.2, TRACK=-.01;         // BAND: how wide the scrambling wave is, in em
+// wave, about 2.3s: name 0.3s, wave 0.5s, PRODUCT DESIGNER 0.35s, wave 0.5s, then the flight.
+// all at once, about 2.4s: the whole word is noise while it changes, so the change is shorter (0.3s) and each
+// word holds longer: name 0.4s, change, PRODUCT DESIGNER 0.45s, change, DEV DIXIT 0.3s, then the flight
+var TIMES={
+  wave:{SHOW:[40,240],T1:[300,800],T2:[1150,1650],EXIT:1680},
+  all:{SHOW:[40,240],T1:[400,700],T2:[1150,1450],EXIT:1750},
+  // polished, about 2.6s: name 0.35s, change 0.38s, PRODUCT DESIGNER 0.45s, change 0.38s, DEV DIXIT 0.25s, flight
+  polished:{SHOW:[40,260],T1:[480,860],T2:[1300,1680],EXIT:1920},
+  // grow, about 2.6s: name 0.35s, grows 0.42s, PRODUCT DESIGNER 0.4s, shrinks 0.42s, DEV DIXIT 0.25s, flight
+  grow:{SHOW:[40,260],T1:[480,900],T2:[1320,1740],EXIT:1980}
+};
+var SHOW,T1,T2,EXIT,FLY=650;
+function setTimes(){var m=TIMES[MODE];SHOW=m.SHOW;T1=m.T1;T2=m.T2;EXIT=m.EXIT}
+
+// two ways to change words: a wave sweeping left to right, or every letter scrambling at once
+var MODE=({'#all':'all','#wave':'wave','#grow':'grow'})[location.hash]||'polished';
+var NOTES={grow:'Grow · DEV DIXIT stretches into PRODUCT DESIGNER and folds back',polished:'Polished · every letter on its own clock, slowing down and settling softly',wave:'Wave · letters change left to right',all:'All at once · every letter scrambles together, then settles together; each word holds a little longer'};
+
+var site=document.getElementById('site'),host=document.getElementById('slot'),navName=document.getElementById('navName');
+var S=1,raf=0,run=null;
+
+function bezier(x1,y1,x2,y2){
+  function a(p,q){return 1-3*q+3*p}function b(p,q){return 3*q-6*p}function c(p){return 3*p}
+  function at(t,p,q){return((a(p,q)*t+b(p,q))*t+c(p))*t}function slope(t,p,q){return 3*a(p,q)*t*t+2*b(p,q)*t+c(p)}
+  return function(x){if(x<=0)return 0;if(x>=1)return 1;var t=x;for(var i=0;i<6;i++){var s=slope(t,x1,x2);if(!s)break;t-=(at(t,x1,x2)-x)/s}return at(t,y1,y2)};
+}
+var easeOut=bezier(.16,1,.3,1), easeFly=bezier(.66,0,.18,1);
+function clamp(x){return x<0?0:x>1?1:x}
+function hash(n){n=(n^61)^(n>>>16);n=n+(n<<3);n=n^(n>>>4);n=Math.imul(n,0x27d4eb2d);return (n^(n>>>15))>>>0}
+
+function build(){
+  host.innerHTML='<div class="veil" aria-hidden="true"><div class="words"></div></div>';
+  var veil=host.firstChild,words=veil.firstChild;
+  // as big as the page's content width allows for PRODUCT DESIGNER, never taller than a fifth of the screen
+  var ctx=document.createElement('canvas').getContext('2d');ctx.font='700 100px "Nimbus Sans"';
+  var adv100={};(TEXTS.join('')+NOISE+THIN.join('')).split('').forEach(function(ch){adv100[ch]=ctx.measureText(ch).width/100});
+  var gut=innerWidth<810?16:30,content=Math.min(1200,innerWidth-2*gut);
+  var em=function(t){return t.split('').reduce(function(s,ch){return s+adv100[ch]+TRACK},0)};
+  var fs=Math.min(content/em('PRODUCT DESIGNER'),innerHeight*.2);
+  words.style.fontSize=fs+'px';
+  // one centred line per word; each letter knows where its middle sits, measured from the screen's centre
+  var layers=TEXTS.map(function(text){
+    var line=document.createElement('div');line.className='line';words.appendChild(line);
+    var ws=text.split('').map(function(ch){return (adv100[ch]+TRACK)*fs}),W=ws.reduce(function(a,b){return a+b},0),x=0,slots=[];
+    text.split('').forEach(function(ch,i){
+      var el=document.createElement('span');el.className='slot';el.style.width=ws[i]+'px';el.style.visibility='hidden';el.innerHTML='<i></i>';line.appendChild(el);
+      slots.push({el:el,g:el.firstChild,ch:ch,w:ws[i],cx:x+ws[i]/2-W/2,txt:null,noise:null,vis:false});x+=ws[i];
+    });
+    return {line:line,slots:slots,W:W};
+  });
+  var byWidth=NOISE.split('').sort(function(a,b){return adv100[a]-adv100[b]}),fits={};
+  function fit(w){var k=Math.round(w);if(!fits[k]){var f=byWidth.filter(function(ch){return (adv100[ch]+TRACK)*fs<=w*1.06+.5});fits[k]=f.length>=3?f:THIN}return fits[k]}
+  var last=layers[2];
+  var r={veil:veil,words:words,layers:layers,line:last.line,slots:last.slots,fs:fs,fit:fit,adv:function(ch){return ch?(adv100[ch]+TRACK)*fs:0},done:false};
+  if(MODE==='polished'||MODE==='grow'){r.plan=plan(r);words.classList.add('centred')}
+  if(MODE==='grow'){
+    // the line that morphs from one word into the other, as many boxes as the longer word
+    var morph=document.createElement('div');morph.className='line morph';morph.style.visibility='hidden';words.appendChild(morph);
+    r.morph=morph;r.mslots=[];
+    for(var j=0;j<Math.max.apply(null,TEXTS.map(function(x){return x.length}));j++){var el=document.createElement('span');el.className='slot';el.style.width='0px';el.innerHTML='<i></i>';morph.appendChild(el);r.mslots.push({el:el,g:el.firstChild,w:0})}
+    r.gplan=growPlan(r);
+  }
+  return r;
+}
+
+function paint(s,vis,ch,noise){
+  if(s.vis!==vis){s.el.style.visibility=vis?'':'hidden';s.vis=vis}
+  if(!vis)return;
+  if(s.txt!==ch){s.g.textContent=ch;s.txt=ch}
+  if(s.noise!==noise){s.el.classList.toggle('n',noise);s.noise=noise}
+}
+
+function render(r,t){
+  if(MODE==='polished'){renderPolished(r,t);finish(r,t);return}
+  if(MODE==='grow'){renderGrow(r,t);finish(r,t);return}
+  var a,b,ph;
+  if(t<T1[0]){a=b=0}else if(t<T1[1]){a=0;b=1;ph=T1}else if(t<T2[0]){a=b=1}else if(t<T2[1]){a=1;b=2;ph=T2}else{a=b=2}
+  // the wave's leading edge, travelling across the screen from the left end of the wider word to past its right end
+  var band=BAND*r.fs,front=0;
+  if(ph){var half=Math.max(r.layers[a].W,r.layers[b].W)/2;front=-half+(2*half+band)*(t-ph[0])/(ph[1]-ph[0])}
+  r.layers.forEach(function(L,k){
+    L.slots.forEach(function(s,i){
+      if(!ph){paint(s,k===b,s.ch,false);return}
+      if(MODE==='all'){
+        // every letter of the new word scrambles at once, and so do the old word's letters that stick out past it;
+        // the gap between the two words stays a gap. At the end of the change they all settle together
+        var out=k===a&&Math.abs(s.cx)>r.layers[b].W/2;
+        if((k===b||out)&&s.ch!==' '){var h=r.fit(s.w);paint(s,true,h[hash(k*31+i*7919+Math.floor(t/TICK)*104729)%h.length],true)}
+        else paint(s,false);
+        return;
+      }
+      if(k===a){
+        if(s.cx>front)paint(s,true,s.ch,false);                     // the old word, still ahead of the wave
+        else if(s.cx>front-band&&Math.abs(s.cx)>r.layers[b].W/2){var g=r.fit(s.w);paint(s,true,g[hash(k*31+i*7919+Math.floor(t/TICK)*104729)%g.length],true)} // where no new letter lands, the wave scrambles it out
+        else paint(s,false);
+        return;
+      }
+      if(k!==b){paint(s,false);return}
+      if(s.cx<front-band)paint(s,true,s.ch,false);                  // the new word, settled behind the wave
+      else if(s.cx<front){var f=r.fit(s.w);paint(s,true,f[hash(k*31+i*7919+Math.floor(t/TICK)*104729)%f.length],true)}
+      else paint(s,false);
+    });
+  });
+  finish(r,t);
+}
+
+// shared by every mode: the name comes in sharp, and at the end flies into the nav
+function finish(r,t){
+  var p=clamp((t-SHOW[0])/(SHOW[1]-SHOW[0]));
+  r.words.style.opacity=easeOut(p);r.words.style.filter=p<1?'blur('+(6*(1-easeOut(p)))+'px)':'';
+  if(t>=EXIT)fly(r,clamp((t-EXIT)/FLY));
+}
+
+/* Polished: what the audit asked for.
+   - Each letter runs on its own clock, so letters never all flip on the same frame.
+   - Every clock is frame-aligned (2 frames at the fastest), so the rhythm never stutters.
+   - The scramble slows down as a letter nears its answer, like a reel coming to rest.
+   - Letters start together but land one after another, loosely left to right.
+   - Scramble characters are capital letters only, close to their letter's width, centred, in a light sand.
+   - Landing is a motion, not a cut: sand eases to black and the letter rises the last few pixels.
+   - The old word fades out where it stands just before the new noise fades in, so the two never overlap. */
+var P_NOISE='BCDFGHJKLNPQRSTVXZ', FR=1000/60;
+var P_SAND=[110,91,72,.5], P_INK=[0,0,0,1];
+function rnd(n){return hash(n)/4294967296}
+function frames(ms){return Math.max(2,Math.round(ms/FR))*FR}
+function mix(a,b,k){return 'rgba('+[0,1,2].map(function(i){return Math.round(a[i]+(b[i]-a[i])*k)}).join(',')+','+(a[3]+(b[3]-a[3])*k).toFixed(3)+')'}
+
+function plan(r){
+  // letters close to this width, so the scramble keeps the word's rhythm; the 4 nearest if none are close enough
+  var byW=P_NOISE.split(''),near={};
+  function pick(w){var k=Math.round(w);if(!near[k]){var f=byW.filter(function(c){var d=r.adv(c);return d>=w*.86&&d<=w*1.12});
+    near[k]=f.length>=4?f:byW.slice().sort(function(a,b){return Math.abs(r.adv(a)-w)-Math.abs(r.adv(b)-w)}).slice(0,4)}return near[k]}
+  r.pick=pick;
+  return [[T1,0,1],[T2,1,2]].map(function(p){
+    var t0=p[0][0],t1=p[0][1],D=t1-t0,A=r.layers[p[1]],B=r.layers[p[2]],half=Math.max(A.W,B.W)/2;
+    var inn=B.slots.map(function(s,i){
+      var seed=p[2]*997+i,start=t0+70+rnd(seed*7+1)*60;
+      var u=((s.cx+half)/(2*half))*.6+rnd(seed*7+2)*.4,land=t0+D*(.5+.5*u);
+      var ch=[],t=start;while(t<land){ch.push(t);var k=(t-start)/(land-start);t+=frames(33+80*k*k)}
+      return {start:start,land:land,changes:ch,seed:seed};
+    });
+    var outs=A.slots.map(function(s,i){var seed=p[1]*997+i+500;return {start:t0+rnd(seed*7+3)*40,seed:seed}});
+    return {t0:t0,t1:t1,a:p[1],b:p[2],inn:inn,outs:outs};
+  });
+}
+
+function paintP(s,vis,ch,color,op,ty){
+  if(s.vis!==vis){s.el.style.visibility=vis?'':'hidden';s.vis=vis}
+  if(!vis)return;
+  if(s.txt!==ch){s.g.textContent=ch;s.txt=ch}
+  if(s.col!==color){s.el.style.color=color;s.col=color}
+  var o=op.toFixed(3);if(s.op!==o){s.el.style.opacity=o;s.op=o}
+  var y=ty.toFixed(2);if(s.ty!==y){s.g.style.transform=ty?'translateY('+y+'px)':'';s.ty=y}
+}
+
+function renderPolished(r,t){
+  var act=null;r.plan.forEach(function(p){if(t>=p.t0&&t<p.t1+260)act=p});
+  var rest=t<T1[0]?0:t<T2[0]?1:2,narrow=.4*r.fs,black=mix(P_INK,P_INK,0);
+  r.layers.forEach(function(L,k){
+    L.slots.forEach(function(s,i){
+      if(s.ch===' '){paintP(s,false);return}
+      if(!act){paintP(s,k===rest,s.ch,black,1,0);return}
+      if(k===act.a){
+        // the old word fades out where it stands, warming to sand as it goes; the new noise starts just after,
+        // so the two words never overlap
+        var o=act.outs[i].start;
+        if(t<o)paintP(s,true,s.ch,black,1,0);
+        else if(t<o+100)paintP(s,true,s.ch,mix(P_INK,P_SAND,easeOut(clamp((t-o)/60))),1-easeOut(clamp((t-o)/100)),0);
+        else paintP(s,false);
+        return;
+      }
+      if(k!==act.b){paintP(s,false);return}
+      // the new word: fades in as noise, slows down, then lands
+      var p=act.inn[i];
+      if(t<p.start)paintP(s,false);
+      else if(t<p.land){
+        // an I has no scramble letter its width, so it shows itself in sand and keeps the word's shape
+        if(s.w<narrow){paintP(s,true,s.ch,mix(P_SAND,P_SAND,0),easeOut(clamp((t-p.start)/90)),0);return}
+        var n=0;while(n+1<p.changes.length&&p.changes[n+1]<=t)n++;
+        var list=r.pick(s.w),c=list[hash(p.seed*131+n*7919)%list.length];
+        if(n>0&&c===list[hash(p.seed*131+(n-1)*7919)%list.length])c=list[(list.indexOf(c)+1)%list.length];
+        paintP(s,true,c,mix(P_SAND,P_SAND,0),easeOut(clamp((t-p.start)/90)),0);
+      }else{
+        var k2=easeOut(clamp((t-p.land)/180)),rise=(1-easeOut(clamp((t-p.land)/220)))*.06*r.fs;
+        paintP(s,true,s.ch,mix(P_SAND,P_INK,k2),1,rise);
+      }
+    });
+  });
+}
+
+
+// the name shrinks into the nav: its anchor (left edge, middle) travels on a curve while the size
+// shrinks evenly, the page only shows once the name is small, and the nav's own name takes over at the very end
+function fly(r,e){
+  if(!r.f){
+    var A=r.slots[0].el.getBoundingClientRect(),Z=r.slots[8].el.getBoundingClientRect(),Nr=navName.getBoundingClientRect(),L=r.line.getBoundingClientRect();
+    var left=A.left+r.fs*.06,right=Z.left+r.adv('T')-r.fs*.02,cy=A.top+A.height/2;
+    r.f={s:Nr.width/(right-left),ax:left,ay:cy,bx:Nr.left,by:Nr.top+Nr.height/2,ox:L.left,oy:L.top};
+  }
+  var F=r.f,f=easeFly(e),sc=Math.pow(F.s,f);
+  var ax=F.ax+(F.bx-F.ax)*f,ay=F.ay+(F.by-F.ay)*f;
+  var tx=ax-F.ox-(F.ax-F.ox)*sc,ty=ay-F.oy-(F.ay-F.oy)*sc;
+  r.line.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+sc.toFixed(4)+')';
+  if(e>=.42&&!r.arrived){r.arrived=true;arrive()}
+  r.veil.style.backgroundColor='rgba(252,252,252,'+(1-easeOut(clamp((e-.42)/.4)))+')';
+  var x=clamp((e-.86)/.14);r.line.style.opacity=1-x;navName.style.opacity=x;
+  if(e>=1){r.done=true;navName.style.opacity='';site.classList.remove('hold-name');host.innerHTML=''}
+}
+
+function rate(){document.getAnimations().forEach(function(a){a.playbackRate=1/S})}
+function arrive(){site.classList.remove('waiting');site.classList.add('arrive');rate()}
+function reset(){cancelAnimationFrame(raf);navName.style.opacity='';site.className='site waiting hold-name';void site.offsetWidth}
+
+function play(){
+  setTimes();
+  document.querySelectorAll('[data-mode]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mode===MODE)});
+  document.getElementById('note').textContent=NOTES[MODE]+(S>1?' · quarter speed':'');
+  try{history.replaceState(null,'',location.search+'#'+MODE)}catch(e){}
+  reset();run=build();
+  var t0=performance.now();
+  (function tick(now){render(run,(now-t0)/S);if(!run.done)raf=requestAnimationFrame(tick)})(t0);
+}
+document.getElementById('replay').onclick=play;
+document.querySelectorAll('[data-mode]').forEach(function(b){b.onclick=function(){MODE=b.dataset.mode;play()}});
+document.getElementById('slow').onchange=function(e){S=e.target.checked?4:1;play()};
+
+Promise.all([document.fonts.load('700 40px "Nimbus Sans"'),document.fonts.load('400 40px "Nimbus Sans"')]).then(function(){
+  var at=new URLSearchParams(location.search).get('at');
+  if(at===null)return play();
+  // frozen frame for checking: step the clock up to one moment and stop there
+  document.documentElement.classList.add('frozen');setTimes();reset();run=build();var t=+at;
+  for(var u=0;u<t&&!run.done;u+=8)render(run,u);
+  if(!run.done){document.getAnimations().forEach(function(a){a.currentTime=Math.max(0,t-EXIT-FLY*.42)});render(run,t)}
+});
+/* Grow: DEV DIXIT turns into PRODUCT DESIGNER instead of being swapped for it. Its 9 letters start
+   flickering where they stand and become the middle 9 of the 16; the line stretches out to both sides
+   around a centre that never moves, the extra letters opening up at the two ends. Then the reverse: the
+   end letters fold away, outermost first, and the middle eases back into DEV DIXIT. It goes word by
+   word (DEV and PRODUCT, DIXIT and DESIGNER), so the gap between the words is there the whole time. The flicker, the
+   slowing down and the soft landing are the same as Polished. */
+function easeInOut(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2}
+
+function growPlan(r){
+  // word by word: the first word grows or folds at its left end, the last word at its right end,
+  // so the gap between the words is always there and the line still widens to both sides
+  function entries(X,Y){
+    var xs=X.split(' '),ys=Y.split(' '),out=[];
+    xs.forEach(function(xw,wi){
+      var yw=ys[wi],left=wi===0,more=yw.length-xw.length,extra=Math.abs(more),i;
+      if(wi>0)out.push({kind:'inner',from:' ',to:' '});
+      var ends=[];
+      for(i=0;i<extra;i++)ends.push(more>=0?{kind:'born',from:'',to:left?yw[i]:yw[xw.length+i]}:{kind:'collapse',from:left?xw[i]:xw[yw.length+i],to:''});
+      // depth 1 = right next to the word's own letters; end 0 = the word's outer end
+      ends.forEach(function(e,k){e.depth=left?extra-k:k+1;e.end=left?k:extra-1-k});
+      var inner=[];
+      for(i=0;i<Math.min(xw.length,yw.length);i++){
+        var xi=more<0&&left?extra+i:i,yi=more>0&&left?extra+i:i;
+        inner.push({kind:'inner',from:xw[xi],to:yw[yi]});
+      }
+      out=out.concat(left?ends.concat(inner):inner.concat(ends));
+    });
+    return out;
+  }
+  return [[T1,0,1],[T2,1,2]].map(function(p){
+    var t0=p[0][0],t1=p[0][1],D=t1-t0,list=entries(TEXTS[p[1]],TEXTS[p[2]]),N=list.length;
+    var slots=list.map(function(e,j){
+      var seed=p[2]*991+j,gs,ge;
+      if(e.kind==='inner'){gs=t0+60;ge=gs+D*.6}
+      else if(e.kind==='born'){gs=t0+60+(e.depth-1)*35;ge=gs+D*.45}   // the ends open from the word outwards
+      else{gs=t0+60+e.end*35;ge=gs+D*.45}                                 // and fold away from the outside in
+      var colStart=e.kind==='born'?gs:t0+rnd(seed*7+1)*50,flick=e.kind==='born'?gs:colStart+60;
+      var u=j/(N-1)*.6+rnd(seed*7+2)*.4,land=Math.min(t1,Math.max(t0+D*(.55+.45*u),e.kind==='collapse'?0:ge+40));
+      var stop=e.kind==='collapse'?ge:land,ch=[],t=flick;
+      while(t<stop){ch.push(t);var k=(t-flick)/Math.max(1,stop-flick);t+=frames(33+80*k*k)}
+      return {kind:e.kind,from:e.from,to:e.to,w0:r.adv(e.from),w1:r.adv(e.to),gs:gs,ge:ge,colStart:colStart,flick:flick,land:land,changes:ch,seed:seed};
+    });
+    var last=Math.max.apply(null,slots.map(function(s){return s.kind==='collapse'?s.ge:s.land}));
+    return {t0:t0,slots:slots,end:last+230};
+  });
+}
+
+function renderGrow(r,t){
+  var act=null;r.gplan.forEach(function(p){if(t>=p.t0&&t<p.end)act=p});
+  var rest=t<T1[0]?0:t<T2[0]?1:2,black=mix(P_INK,P_INK,0),sand=mix(P_SAND,P_SAND,0),narrow=.45*r.fs;
+  // between changes the words sit in their own centred lines; during a change one line morphs between them
+  r.layers.forEach(function(L,k){L.slots.forEach(function(s){paintP(s,!act&&k===rest&&s.ch!==' ',s.ch,black,1,0)})});
+  if(r.morph.style.visibility!==(act?'':'hidden'))r.morph.style.visibility=act?'':'hidden';
+  if(!act)return;
+  r.mslots.forEach(function(m,j){
+    var P=act.slots[j];
+    if(!P){if(m.w!==0){m.el.style.width='0px';m.w=0}paintP(m,false);return}
+    var k=easeInOut(clamp((t-P.gs)/(P.ge-P.gs))),w=P.w0+(P.w1-P.w0)*k;
+    if(Math.abs(w-m.w)>.05){m.el.style.width=w.toFixed(2)+'px';m.w=w}
+    if(P.kind==='collapse'&&t>=P.ge){paintP(m,false);return}
+    if(t<P.colStart){paintP(m,true,P.from,black,1,0);return}
+    if(t<P.flick){paintP(m,true,P.from,mix(P_INK,P_SAND,easeOut(clamp((t-P.colStart)/60))),1,0);return}
+    if(P.from===' '&&P.to===' '){paintP(m,false);return}
+    if(P.kind==='collapse'||t<P.land){
+      // flickering: fading in as an end opens, out as it folds, out as a letter becomes the gap between words
+      var op=P.kind==='born'?k:P.kind==='collapse'?1-k:P.to===' '?1-clamp((t-P.flick)/Math.max(1,P.land-P.flick)):1;
+      var c;
+      if(w<narrow&&(P.to==='I'||P.from==='I'))c='I';
+      else{var n=0;while(n+1<P.changes.length&&P.changes[n+1]<=t)n++;var list=r.pick(Math.max(w,narrow));c=list[hash(P.seed*131+n*7919)%list.length]}
+      paintP(m,true,c,sand,op,0);return;
+    }
+    if(P.to===' '){paintP(m,false);return}
+    paintP(m,true,P.to,mix(P_SAND,P_INK,easeOut(clamp((t-P.land)/180))),1,(1-easeOut(clamp((t-P.land)/220)))*.06*r.fs);
+  });
+}
+</script>
+</body></html>

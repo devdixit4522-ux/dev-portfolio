@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scramble loader, richer</title>
+<style>
+@font-face{font-family:"Nimbus Sans";src:url(../../public/system/fonts/NimbusSans-Regular.otf) format("opentype");font-weight:400;font-display:block}
+@font-face{font-family:"Nimbus Sans";src:url(../../public/system/fonts/NimbusSans-Bold.otf) format("opentype");font-weight:700;font-display:block}
+:root{
+  --page:#fcfcfc;--panel:#f4f5ef;--card:#fff;--ink:#000;--soft:#4c4c4c;--mute:#8f8f8f;--bubble:#ececea;
+  --sand-1:#f4ede4;--sand-2:#eadfd1;--sand-3:#dccbb8;--sand-ink:#6e5b48;--sand-deep:#3f3328;
+  --font:"Nimbus Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --out:cubic-bezier(.16,1,.3,1);--gutter:30px
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--sand-2);color:var(--sand-deep)}
+
+/* ── the homepage underneath (a stand-in of the real hero) ── */
+.nav{position:fixed;inset:0 0 auto;height:68px;z-index:10}
+.nav-in{width:min(1260px,100%);height:100%;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.nav-name{justify-self:start;font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1;display:inline-block}
+.nav-switch{display:flex;gap:2px;padding:4px;background:var(--panel);border-radius:999px;font-size:14px}
+.nav-switch span{display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;color:var(--soft)}
+.nav-switch span:first-child{background:var(--card);color:var(--ink)}
+.nav-contact{justify-self:end;display:inline-flex;align-items:center;height:38px;padding:0 18px;border-radius:999px;background:var(--panel);font-size:14px}
+.intro{width:min(1260px,100%);margin:0 auto;padding:68px var(--gutter) 0;min-height:min(820px,calc(100svh - 40px));display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:center;column-gap:48px}
+.statement{margin:0;font-size:clamp(1.5rem,2.4vw,2.125rem);font-weight:400;line-height:1.1;letter-spacing:-.04em;text-wrap:pretty}
+.statement strong{font-weight:700}.quiet{color:var(--mute)}
+.face{display:inline-block;width:.92em;height:.92em;margin:0 .06em 0 .02em;vertical-align:-.12em;border-radius:50%;background:var(--bubble) url(../../public/images/face.png) center/cover}
+.hello{margin:32px 0 0;font-size:17px;letter-spacing:-.02em}
+.hello a{color:var(--ink);text-decoration:underline 2px var(--sand-3);text-underline-offset:6px}
+.me{width:80%;aspect-ratio:1;justify-self:center}
+.me img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 72%,rgba(0,0,0,.6) 86%,transparent 100%);mask-image:radial-gradient(closest-side,#000 72%,rgba(0,0,0,.6) 86%,transparent 100%)}
+@media (max-width:809px){
+  :root{--gutter:16px}
+  .nav-switch{display:none}.nav-in{grid-template-columns:1fr 1fr}
+  .intro{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:28px;padding-top:110px}
+  .me{width:100%;max-width:420px}
+}
+.waiting .nav-in>*,.waiting .intro>*{opacity:0}
+.arrive .nav-in>*,.arrive .intro>*{animation:arrive 820ms var(--out) both}
+.arrive .intro>.me{animation-delay:80ms}
+@keyframes arrive{from{opacity:0;translate:0 14px;filter:blur(6px)}}
+.hold-name .nav-name{animation:none!important;opacity:0}
+
+/* ── the loader ── */
+.veil{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--page);pointer-events:none}
+.stack{display:flex;flex-direction:column;align-items:flex-start;translate:calc(var(--cell) * .25) 0}
+.line{display:flex;font-size:clamp(22px,2.7vw,32px);font-weight:700;line-height:1;white-space:pre;transform-origin:0 0}
+/* every character gets the same box, wider than any glyph, so nothing clips, squeezes or shifts */
+.slot{display:block;flex:none;width:var(--cell);height:1em;text-align:center}
+
+/* R1 · split-flap: sand tiles, each a top and bottom half, with two flaps that fold over the crease */
+.board{gap:var(--gap);font-size:clamp(18px,3.3vw,44px)}
+.board+.meter{display:none}
+.stack:has(.board){translate:none}
+.tile{position:relative;flex:none;width:var(--cell);height:1.4em;perspective:5em;border-radius:.1em;box-shadow:0 .5em .7em -.55em rgba(63,51,40,.35)}
+.tile .h{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:var(--sand-1)}
+.tile .top{top:0;border-radius:.1em .1em 0 0}
+.tile .bot{bottom:0;border-radius:0 0 .1em .1em;background:#efe5d8}
+.tile .h span{position:absolute;left:0;right:0;height:200%;display:grid;place-items:center;padding-top:.1em}
+.tile .top span{top:0}.tile .bot span{bottom:0}
+.tile .ft{transform-origin:50% 100%;backface-visibility:hidden;z-index:2}
+.tile .fb{transform-origin:50% 0;backface-visibility:hidden;z-index:2}
+.tile::after{content:"";position:absolute;left:0;right:0;top:calc(50% - .5px);height:1px;background:rgba(63,51,40,.16);z-index:3}
+
+/* R3 · the meter under the name */
+.meter{position:relative;width:calc(var(--cell) * 16);margin-top:.9em;height:2px;background:rgba(220,203,184,.45);font-size:clamp(22px,2.7vw,32px)}
+.meter b{position:absolute;inset:0;background:var(--sand-ink);transform-origin:0 50%;transform:scaleX(0)}
+.meter span{position:absolute;right:0;top:12px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--sand-ink);font-variant-numeric:tabular-nums}
+
+/* R4 · the cut */
+.half{position:fixed;top:0;bottom:0;z-index:50;overflow:hidden;background:var(--page);pointer-events:none}
+.half .veil{position:absolute;width:100vw;inset:0 auto 0 0}
+.half.l{left:0;box-shadow:10px 0 28px -14px rgba(63,51,40,.3)}
+.half.r{right:0;box-shadow:-10px 0 28px -14px rgba(63,51,40,.3)}
+.cut{position:fixed;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--sand-ink);transform-origin:50% 0;z-index:51;pointer-events:none}
+
+/* ── demo controls (not part of the design) ── */
+.ui{position:fixed;left:50%;bottom:16px;translate:-50% 0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;width:max-content;max-width:calc(100vw - 32px)}
+.ui-note{font-size:13px;color:var(--soft);background:rgba(252,252,252,.92);padding:4px 10px;border-radius:999px;text-align:center}
+.ui-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;padding:5px;background:#141414;border-radius:24px;max-width:100%}
+.ui button,.ui label{font:inherit;font-size:13px;color:#fff;background:none;border:0;padding:8px 13px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.ui button[aria-pressed="true"]{background:#fff;color:#000}
+.ui button:focus-visible,.ui label:focus-within{outline:2px solid #fff;outline-offset:2px}
+.ui .sep{width:1px;background:rgba(255,255,255,.2);margin:6px 2px}
+.ui input{accent-color:var(--sand-3);margin:0}
+.frozen .ui{display:none}
+</style></head><body>
+
+<div class="site waiting" id="site">
+  <header class="nav"><div class="nav-in">
+    <span class="nav-name" id="navName">Dev Dixit</span>
+    <span class="nav-switch"><span>Work</span><span>About</span></span>
+    <span class="nav-contact">Contact</span>
+  </div></header>
+  <main class="intro">
+    <div>
+      <h1 class="statement">I'm <span class="face"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck. Lately: why first-time investors freeze on</span> <strong>Groww</strong><span class="quiet">, and why nobody finds the concerts on</span> <strong>BookMyShow</strong><span class="quiet">.</span></h1>
+      <p class="hello">Say hi at <a href="#">devdixit4522@gmail.com</a></p>
+    </div>
+    <div class="me"><img src="../../public/images/hero-still.jpg" alt="Dev Dixit lying on a bed, working on a laptop"></div>
+  </main>
+</div>
+
+<div id="slot"></div>
+
+<div class="ui" role="group" aria-label="Demo controls">
+  <span class="ui-note" id="note" aria-live="polite"></span>
+  <div class="ui-bar">
+    <button data-v="r1">R1 · Split-flap</button>
+    <button data-v="r2">R2 · Huge</button>
+    <button data-v="r3">R3 · Counter</button>
+    <button data-v="r4">R4 · Split open</button>
+    <span class="sep" aria-hidden="true"></span>
+    <button id="replay">Replay</button>
+    <label><input type="checkbox" id="slow"> Slow-mo</label>
+  </div>
+</div>
+
+<script>
+/* DEV DIXIT → PRODUCT DESIGNER → DEV DIXIT, in 16 equal boxes. A small wave of scrambling boxes sweeps
+   left to right. Four ways to make more of it. One clock drives everything, so slow-mo and frozen
+   frames (?at=ms) match full speed exactly. */
+var TEXTS=['DEV DIXIT','PRODUCT DESIGNER','DEV DIXIT'];
+var NOISE='BCDFGHJKLNPQRSTVXZ0123456789';  // no vowels, so the noise never spells a word; no M or W, too wide
+var CELLS=16;
+var SHOW=[60,300], T1=[450,1100], T2=[1500,2150], EXIT=2300;
+var VERSIONS={
+  r1:{kind:'flap',tick:80,wave:4,exit:'lift',len:560,note:'Split-flap · sand tiles flip like a departures board · the board lifts'},
+  r2:{kind:'type',tick:45,wave:3,exit:'nav',len:820,huge:true,note:'Huge · edge to edge · the name shrinks into the nav'},
+  r3:{kind:'type',tick:45,wave:3,exit:'lift',len:520,meter:true,note:'Counter · a sand line and 000 → 100 under the name · the screen lifts'},
+  r4:{kind:'type',tick:45,wave:3,exit:'split',len:960,note:'Split open · a sand line cuts between DEV and DIXIT, the screen parts'}
+};
+var FLIP=72;
+
+var site=document.getElementById('site'),host=document.getElementById('slot'),navName=document.getElementById('navName');
+var S=1,raf=0,cur='r1',run=null;
+
+function bezier(x1,y1,x2,y2){
+  function a(p,q){return 1-3*q+3*p}function b(p,q){return 3*q-6*p}function c(p){return 3*p}
+  function at(t,p,q){return((a(p,q)*t+b(p,q))*t+c(p))*t}function slope(t,p,q){return 3*a(p,q)*t*t+2*b(p,q)*t+c(p)}
+  return function(x){if(x<=0)return 0;if(x>=1)return 1;var t=x;for(var i=0;i<6;i++){var s=slope(t,x1,x2);if(!s)break;t-=(at(t,x1,x2)-x)/s}return at(t,y1,y2)};
+}
+var easeIO=bezier(.76,0,.24,1), easeOut=bezier(.16,1,.3,1), easeFly=bezier(.7,0,.16,1), easeOpen=bezier(.65,0,.2,1);
+function clamp(x){return x<0?0:x>1?1:x}
+function hash(n){n=(n^61)^(n>>>16);n=n+(n<<3);n=n^(n>>>4);n=Math.imul(n,0x27d4eb2d);return (n^(n>>>15))>>>0}
+function cells(t){var o=Math.floor((CELLS-t.length)/2),a=[];for(var i=0;i<CELLS;i++)a.push(t[i-o]||'');return a}
+var GRID=TEXTS.map(cells), NAME_AT=GRID[2].indexOf('D');
+
+// what box i shows at time t
+function charAt(v,i,t){
+  var a,b,ph;
+  if(t<T1[0]){a=b=0}else if(t<T1[1]){a=0;b=1;ph=T1}else if(t<T2[0]){a=b=1}else if(t<T2[1]){a=1;b=2;ph=T2}else{a=b=2}
+  var from=GRID[a][i],to=GRID[b][i];
+  if(!ph||from===to)return to;
+  var front=(t-ph[0])/(ph[1]-ph[0])*(CELLS-1+v.wave);
+  if(front<i)return from;
+  if(front<i+v.wave)return NOISE[hash(i*7919+Math.floor(t/v.tick)*104729+b*31)%NOISE.length];
+  return to;
+}
+
+function build(v){
+  var meter=v.meter?'<div class="meter"><b></b><span>000</span></div>':'';
+  host.innerHTML='<div class="veil" aria-hidden="true"><div class="stack"><div class="line'+(v.kind==='flap'?' board':'')+'"></div>'+meter+'</div></div>';
+  var veil=host.firstChild,stack=veil.firstChild,line=stack.firstChild,slots=[];
+  var ctx=document.createElement('canvas').getContext('2d');
+  function widest(fs){ctx.font='700 '+fs+'px "Nimbus Sans"';var m=0;(TEXTS.join('')+NOISE).split('').forEach(function(ch){m=Math.max(m,ctx.measureText(ch).width)});return m}
+  var fs=parseFloat(getComputedStyle(line).fontSize);
+  if(v.huge){
+    // as big as fits: 16 boxes across 94% of the screen, never taller than a quarter of it
+    var r=widest(100)/100+.12;fs=Math.min(innerWidth*.94/(CELLS*r),innerHeight*.25);line.style.fontSize=fs+'px';
+  }
+  var pad=v.kind==='flap'?.34:.12,cell=widest(fs)+fs*pad;
+  stack.style.setProperty('--cell',cell+'px');stack.style.setProperty('--gap',(fs*.09)+'px');
+  if(v.meter)stack.querySelector('.meter').style.fontSize=fs+'px';
+  for(var i=0;i<CELLS;i++){
+    var el=document.createElement('span'),s={el:el,txt:null};
+    if(v.kind==='flap'){
+      el.className='tile';
+      el.innerHTML='<div class="h top"><span></span></div><div class="h bot"><span></span></div><div class="h top ft"><span></span></div><div class="h bot fb"><span></span></div>';
+      var q=el.querySelectorAll('span');
+      s.top=q[0];s.bot=q[1];s.ft=q[2];s.fb=q[3];s.ftBox=q[2].parentNode;s.fbBox=q[3].parentNode;
+      s.shown=GRID[0][i];s.prev=s.shown;s.at=-1e9;s.c={};
+    }else el.className='slot';
+    line.appendChild(el);slots.push(s);
+  }
+  return {v:v,veil:veil,stack:stack,line:line,slots:slots,done:false,arrived:false};
+}
+
+function set(s,key,node,val){if(s.c[key]!==val){node.textContent=val;s.c[key]=val}}
+function setT(s,key,node,val){if(s.c[key]!==val){node.style.transform=val;s.c[key]=val}}
+function setV(s,key,node,val){if(s.c[key]!==val){node.style.visibility=val;s.c[key]=val}}
+
+function drawFlap(s,ch,t){
+  if(ch!==s.shown){s.prev=s.shown;s.shown=ch;s.at=t}
+  var f=clamp((t-s.at)/FLIP);
+  set(s,'top',s.top,s.shown);
+  set(s,'bot',s.bot,f<1?s.prev:s.shown);
+  // the old top half folds down over the crease, then the new bottom half lands
+  set(s,'ft',s.ft,s.prev);set(s,'fb',s.fb,s.shown);
+  setV(s,'ftv',s.ftBox,f<.5?'visible':'hidden');
+  setV(s,'fbv',s.fbBox,f>=.5&&f<1?'visible':'hidden');
+  setT(s,'ftt',s.ftBox,'rotateX('+(-180*f).toFixed(1)+'deg)');
+  setT(s,'fbt',s.fbBox,'rotateX('+(90-180*(f-.5)).toFixed(1)+'deg)');
+}
+
+// the meter: in the real site this follows the page's actual loading; here it's a believable stand-in
+function progress(t){
+  var k=[[SHOW[0],0],[350,9],[900,57],[1300,72],[1750,91],[T2[1],100]];
+  if(t<=k[0][0])return 0;
+  for(var i=1;i<k.length;i++)if(t<=k[i][0]){var a=k[i-1],b=k[i],u=(t-a[0])/(b[0]-a[0]);return a[1]+(b[1]-a[1])*easeOut(u)}
+  return 100;
+}
+
+function render(r,t){
+  var v=r.v;
+  for(var i=0;i<CELLS;i++){
+    var s=r.slots[i],ch=charAt(v,i,t);
+    if(v.kind==='flap')drawFlap(s,ch,t);
+    else if(s.txt!==ch){s.el.textContent=ch;s.txt=ch}
+  }
+  if(v.meter){
+    var p=progress(t),m=r.stack.querySelector('.meter');
+    m.firstChild.style.transform='scaleX('+(p/100)+')';
+    m.lastChild.textContent=('00'+Math.floor(p)).slice(-3);
+  }
+  // in sharp
+  var sh=clamp((t-SHOW[0])/(SHOW[1]-SHOW[0]));
+  r.stack.style.opacity=easeOut(sh);r.stack.style.filter=sh<1?'blur('+(5*(1-easeOut(sh)))+'px)':'';
+  // and out
+  var e=clamp((t-EXIT)/v.len);
+  if(v.exit==='lift'){if(t>=EXIT&&!r.arrived){r.arrived=true;arrive()}r.veil.style.transform='translateY('+(-100*easeIO(e))+'%)'}
+  if(v.exit==='nav'&&t>=EXIT)fly(r,e);
+  if(v.exit==='split'&&t>=EXIT)split(r,t-EXIT);
+  if(e>=1){r.done=true;navName.style.opacity='';site.classList.remove('hold-name');host.innerHTML=''}
+}
+
+// R2: fit the letters of DEV DIXIT (not their boxes) onto the nav's name, then hand over to it
+function fly(r,e){
+  if(!r.arrived){r.arrived=true;arrive()}
+  if(!r.fly){
+    var A=r.slots[NAME_AT].el.getBoundingClientRect(),Z=r.slots[NAME_AT+8].el.getBoundingClientRect(),N=navName.getBoundingClientRect(),L=r.line.getBoundingClientRect();
+    var inset=A.width*.12,left=A.left+inset,right=Z.right-inset,s=N.width/(right-left),cy=A.top+A.height/2;
+    r.fly={s:s,tx:N.left-L.left-(left-L.left)*s,ty:N.top+N.height/2-L.top-(cy-L.top)*s};
+  }
+  var f=easeFly(e),F=r.fly;
+  r.line.style.transform='translate('+(F.tx*f)+'px,'+(F.ty*f)+'px) scale('+(1+(F.s-1)*f)+')';
+  r.veil.style.backgroundColor='rgba(252,252,252,'+(1-easeOut(Math.min(1,e*1.6)))+')';
+  var x=clamp((e-.6)/.3);r.line.style.opacity=1-x;navName.style.opacity=x;
+}
+
+// R4: a sand line cuts down between DEV and DIXIT, then the two halves part
+function split(r,dt){
+  if(!r.cut){
+    var a=r.slots[NAME_AT+3].el.getBoundingClientRect(),X=a.left+a.width/2;
+    // two curtains, each holding a copy of the screen, cut at the gap
+    var L=document.createElement('div'),R=document.createElement('div');L.className='half l';R.className='half r';
+    L.style.width=X+'px';R.style.width=(innerWidth-X)+'px';
+    var cl=r.veil.cloneNode(true),cr=r.veil.cloneNode(true);cr.style.left=(-X)+'px';
+    L.appendChild(cl);R.appendChild(cr);host.appendChild(L);host.appendChild(R);r.veil.style.visibility='hidden';
+    var cut=document.createElement('div');cut.className='cut';cut.style.left=X+'px';host.appendChild(cut);
+    r.cut={X:X,l:L,r:R,line:cut};
+  }
+  var C=r.cut,c=clamp(dt/260),o=clamp((dt-240)/700);
+  C.line.style.transform='scaleY('+easeIO(c)+')';C.line.style.opacity=1-clamp(o*2.5);
+  if(o>0&&!r.arrived){r.arrived=true;arrive()}
+  var k=easeOpen(o);
+  // the curtains only cast a shadow once they move
+  var a=(.3*Math.min(1,k*5)).toFixed(3);C.l.style.boxShadow='10px 0 28px -14px rgba(63,51,40,'+a+')';C.r.style.boxShadow='-10px 0 28px -14px rgba(63,51,40,'+a+')';
+  C.l.style.transform='translateX('+(-(C.X+30)*k)+'px)';C.r.style.transform='translateX('+((innerWidth-C.X+30)*k)+'px)';
+}
+
+function rate(){document.getAnimations().forEach(function(a){a.playbackRate=1/S})}
+function arrive(){site.classList.remove('waiting');site.classList.add('arrive');rate()}
+function reset(id){cancelAnimationFrame(raf);navName.style.opacity='';site.className='site waiting'+(VERSIONS[id].exit==='nav'?' hold-name':'');void site.offsetWidth}
+
+function play(id){
+  cur=id;try{history.replaceState(null,'',location.search+'#'+id)}catch(e){}
+  document.querySelectorAll('[data-v]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===id)});
+  document.getElementById('note').textContent=VERSIONS[id].note+(S>1?' · quarter speed':'');
+  reset(id);run=build(VERSIONS[id]);
+  var t0=performance.now();
+  (function tick(now){render(run,(now-t0)/S);if(!run.done)raf=requestAnimationFrame(tick)})(t0);
+}
+
+document.querySelectorAll('[data-v]').forEach(function(b){b.onclick=function(){play(b.dataset.v)}});
+document.getElementById('replay').onclick=function(){play(cur)};
+document.getElementById('slow').onchange=function(e){S=e.target.checked?4:1;play(cur)};
+
+Promise.all([document.fonts.load('700 40px "Nimbus Sans"'),document.fonts.load('400 40px "Nimbus Sans"')]).then(function(){
+  var id=location.hash.slice(1);id=VERSIONS[id]?id:'r1';
+  var at=new URLSearchParams(location.search).get('at');
+  if(at===null)return play(id);
+  // frozen frame for checking: step the clock up to one moment and stop there
+  document.documentElement.classList.add('frozen');cur=id;reset(id);
+  run=build(VERSIONS[id]);var t=+at;
+  for(var u=0;u<t;u+=8)render(run,u);
+  if(t>=EXIT)document.getAnimations().forEach(function(a){a.currentTime=t-EXIT});
+  render(run,t);
+});
+</script>
+</body></html>

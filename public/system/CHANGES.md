@@ -3,6 +3,10 @@
 This folder (`public/system/`) is now the working home of the system. The Desktop copy
 (`case studies/Groww/case-study-system/`) is still at v1.0 and was not edited.
 
+## v1.8 (2026-10-16)
+
+- **Case study intro.** On the first case study opened in a tab, "Dev Dixit" rises into view on a white veil, then the veil lifts away (about 1.2s). It is skipped for the rest of that tab's visit, with reduced motion, and when the homepage tile is already growing into the page. The portfolio homepage plays the same intro (one flag, so a tab sees it once). Styles are in `shared.css`; the markup and its small script are written into each case study by `scripts/sync-nav.mjs` (between `<!-- site-intro -->` markers), like the nav.
+
 ## v1.7 (2026-10-14)
 
 - **Smaller desktop type** for the 1200px frame: `--t-h1` 38 to 34px, `--t-h2` 28 to 25px, `--t-body` 18 to 17px, `--t-card-title` 18 to 17px, `--t-card-text` 16 to 15px, `--t-stat` 34 to 31px, `--t-ask` 24 to 22px, `--t-versus` 26 to 24px. Tablet and phone sizes are unchanged.

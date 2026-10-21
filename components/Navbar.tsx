@@ -156,7 +156,7 @@ function ContactCard() {
         </a>
       </NavigationMenuLink>
       <NavigationMenuLink asChild>
-        <a className="nav-row" href={site.resumeUrl}>
+        <a className="nav-row" href={site.resumeUrl} download>
           <span>
             <span className="nav-row-label">Resume</span>
             <span className="nav-row-value">Download PDF</span>

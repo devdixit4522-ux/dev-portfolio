@@ -23,6 +23,13 @@
 </style>
 </head>
 <body>
+  <!-- site-intro -->
+  <script>(function(){try{if(sessionStorage.getItem("cs-intro"))return;sessionStorage.setItem("cs-intro","1")}catch(e){return}
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var h=document.documentElement;h.classList.add("cs-intro");
+  addEventListener("pagereveal",function(e){if(e.viewTransition)h.classList.remove("cs-intro")});})()</script>
+  <div class="cs-intro-veil" aria-hidden="true"><span class="cs-intro-name"><span>Dev Dixit</span></span></div>
+  <!-- /site-intro -->
   <a class="skip" href="#main">Skip to content</a>
 
   <!-- site-nav -->
@@ -39,7 +46,7 @@
         <div class="nav-card" id="nav-contact-card" hidden>
           <div class="nav-row"><a href="mailto:devdixit4522@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit4522@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit4522@gmail.com">Copy</button></div>
           <a class="nav-row" href="https://www.linkedin.com/in/devdixit4522/" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-          <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
+          <a class="nav-row" href="/Dev_Dixit_Resume.pdf" download><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
         </div>
       </div>
     </nav>

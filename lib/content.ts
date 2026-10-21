@@ -49,9 +49,9 @@ export const caseStudies: CaseStudy[] = [
     loop: "/work/bookmyshow/tap-peek.html",
     say: "This is the real prototype. Tapping an event card opens a preview sheet, so people can check out an event without losing the page they were browsing.",
     screens: [
-      "/work/bookmyshow/assets/hero-home.png",
-      "/work/bookmyshow/assets/movie-detail-also.png",
-      "/work/bookmyshow/assets/fork-events-row.png",
+      "/work/bookmyshow/assets/hero-home.webp",
+      "/work/bookmyshow/assets/movie-detail-also.webp",
+      "/work/bookmyshow/assets/fork-events-row.webp",
     ],
     // 16:9, so the 3:2 tile trims a little off each side; the phone sits in the middle
     cover: "/work/bookmyshow/cover.webp",
@@ -147,8 +147,8 @@ export const labProjects: LabProject[] = [
 
 
 /**
- * About page. Claude's draft, a placeholder until Dev rewrites it (docs/content-status.md).
- * Every fact comes from the case studies; the jokes are Claude's and are Dev's to keep or cut.
+ * About page. Every fact comes from the case studies or Dev's resume; the hand-note jokes
+ * are Claude's and are Dev's to keep or cut (docs/content-status.md).
  */
 export const about = {
   /** Hand notes around the portrait, in the case studies' annotation style */
@@ -177,10 +177,50 @@ export const about = {
       cta: "See the rejects",
     },
   ],
+  /** From Dev's resume (public/Dev_Dixit_Resume.pdf) */
   experience: [
-    { role: "[Role]", company: "[Company]", years: "[Year–Year]" },
-    { role: "[Role]", company: "[Company]", years: "[Year–Year]" },
+    { role: "Freelance Product Designer", company: "PrayagrajKumbhMela.com", years: "Dec 2024 – Jan 2025" },
+    { role: "UI/UX Design Intern", company: "Campaign Studio", years: "Aug – Dec 2024" },
+    { role: "B.Des, Product & Industrial Design", company: "Lovely Professional University", years: "2022 – 2026" },
   ],
+  /** Things Dev designed and built alone. From the resume; links only where the project is public. */
+  built: [
+    {
+      name: "STEP/REPEAT",
+      kind: "Generative type tool",
+      years: "2026",
+      text: "Type a letter, a word or drop in an image, and it splits, echoes and comes back together on one grid.",
+      stack: "HTML, CSS, JavaScript and Canvas",
+      href: "/lab/step-repeat",
+      cta: "See the project",
+    },
+    {
+      name: "RepGate",
+      kind: "Android app",
+      years: "Sep – Oct 2026",
+      text: "Puts 10 camera-counted push-ups between you and an app you chose to limit. The counter never over-counted: 48 real reps counted and 19 half reps rejected across 13 recordings.",
+      stack: "Kotlin, Jetpack Compose, CameraX, MediaPipe Pose",
+      cta: "Demoed live in class",
+    },
+    {
+      name: "Kept",
+      kind: "Web app",
+      years: "Sep – Oct 2026",
+      text: "A habit tracker you share with one partner: one shared streak, and a Nudge when they go quiet. I wrote the PRD too.",
+      stack: "Next.js, Supabase",
+      href: "https://kept-jet.vercel.app",
+      cta: "Open Kept",
+    },
+    {
+      name: "NameGenius",
+      kind: "Web app",
+      years: "Sep – Oct 2026",
+      text: "AI brand naming with an “anti-brief” filter and live domain checks. Used by early testers.",
+      stack: "Gemini API",
+      href: "https://name-genius-theta.vercel.app",
+      cta: "Open NameGenius",
+    },
+  ] as { name: string; kind: string; years: string; text: string; stack: string; href?: string; cta: string }[],
   /** Photos from outside work. Only the first is real; Dev sends the rest. */
   photos: [
     { id: "office", src: "/images/hero-still.jpg", alt: "Dev on a bed with a laptop, a mug and a notebook", caption: "This counts, right?" },

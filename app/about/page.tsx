@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
-import { Desk } from "@/components/about/Desk";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Portrait } from "@/components/about/Portrait";
 import { SayHi } from "@/components/about/SayHi";
-import { Badge } from "@/components/ui/badge";
 import { about } from "@/lib/content";
 
 export const metadata: Metadata = { title: "About · Dev Dixit" };
 
-const placeholder = "h-auto px-2 py-0.5 align-middle text-[12px] font-normal tracking-normal text-soft";
+const link =
+  "hit mt-3 inline-flex items-center gap-1.5 text-[15px] tracking-normal text-soft no-underline transition-colors duration-[180ms] hover:text-ink";
 
 // The homepage's sibling: the same two-tone sentence, then Dev annotated in the
-// hand the case studies use for their screens. Copy is Claude's draft (lib/content.ts).
+// hand the case studies use for their screens. Copy lives in lib/content.ts.
 export default function AboutPage() {
   return (
     <main id="main" className="page-width pt-[calc(var(--nav-h)+var(--hero-top))]">
@@ -38,10 +37,7 @@ export default function AboutPage() {
               <h3 className="sub-title">{r.claim}</h3>
               <div className="max-w-[var(--read)]">
                 <p>{r.proof}</p>
-                <a
-                  className="hit mt-3 inline-flex items-center gap-1.5 text-[15px] tracking-normal text-soft no-underline transition-colors duration-[180ms] hover:text-ink"
-                  href={r.href}
-                >
+                <a className={link} href={r.href}>
                   {r.cta} <ArrowRight size={16} aria-hidden />
                 </a>
               </div>
@@ -52,10 +48,7 @@ export default function AboutPage() {
 
       <section aria-labelledby="before" className="mt-[var(--gap-block)]">
         <h2 id="before" className="block-title rv">
-          Before this{" "}
-          <Badge variant="secondary" className={placeholder}>
-            Placeholder
-          </Badge>
+          Before this
         </h2>
         <ul className="rv mt-10 border-b border-hair">
           {about.experience.map((e, i) => (
@@ -69,14 +62,43 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      <section aria-labelledby="away" className="mt-[var(--gap-block)]">
-        <h2 id="away" className="block-title rv">
-          Away from Figma{" "}
-          <Badge variant="secondary" className={placeholder}>
-            3 photos to come
-          </Badge>
+      <section aria-labelledby="built" className="mt-[var(--gap-block)]">
+        <h2 id="built" className="block-title rv">
+          Built on my own
         </h2>
-        <Desk />
+        <ul className="mt-10 border-b border-hair">
+          {about.built.map((b) => {
+            const external = b.href?.startsWith("http");
+            return (
+              <li
+                key={b.name}
+                className="rv grid gap-x-14 gap-y-3 border-t border-hair py-8 desktop:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] desktop:py-10"
+              >
+                <div>
+                  <h3 className="sub-title">{b.name}</h3>
+                  <p className="mt-1 text-[15px] tracking-normal text-soft">
+                    {b.kind} · <span className="tabular-nums">{b.years}</span>
+                  </p>
+                </div>
+                <div className="max-w-[var(--read)]">
+                  <p>{b.text}</p>
+                  <p className="mt-2 text-[15px] tracking-normal text-soft">{b.stack}</p>
+                  {b.href ? (
+                    <a
+                      className={link}
+                      href={b.href}
+                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      {b.cta} {external ? <ArrowUpRight size={16} aria-hidden /> : <ArrowRight size={16} aria-hidden />}
+                    </a>
+                  ) : (
+                    <p className="mt-3 text-[15px] tracking-normal text-soft">{b.cta}</p>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <SayHi />

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loader demos</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Nimbus Sans";src:url(../../public/system/fonts/NimbusSans-Regular.otf) format("opentype");font-weight:400;font-display:block}
+@font-face{font-family:"Nimbus Sans";src:url(../../public/system/fonts/NimbusSans-Bold.otf) format("opentype");font-weight:700;font-display:block}
+:root{
+  --page:#fcfcfc;--panel:#f4f5ef;--card:#fff;--ink:#000;--soft:#4c4c4c;--mute:#8f8f8f;--bubble:#ececea;
+  --sand-1:#f4ede4;--sand-2:#eadfd1;--sand-3:#dccbb8;--sand-ink:#6e5b48;--sand-deep:#3f3328;
+  --font:"Nimbus Sans","Helvetica Neue",Helvetica,Arial,sans-serif;--hand:Caveat,"Segoe Print",cursive;
+  --out:cubic-bezier(.16,1,.3,1);--io:cubic-bezier(.76,0,.24,1);--gutter:30px
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--sand-2);color:var(--sand-deep)}
+
+/* ── the homepage underneath (a stand-in of the real hero) ── */
+.nav{position:fixed;inset:0 0 auto;height:68px;z-index:10}
+.nav-in{width:min(1260px,100%);height:100%;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.nav-name{justify-self:start;font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1;display:inline-block}
+.nav-switch{display:flex;gap:2px;padding:4px;background:var(--panel);border-radius:999px;font-size:14px}
+.nav-switch span{display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;color:var(--soft)}
+.nav-switch span:first-child{background:var(--card);color:var(--ink)}
+.nav-contact{justify-self:end;display:inline-flex;align-items:center;height:38px;padding:0 18px;border-radius:999px;background:var(--panel);font-size:14px}
+.intro{width:min(1260px,100%);margin:0 auto;padding:68px var(--gutter) 0;min-height:min(820px,calc(100svh - 40px));display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:center;column-gap:48px}
+.statement{margin:0;font-size:clamp(1.5rem,2.4vw,2.125rem);font-weight:400;line-height:1.1;letter-spacing:-.04em;text-wrap:pretty}
+.statement strong{font-weight:700}.quiet{color:var(--mute)}
+.face{display:inline-block;width:.92em;height:.92em;margin:0 .06em 0 .02em;vertical-align:-.12em;border-radius:50%;background:var(--bubble) url(../../public/images/face.png) center/cover}
+.hello{margin:32px 0 0;font-size:17px;letter-spacing:-.02em}
+.hello a{color:var(--ink);text-decoration:underline 2px var(--sand-3);text-underline-offset:6px}
+.me{width:80%;aspect-ratio:1;justify-self:center}
+.me img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 72%,rgba(0,0,0,.6) 86%,transparent 100%);mask-image:radial-gradient(closest-side,#000 72%,rgba(0,0,0,.6) 86%,transparent 100%)}
+@media (max-width:809px){
+  :root{--gutter:16px}
+  .nav-switch{display:none}.nav-in{grid-template-columns:1fr 1fr}
+  .intro{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:28px;padding-top:110px}
+  .me{width:100%;max-width:420px}
+}
+
+/* hand-off: the page waits under the loader, then arrives as it leaves */
+.waiting .nav-in>*,.waiting .intro>*{opacity:0}
+.arrive .nav-in>*,.arrive .intro>*{animation:arrive 820ms var(--out) both}
+.arrive .intro>.me{animation-delay:80ms}
+@keyframes arrive{from{opacity:0;translate:0 14px;filter:blur(6px)}}
+.hold-name .nav-name{visibility:hidden}
+.landed .nav-name{animation:none!important;opacity:1;visibility:visible}
+
+.veil{position:fixed;inset:0;z-index:50;pointer-events:none}
+
+/* ── A · Hand notes ── */
+.a{display:grid;place-items:center;background:var(--page);animation:a-lift 520ms var(--io) var(--a-lift) forwards}
+.a-stage{position:relative;padding:28px 40px}
+.a-mark{position:absolute;left:28px;right:28px;top:47%;height:38%;background:var(--sand-2);border-radius:4px;transform-origin:0 50%;scale:0 1;animation:a-swipe 520ms cubic-bezier(.6,0,.2,1) 380ms forwards}
+.a-name{position:relative;overflow:hidden;line-height:1.15}
+.a-name span{display:block;font-size:52px;font-weight:700;letter-spacing:-.03em;transform:translateY(110%);animation:rise 600ms var(--out) 100ms forwards}
+.a-ink{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:var(--sand-ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.a-ink path{stroke-dasharray:1;stroke-dashoffset:1}
+.a-ink .ring{animation:draw 680ms cubic-bezier(.45,.05,.25,1) 520ms forwards}
+.a-ink .arrow{animation:draw 340ms ease-out 1380ms forwards}
+.a-ink .head{animation:draw 160ms ease-out 1700ms forwards}
+.a-note{position:absolute;left:64%;top:calc(100% + 16px);font:600 32px/1 var(--hand);color:var(--sand-ink);white-space:nowrap;rotate:-4deg;clip-path:inset(-20% 100% -20% 0);animation:write 520ms steps(16,end) 1120ms forwards}
+@keyframes a-swipe{to{scale:1 1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes write{to{clip-path:inset(-20% -6% -20% 0)}}
+@keyframes rise{to{transform:none}}
+@keyframes a-lift{to{transform:translateY(-100%);visibility:hidden}}
+
+/* ── B · Sand blanket ── */
+.b{overflow:hidden}
+.b-sheet{position:absolute;left:-12vw;right:-12vw;top:-30vh;height:136vh;display:grid;place-items:center;padding-top:30vh;
+  border-radius:0 0 50% 50%/0 0 16vh 12vh;transform-origin:0 0;
+  box-shadow:0 34px 60px rgba(63,51,40,.24),inset 0 -2px 0 rgba(255,255,255,.45);
+  background-color:var(--sand-2);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .2 0 0 0 0 .16 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg,rgba(63,51,40,.04) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,transparent 1px 3px),
+    linear-gradient(104deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 20%,rgba(63,51,40,.08) 36%,rgba(255,255,255,.16) 50%,rgba(63,51,40,.06) 68%,rgba(255,255,255,.2) 100%);
+  background-size:180px 180px,auto,auto,100% 100%;
+  animation:b-pull 900ms cubic-bezier(.62,0,.3,1) 980ms forwards}
+@keyframes b-pull{
+  0%{transform:none}
+  30%{transform:translate(1vw,-12vh) rotate(-4deg)}
+  100%{transform:translate(4vw,-150vh) rotate(-11deg)}}
+.b-name{font-size:52px;font-weight:700;letter-spacing:-.03em;color:var(--sand-deep);text-shadow:0 1px 0 rgba(255,255,255,.5),0 -1px 0 rgba(63,51,40,.12);animation:b-in 700ms var(--out) 120ms both}
+@keyframes b-in{from{opacity:0;filter:blur(10px);scale:1.04}}
+
+/* ── C · Designer's canvas ── */
+.c-grid{position:absolute;inset:0;width:min(1260px,100%);margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;transition:opacity 400ms ease}
+.c-grid i{background:rgba(220,203,184,.22);transform-origin:50% 0;scale:1 0;animation:c-grow 600ms var(--out) calc(var(--i)*28ms) forwards}
+@keyframes c-grow{to{scale:1 1}}
+.c-art{position:absolute;transition:inset 620ms var(--io),opacity 380ms ease}
+.c-box{position:absolute;inset:0;background:var(--page);box-shadow:inset 0 0 0 1px var(--sand-ink);clip-path:inset(0 100% 100% 0)}
+.c-box.drag{animation:c-drag 450ms cubic-bezier(.45,0,.2,1) forwards}
+@keyframes c-drag{to{clip-path:inset(0 0 0 0)}}
+.c-label{position:absolute;left:0;bottom:calc(100% + 8px);font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--sand-ink);opacity:0;transition:opacity 200ms ease}
+.c-text{position:absolute;inset:0;display:grid;place-items:center;transition:opacity 220ms ease}
+.c-name{position:relative;font-size:56px;font-weight:700;letter-spacing:-.03em;line-height:1;white-space:pre}
+.c-name b{font-weight:inherit;opacity:0}
+.c-name b.on{opacity:1}
+.c-caret{display:none;position:absolute;top:-.06em;bottom:-.06em;width:2px;background:var(--sand-ink);animation:blink 900ms steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.c-sel{position:absolute;inset:-6px -8px;border:1px solid var(--sand-ink);opacity:0}
+.c-sel i{position:absolute;width:7px;height:7px;background:#fff;border:1px solid var(--sand-ink)}
+.c-sel i:nth-child(1){left:-4px;top:-4px}.c-sel i:nth-child(2){right:-4px;top:-4px}.c-sel i:nth-child(3){left:-4px;bottom:-4px}.c-sel i:nth-child(4){right:-4px;bottom:-4px}
+.c-dim{position:absolute;left:50%;top:calc(100% + 12px);translate:-50% 0;padding:3px 6px;border-radius:3px;background:var(--sand-ink);color:#fff;font-size:11px;font-weight:700;letter-spacing:0;line-height:1.2;white-space:nowrap;font-variant-numeric:tabular-nums}
+.c-sel.on{opacity:1;transition:opacity 120ms ease}
+.c-cursor{position:absolute;left:0;top:0;width:20px;height:26px;opacity:0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
+
+/* ── D · Just your name ── */
+.d{display:grid;place-items:center;background:var(--page);transition:background-color 520ms ease}
+.d.clear{background-color:transparent}
+.d-name{position:relative;display:flex;font-size:clamp(72px,15.5vw,236px);font-weight:700;letter-spacing:-.01em;line-height:1;white-space:pre;transform-origin:0 0}
+.d-slot{display:inline-block;clip-path:inset(-.3em -.3em 0 -.3em)}
+.d-slot span{display:inline-block;transform:translateY(102%);animation:rise 720ms var(--out) calc(80ms + var(--i)*42ms) forwards}
+.d-bar{position:absolute;left:0;right:0;top:calc(100% + .07em);height:.07em;background:var(--sand-3);transform-origin:0 50%;scale:0 1;animation:a-swipe 560ms var(--io) 640ms forwards}
+
+/* ── the demo controls (not part of the design) ── */
+.ui{position:fixed;left:50%;bottom:16px;translate:-50% 0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;width:max-content;max-width:calc(100vw - 32px)}
+.ui-bar{max-width:100%}
+.ui-note{font-size:13px;color:var(--soft);background:rgba(252,252,252,.92);padding:4px 10px;border-radius:999px}
+.ui-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;padding:5px;background:#141414;border-radius:24px}
+.ui button,.ui label{font:inherit;font-size:13px;color:#fff;background:none;border:0;padding:8px 13px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.ui button[aria-pressed="true"]{background:#fff;color:#000}
+.ui button:focus-visible,.ui label:focus-within{outline:2px solid #fff;outline-offset:2px}
+.ui .sep{width:1px;background:rgba(255,255,255,.2);margin:6px 2px}
+.ui input{accent-color:var(--sand-3);margin:0}
+@media (max-width:809px){
+  .a-name span,.b-name{font-size:38px}.a-note{font-size:26px}.a-stage{padding:22px 30px}
+  .c-name{font-size:40px}.c-grid{grid-template-columns:repeat(4,1fr);gap:16px}
+  .ui button,.ui label{padding:7px 10px}
+}
+</style></head><body>
+
+<div class="site waiting" id="site">
+  <header class="nav"><div class="nav-in">
+    <span class="nav-name" id="navName">Dev Dixit</span>
+    <span class="nav-switch"><span>Work</span><span>About</span></span>
+    <span class="nav-contact">Contact</span>
+  </div></header>
+  <main class="intro">
+    <div>
+      <h1 class="statement">I'm <span class="face"></span><strong>Dev</strong>, a product designer in India. <span class="quiet">I like problems where people get stuck. Lately: why first-time investors freeze on</span> <strong>Groww</strong><span class="quiet">, and why nobody finds the concerts on</span> <strong>BookMyShow</strong><span class="quiet">.</span></h1>
+      <p class="hello">Say hi at <a href="#">devdixit4522@gmail.com</a></p>
+    </div>
+    <div class="me"><img src="../../public/images/hero-still.jpg" alt="Dev Dixit lying on a bed, working on a laptop"></div>
+  </main>
+</div>
+
+<div id="slot"></div>
+
+<div class="ui" role="group" aria-label="Demo controls">
+  <span class="ui-note" id="note" aria-live="polite"></span>
+  <div class="ui-bar">
+    <button data-demo="a">A · Hand notes</button>
+    <button data-demo="b">B · Sand blanket</button>
+    <button data-demo="c">C · Canvas</button>
+    <button data-demo="d">D · Your name</button>
+    <span class="sep" aria-hidden="true"></span>
+    <button id="replay">Replay</button>
+    <label><input type="checkbox" id="slow"> Slow-mo</label>
+  </div>
+</div>
+
+<script>
+var site=document.getElementById('site'),slot=document.getElementById('slot');
+var S=1,timers=[],raf=0,current='a';
+var NOTES={a:'Hand notes · about 2.4s',b:'Sand blanket · about 1.9s',c:"Designer's canvas · about 2.5s",d:'Your name · about 2s'};
+
+function rate(){document.getAnimations().forEach(function(a){a.playbackRate=1/S})}
+function at(ms,fn){timers.push(setTimeout(function(){fn();rate()},ms*S))}
+function arrive(){site.classList.remove('waiting');site.classList.add('arrive')}
+function done(){slot.innerHTML=''}
+function veil(cls,html){slot.innerHTML='<div class="veil '+cls+'" aria-hidden="true">'+html+'</div>';var v=slot.firstChild;getComputedStyle(v).opacity;return v}
+
+function reset(){
+  timers.forEach(clearTimeout);timers=[];cancelAnimationFrame(raf);
+  slot.innerHTML='';
+  site.className='site waiting';void site.offsetWidth;
+}
+
+/* A · Hand notes: the name rises, a sand highlighter, a loop of ink, a note in the margin */
+function demoA(){
+  var v=veil('a','<div class="a-stage"><div class="a-mark"></div><div class="a-name"><span>Dev Dixit</span></div>'
+    +'<svg class="a-ink" viewBox="0 0 300 100" preserveAspectRatio="none">'
+    +'<path class="ring" pathLength="1" vector-effect="non-scaling-stroke" d="M268 22 C 238 2, 90 -2, 40 24 C 4 44, 20 88, 146 92 C 262 96, 298 64, 280 34 C 272 20, 248 10, 214 6"/>'
+    +'<path class="arrow" pathLength="1" vector-effect="non-scaling-stroke" d="M232 122 C 228 108, 242 100, 248 92"/>'
+    +'<path class="head" pathLength="1" vector-effect="non-scaling-stroke" d="M239 98 L248 92 L253 101"/>'
+    +'</svg><div class="a-note">product designer</div></div>');
+  v.style.setProperty('--a-lift','1950ms');rate();
+  at(2000,arrive);at(2500,done);
+}
+
+/* B · Sand blanket: the blanket's sand covers the screen, then is pulled up off the page from one corner */
+function demoB(){
+  veil('b','<div class="b-sheet"><div class="b-name">Dev Dixit</div></div>');rate();
+  at(1200,arrive);at(1900,done);
+}
+
+/* C · Designer's canvas: a 12-column grid, a frame dragged out, the name typed and selected, then the frame becomes the page */
+function demoC(){
+  var cols='';for(var i=0;i<12;i++)cols+='<i style="--i:'+i+'"></i>';
+  var letters='Dev Dixit'.split('').map(function(ch){return '<b>'+ch+'</b>'}).join('');
+  var v=veil('c','<div class="c-grid">'+cols+'</div><div class="c-art"><div class="c-box"></div><span class="c-label">devdixit.fun</span>'
+    +'<div class="c-text"><span class="c-name">'+letters+'<span class="c-caret" style="left:0"></span><span class="c-sel"><i></i><i></i><i></i><i></i><span class="c-dim"></span></span></span></div></div>'
+    +'<svg class="c-cursor" viewBox="0 0 20 26"><path d="M2.5 2.5 L2.5 20 L7 15.6 L10.2 22.4 L13.2 21.1 L10.1 14.4 L16.2 14.4 Z" fill="#000" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>');
+  var art=v.querySelector('.c-art'),box=v.querySelector('.c-box'),label=v.querySelector('.c-label'),text=v.querySelector('.c-text'),
+      nm=v.querySelector('.c-name'),bs=nm.querySelectorAll('b'),caret=v.querySelector('.c-caret'),sel=v.querySelector('.c-sel'),
+      dim=v.querySelector('.c-dim'),cur=v.querySelector('.c-cursor'),grid=v.querySelector('.c-grid');
+  var vw=innerWidth,vh=innerHeight,w=Math.min(640,vw*.84),h=Math.max(220,Math.min(vh*.34,300)),l=(vw-w)/2,t=(vh-h)/2;
+  art.style.inset=t+'px '+l+'px';
+  var nr=nm.getBoundingClientRect();
+  dim.textContent=Math.round(nr.width)+' × '+Math.round(nr.height);
+  rate();
+  cur.animate([
+    {transform:'translate('+(l-70)+'px,'+(t-60)+'px)',opacity:0},
+    {transform:'translate('+l+'px,'+t+'px)',opacity:1,offset:.12,easing:'cubic-bezier(.45,0,.2,1)'},
+    {transform:'translate('+(l+w)+'px,'+(t+h)+'px)',opacity:1,offset:.38,easing:'cubic-bezier(.3,0,.2,1)'},
+    {transform:'translate('+(nr.left+4)+'px,'+(nr.top+nr.height*.7)+'px)',opacity:1,offset:.56},
+    {transform:'translate('+(nr.right+30)+'px,'+(nr.bottom+34)+'px)',opacity:1,offset:.8,easing:'ease-in'},
+    {transform:'translate('+(nr.right+60)+'px,'+(nr.bottom+70)+'px)',opacity:0}
+  ],{duration:1700,delay:120,fill:'forwards',easing:'cubic-bezier(.45,0,.2,1)'});
+  rate();
+  at(320,function(){box.classList.add('drag')});
+  at(780,function(){label.style.opacity=1});
+  bs.forEach(function(b,i){at(1000+i*38,function(){b.classList.add('on');caret.style.display='block';caret.style.left=(b.offsetLeft+b.offsetWidth+2)+'px'})});
+  at(1420,function(){caret.remove();sel.classList.add('on')});
+  at(1680,function(){text.style.opacity=0;label.style.opacity=0;grid.style.opacity=0;art.style.inset='0px'});
+  at(2120,function(){arrive();art.style.opacity=0});
+  at(2560,done);
+}
+
+/* D · Your name: set huge, letter by letter, underlined in sand, then it flies into the nav */
+function demoD(){
+  site.classList.add('hold-name');
+  var html='Dev Dixit'.split('').map(function(ch,i){return '<span class="d-slot"><span style="--i:'+i+'">'+ch+'</span></span>'}).join('');
+  var v=veil('d','<div class="d-name">'+html+'<span class="d-bar"></span></div>');
+  rate();
+  var big=v.querySelector('.d-name'),bar=v.querySelector('.d-bar');
+  at(1160,function(){
+    var a=big.getBoundingClientRect(),b=document.getElementById('navName').getBoundingClientRect(),s=b.height/a.height;
+    big.animate([{transform:'none'},{transform:'translate('+(b.left-a.left)+'px,'+(b.top-a.top)+'px) scale('+s+')'}],{duration:760,easing:'cubic-bezier(.7,0,.16,1)',fill:'forwards'});
+    bar.animate([{opacity:1},{opacity:0}],{duration:380,fill:'forwards'});
+    v.classList.add('clear');arrive();
+  });
+  at(1930,function(){site.classList.add('landed');done()});
+}
+
+var DEMOS={a:demoA,b:demoB,c:demoC,d:demoD};
+function play(id){
+  current=id;try{history.replaceState(null,'','#'+id)}catch(e){}
+  document.querySelectorAll('[data-demo]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.demo===id)});
+  document.getElementById('note').textContent=NOTES[id]+(S>1?' · playing at quarter speed':'');
+  reset();DEMOS[id]();
+}
+document.querySelectorAll('[data-demo]').forEach(function(b){b.onclick=function(){play(b.dataset.demo)}});
+document.getElementById('replay').onclick=function(){play(current)};
+document.getElementById('slow').onchange=function(e){S=e.target.checked?4:1;play(current)};
+document.fonts.ready.then(function(){var h=location.hash.slice(1);play(DEMOS[h]?h:'a')});
+</script>
+</body></html>

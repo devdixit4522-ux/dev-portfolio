@@ -63,6 +63,13 @@
 </style>
 </head>
 <body>
+  <!-- site-intro -->
+  <script>(function(){try{if(sessionStorage.getItem("cs-intro"))return;sessionStorage.setItem("cs-intro","1")}catch(e){return}
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var h=document.documentElement;h.classList.add("cs-intro");
+  addEventListener("pagereveal",function(e){if(e.viewTransition)h.classList.remove("cs-intro")});})()</script>
+  <div class="cs-intro-veil" aria-hidden="true"><span class="cs-intro-name"><span>Dev Dixit</span></span></div>
+  <!-- /site-intro -->
   <a class="skip" href="#main">Skip to content</a>
 
   <!-- site-nav -->
@@ -79,7 +86,7 @@
         <div class="nav-card" id="nav-contact-card" hidden>
           <div class="nav-row"><a href="mailto:devdixit4522@gmail.com"><span class="nav-row-label">Email</span><span class="nav-row-value">devdixit4522@gmail.com</span></a><button class="nav-copy" type="button" data-copy="devdixit4522@gmail.com">Copy</button></div>
           <a class="nav-row" href="https://www.linkedin.com/in/devdixit4522/" target="_blank" rel="noopener noreferrer"><span><span class="nav-row-label">LinkedIn</span><span class="nav-row-value">Message me</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-          <a class="nav-row" href="#"><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
+          <a class="nav-row" href="/Dev_Dixit_Resume.pdf" download><span><span class="nav-row-label">Resume</span><span class="nav-row-value">Download PDF</span></span><svg class="nav-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
         </div>
       </div>
     </nav>
@@ -92,9 +99,9 @@
     <p class="lede">BookMyShow is an app people in India use to book movie tickets. It also sells tickets to comedy shows, concerts and sports, which I’ll call Events. Most people never see them. I redesigned how the app helps people discover Events.</p>
 
     <div class="hero-panel" style="view-transition-name: hero-bookmyshow">
-      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/hero-home.png" alt="Redesigned homepage with equal Movies and Events entry points" width="393" height="875"></div>
-      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/movie-detail-also.png" alt="Movie page with a nearby events row above recommendations" width="393" height="875"></div>
-      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/fork-events-row.png" alt="" width="398" height="888"></div>
+      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/hero-home.webp" alt="Redesigned homepage with equal Movies and Events entry points" width="393" height="875"></div>
+      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/movie-detail-also.webp" alt="Movie page with a nearby events row above recommendations" width="393" height="875"></div>
+      <div class="hero-phone"><img decoding="sync" src="/work/bookmyshow/assets/fork-events-row.webp" alt="" width="398" height="888"></div>
     </div>
 
     <div class="panel grid tight">
@@ -191,7 +198,7 @@
         <div class="panel cuts options rv" style="--cols:3">
           <article class="cut">
             <div class="cut-stage">
-              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-exit-modal.png" alt="Movie page with an exit modal offering events" width="398" height="888" loading="lazy"></div></div>
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-exit-modal.webp" alt="Movie page with an exit modal offering events" width="398" height="888" loading="lazy"></div></div>
             </div>
             <div class="opt-note">
               <span class="opt-n">1</span>
@@ -206,7 +213,7 @@
           </article>
           <article class="cut">
             <div class="cut-stage">
-              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-events-row.png" alt="Movie page with an Also happening near you events row" width="398" height="888" loading="lazy"></div></div>
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-events-row.webp" alt="Movie page with an Also happening near you events row" width="398" height="888" loading="lazy"></div></div>
             </div>
             <div class="opt-note">
               <span class="opt-n">2</span>
@@ -221,7 +228,7 @@
           </article>
           <article class="cut">
             <div class="cut-stage">
-              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-explore-card.png" alt="Movie page with an Explore another plan card" width="398" height="888" loading="lazy"></div></div>
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/fork-explore-card.webp" alt="Movie page with an Explore another plan card" width="398" height="888" loading="lazy"></div></div>
             </div>
             <div class="opt-note">
               <span class="opt-n">3</span>
@@ -312,7 +319,7 @@
         <div class="panel cuts rv">
           <article class="cut">
             <div class="cut-stage">
-              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/bms-home-before.png" alt="BookMyShow home with Movies emphasized and small event chips at the top" width="393" height="875" loading="lazy"></div></div>
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/bms-home-before.webp" alt="BookMyShow home with Movies emphasized and small event chips at the top" width="393" height="875" loading="lazy"></div></div>
             </div>
             <div class="card">
               <p class="k">BookMyShow today</p>
@@ -322,7 +329,7 @@
           </article>
           <article class="cut">
             <div class="cut-stage">
-              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/district-home.png" alt="District app home with equal Dining, Movies and Events entries" width="393" height="875" loading="lazy"></div></div>
+              <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/district-home.webp" alt="District app home with equal Dining, Movies and Events entries" width="393" height="875" loading="lazy"></div></div>
             </div>
             <div class="card">
               <p class="k">Another app, District</p>
@@ -374,7 +381,7 @@
               <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Adds one more content layer</span></li>
             </ul>
           </div>
-          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/hero-home.png" alt="Homepage with equal Movies and Events entries and mixed discovery" width="401" height="889" loading="lazy"></div></div>
+          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/hero-home.webp" alt="Homepage with equal Movies and Events entries and mixed discovery" width="401" height="889" loading="lazy"></div></div>
         </div>
       </section>
 
@@ -392,7 +399,7 @@
               <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Browse by cinema only fits the Movies tab</span></li>
             </ul>
           </div>
-          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/home-direction-tabs.png" alt="Homepage with For you, Movies and Events tabs" width="401" height="889" loading="lazy"></div></div>
+          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/home-direction-tabs.webp" alt="Homepage with For you, Movies and Events tabs" width="401" height="889" loading="lazy"></div></div>
         </div>
       </section>
 
@@ -410,7 +417,7 @@
               <li><svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#e5532d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg><span>Users with a film in mind scroll a mixed list</span></li>
             </ul>
           </div>
-          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/home-direction-evening.png" alt="Homepage with date chips and one mixed list sorted by start time" width="401" height="889" loading="lazy"></div></div>
+          <div class="ph"><div class="device"><img src="/work/bookmyshow/assets/home-direction-evening.webp" alt="Homepage with date chips and one mixed list sorted by start time" width="401" height="889" loading="lazy"></div></div>
         </div>
       </section>
 

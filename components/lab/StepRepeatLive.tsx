@@ -51,7 +51,11 @@ function loadPlayer() {
   return loading;
 }
 
-// Text is set in the tool's own faces, Latin only, in its bromide white on the dark sheet
+// Text is set in the tool's own faces, Latin only: film black on the tool's bromide paper,
+// its positive proof. A picture keeps the dark sheet.
+const TEXT_PAPER = "#efece4";
+const TEXT_INK = "#121211";
+const paperFor = (look: Look) => (look.source === "text" ? TEXT_PAPER : PROOF.paper);
 const LATIN =
   "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD";
 const FONTS = {
@@ -65,7 +69,7 @@ function settings(look: Look, { still = false, t0 = 0 } = {}) {
   const { source, text, face, ...p } = look;
   const subject =
     source === "text"
-      ? { source, text: text || "A", face, fonts: [FONTS[face] ?? FONTS.grotesk], ink: "#efece4" }
+      ? { source, text: text || "A", face, fonts: [FONTS[face] ?? FONTS.grotesk], ink: TEXT_INK }
       : { source, image: PROOF.image, ink: "#000" };
   return {
     ...subject,
@@ -73,7 +77,7 @@ function settings(look: Look, { still = false, t0 = 0 } = {}) {
     ...p,
     speed: still ? 0 : p.speed,
     negative: false,
-    paper: PROOF.paper,
+    paper: paperFor(look),
     zoom: 1,
     panX: 0,
     panY: 0,
@@ -152,11 +156,11 @@ export function StepRepeatLive({ mode }: { mode: "banner" | "tile" }) {
     [],
   );
 
-  if (mode === "tile") return <div ref={stage} className="sr-stage" role="img" aria-label={label(shown)} />;
+  if (mode === "tile") return <div ref={stage} className="sr-stage" style={{ background: paperFor(shown) }} role="img" aria-label={label(shown)} />;
 
   return (
     <div className="lab-banner">
-      <div ref={stage} className="sr-stage" role="img" aria-label={label(shown)} />
+      <div ref={stage} className="sr-stage" style={{ background: paperFor(shown) }} role="img" aria-label={label(shown)} />
       <div className="lab-live">
         <span className="lab-live-tag">
           <span className="lab-live-dot" data-on={!paused && !calm ? "" : undefined} aria-hidden />
