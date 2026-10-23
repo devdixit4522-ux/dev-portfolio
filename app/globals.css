@@ -29,6 +29,8 @@
 
   /* the system's hand-note face, as next/font names it */
   --hand: var(--font-caveat), "Segoe Print", cursive;
+  --mono: var(--font-mono-jb), ui-monospace, Consolas, monospace;
+  --greet: var(--font-serif-greet), Georgia, serif;
   /* space between the big blocks of a portfolio page */
   --gap-block: 140px;
 }
@@ -434,7 +436,7 @@
 .dk-title { font-size: var(--t-h2); line-height: var(--lh-h2); letter-spacing: -0.03em; color: #fff; }
 .dk-say { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 16px; line-height: 1.35; letter-spacing: -0.01em; color: var(--night-soft); }
 .dk-say svg { flex: none; color: #fff; }
-.dk-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 28px; margin-top: 48px; }
+.dk-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 28px; margin-top: 48px; }
 
 .quest { display: block; color: inherit; text-decoration: none; transition: translate 240ms cubic-bezier(0.22, 1, 0.36, 1); }
 a.quest:hover, a.quest:focus-visible { translate: 0 -3px; }
@@ -510,18 +512,29 @@ body:has(.after-dark) .site-foot :focus-visible { outline-color: #fff; }
   .quest, .q-out { transition: none; }
   a.quest:hover, a.quest:focus-visible, a.quest:hover .q-out { translate: none; }
 }
-@media (max-width: 1199px) { .dk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 809px) {
   .after-dark { padding-top: calc(var(--nav-h) + 32px); }
   .dk-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
 }
 
-/* while there's only one experiment, it takes two of the three columns */
-@media (min-width: 810px) {
-  .dk-grid > li:only-child { grid-column: span 2; }
-  .dk-grid > li:only-child .q-shot { aspect-ratio: 16 / 9; }
-}
 .q-shot .sr-stage { position: absolute; inset: 0; }
+/* two by two on a wide screen, the tiles a little wider than tall */
+@media (min-width: 1200px) { .dk-grid .q-shot { aspect-ratio: 16 / 10; } }
+/* hover: the screen brightens a touch, which also shows with reduced motion */
+.q-shot .lab-screens img, .q-shot .sr-stage { transition: filter var(--ease); }
+a.quest:hover :is(.lab-screens img, .sr-stage), a.quest:focus-visible :is(.lab-screens img, .sr-stage) { filter: brightness(1.08); }
+/* STEP/REPEAT's still, under the live engine, so a tile is never a blank sheet */
+.sr-poster { background-image: url("/images/lab/step-repeat-still.webp"); background-size: cover; background-position: center; }
+
+/* a project's real screens on the dark sheet: they rise from the bottom edge, phones side by side, a web page alone.
+   Sized from the sheet's own width and height (--n screens, phones about 0.47 wide to 1 tall), so they never spill sideways. */
+.lab-screens { position: absolute; inset: 0; container-type: size; display: flex; align-items: flex-start; justify-content: center; gap: 5cqw; }
+.lab-screens img { flex: none; margin-top: 9cqh; object-fit: contain; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 24px 60px rgba(0, 0, 0, 0.5); }
+.lab-screens[data-shape="phone"] img { width: auto; height: min(150cqh, (84cqw - (var(--n) - 1) * 5cqw) / var(--n) / 0.47); border-radius: 7% / 3.2%; }
+.lab-screens[data-shape="web"] img { width: 86cqw; height: auto; border-radius: 8px; }
+.lab-banner .lab-screens img { margin-top: 5cqh; }
+.lab-banner .lab-screens[data-shape="phone"] img { height: min(170cqh, (84cqw - (var(--n) - 1) * 5cqw) / var(--n) / 0.47); }
+.lab-banner .lab-screens[data-shape="web"] img { width: min(84cqw, 120cqh * 1.11); }
 
 /* ── Lab: one AI experiment, on one dark screen ──────────────────────────
    Not a case study: the same dark as the homepage's AI section, the thing
@@ -793,3 +806,177 @@ a.lab-open:hover svg { translate: 2px -2px; }
 }
 .signoff-email:hover { text-decoration-color: var(--ink); }
 
+/* ── Lab index: every AI project on one dark page ─────────────────────── */
+.lab.lab-index { height: auto; min-height: 100svh; overflow: clip; padding-bottom: 96px; }
+.lab-list { position: relative; }
+.lab-list .dk-title { margin-top: 24px; }
+
+/* ── Home: the AI card, a door ────────────────────────────────────────
+   The last row of the work, set like a chat app's artifact gallery: a serif
+   title, a tab pair, and the AI projects as artifact cards, each its real
+   screen and what kind of thing it is. One link to /lab. A texture of
+   characters moves behind it (GlyphField). */
+.gate {
+  --gate-bg: #262624;
+  --gate-box: #30302e;
+  --gate-panel: #1f1e1d;
+  --gate-ink: #faf9f5;
+  --gate-soft: #b7b5ab;
+  --gate-line: rgba(222, 220, 209, 0.15);
+  --gate-send: #d97757;
+  position: relative;
+  overflow: clip;
+  border-radius: var(--r-panel);
+  background: var(--gate-bg);
+  color: var(--gate-ink);
+}
+.gate-link { position: relative; z-index: 1; display: block; padding: 40px 40px 44px; color: inherit; text-decoration: none; border-radius: inherit; }
+.gate-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.gate-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 24px; }
+.gate-title { font-family: var(--greet); font-size: clamp(28px, 2.6vw, 36px); font-weight: 400; line-height: 1.15; letter-spacing: -0.01em; color: var(--gate-ink); }
+.gate-sub { margin-top: 8px; font-size: 15px; line-height: 1.4; color: var(--gate-soft); }
+.gate-tabs { display: inline-flex; gap: 2px; margin-left: auto; padding: 3px; border: 1px solid var(--gate-line); border-radius: 10px; font-size: 13px; color: var(--gate-soft); }
+.gate-tabs > span { padding: 6px 12px; border-radius: 7px; }
+.gate-tabs > span[data-on] { background: var(--gate-box); color: var(--gate-ink); }
+.gate-open { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border-radius: 9px; background: var(--gate-send); color: #fff; font-size: 14px; font-weight: 700; transition: background-color var(--ease); }
+.gate-open svg { transition: translate 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+.gate-link:hover .gate-open { background: #c6613f; }
+.gate-link:hover .gate-open svg { translate: 3px 0; }
+
+/* one column per project, up to four; as many projects as there are, no gaps */
+.gate-grid { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 20px; margin-top: 32px; }
+.gate-thumb { position: relative; aspect-ratio: 4 / 3.3; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px var(--gate-line); transition: translate 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow var(--ease); }
+.gate-card:nth-child(2) .gate-thumb { transition-delay: 30ms; }
+.gate-card:nth-child(3) .gate-thumb { transition-delay: 60ms; }
+.gate-card:nth-child(4) .gate-thumb { transition-delay: 90ms; }
+.gate-link:hover .gate-thumb { translate: 0 -4px; box-shadow: 0 0 0 1px rgba(222, 220, 209, 0.32), 0 12px 28px rgba(0, 0, 0, 0.3); }
+.gate-label { margin-top: 12px; font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--gate-ink); }
+.gate-meta { margin-top: 2px; font-size: 13px; color: var(--gate-soft); }
+.gr-ps { color: var(--night-mute); }
+@media (max-width: 1199px) {
+  .gate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gate-tabs { display: none; }
+  .gate-open { margin-left: auto; }
+}
+@media (max-width: 809px) {
+  .gate-link { padding: 24px 16px 28px; }
+  .gate-grid { gap: 20px 12px; margin-top: 24px; }
+  .gate-open { order: 3; margin-left: 0; }
+  .gate-label { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .gate-thumb, .gate-open svg { transition: none; } .gate-link:hover .gate-thumb { translate: none; } }
+
+/* ── AI project covers (LabCover) ──────────────────────────────────────
+   Each project as a feature graphic: its own colour as the field, a soft glow
+   of its accent from below, its name set large, and its real screens in frames,
+   tilted a little and rising past the bottom edge. Sized in cqw throughout. */
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  container-type: inline-size;
+  background:
+    radial-gradient(75% 65% at 78% 100%, color-mix(in srgb, var(--cover-glow) 60%, transparent), transparent 72%),
+    radial-gradient(60% 50% at 0% 0%, rgba(255, 255, 255, 0.12), transparent 70%),
+    var(--cover-field);
+}
+.cover-mark { position: absolute; left: 6cqw; top: 5.5cqw; z-index: 3; font-family: var(--font); font-size: 7.4cqw; font-weight: 700; line-height: 1; letter-spacing: -0.035em; color: #fff; }
+.cover[data-ink="dark"] .cover-mark { color: #111; }
+.cover img { display: block; }
+
+/* phones: a dark bezel, a hairline rim, a long soft shadow */
+.cover-phone { position: absolute; z-index: 2; width: 30cqw; padding: 1.1cqw; border-radius: 5cqw; background: #0b0b0c; box-shadow: 0 0 0 0.25cqw rgba(255, 255, 255, 0.1), 0 5cqw 9cqw rgba(0, 0, 0, 0.38); }
+.cover-phone img { width: 100%; height: auto; border-radius: 3.9cqw; }
+.cover-phones[data-n="1"] .cover-phone { right: 14cqw; top: 19cqw; rotate: -6deg; }
+.cover-phones[data-n="2"] .cover-phone { width: 28cqw; }
+.cover-phones[data-n="2"] .cover-phone:first-child { right: 33cqw; top: 25cqw; rotate: -8deg; z-index: 1; }
+.cover-phones[data-n="2"] .cover-phone:last-child { right: 7cqw; top: 17cqw; rotate: 5deg; }
+/* RepGate's dark field: its orange burns behind the phone */
+.cover[data-slug="repgate"] { background: radial-gradient(55% 60% at 62% 78%, rgba(255, 138, 76, 0.55), transparent 70%), radial-gradient(90% 80% at 62% 100%, rgba(255, 138, 76, 0.18), transparent 75%), var(--cover-field); }
+
+.cover-phones[data-n="1"] .cover-phone { width: 34cqw; right: 11cqw; top: 17cqw; }
+.cover[data-slug="repgate"] .cover-phone { box-shadow: 0 0 0 0.25cqw rgba(255, 170, 120, 0.35), 0 0 6cqw rgba(255, 138, 76, 0.25), 0 5cqw 9cqw rgba(0, 0, 0, 0.5); }
+/* STEP/REPEAT: a flat sheet of its own paper, so the proof sits in it without a seam */
+.cover[data-slug="step-repeat"] { background: #f0ece4; }
+
+/* a web app: a browser window with its real address, bleeding off the corner */
+.cover-browser { position: absolute; left: 16cqw; top: 22cqw; z-index: 2; width: 96cqw; overflow: hidden; border-radius: 2.2cqw; background: #fff; box-shadow: 0 0 0 0.25cqw rgba(255, 255, 255, 0.25), 0 5cqw 10cqw rgba(20, 0, 60, 0.35); }
+.cover-bar { display: flex; align-items: center; gap: 1.6cqw; height: 5.6cqw; padding: 0 2cqw; background: #f1eff6; border-bottom: 0.2cqw solid #e3e0ea; }
+.cover-bar i { width: 7cqw; height: 1.4cqw; border-radius: 1cqw; background: #d8d4e2; }
+.cover-bar span { padding: 0.7cqw 2cqw; border-radius: 1.4cqw; background: #fff; font-family: var(--font); font-size: 2.1cqw; color: #6b6878; }
+.cover-browser img { width: 100%; height: auto; }
+/* too small to read, the address leaves an empty pill rather than a scribble */
+@container (max-width: 300px) { .cover-bar span { color: transparent; min-width: 30cqw; } }
+
+/* STEP/REPEAT: the proof itself, on its own paper */
+.cover-proof { position: absolute; left: 4cqw; right: 4cqw; top: 17cqw; bottom: 2cqw; }
+.cover-proof img { object-fit: contain; }
+
+/* ── AI project motion (LabMotion) ─────────────────────────────────────
+   A project's own launch video, whole, in a dark sheet: a playing preview,
+   never cropped. Landscape videos span the width, portrait ones the height. */
+.motion { position: absolute; inset: 0; background: #161615; }
+.motion video { position: absolute; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 10px 30px rgba(0, 0, 0, 0.45); }
+.motion[data-shape="wide"] video { left: 7%; right: 7%; top: 50%; width: 86%; height: auto; translate: 0 -50%; }
+.motion[data-shape="tall"] video { top: 6%; left: 50%; height: 88%; width: auto; translate: -50% 0; }
+.motion-tag { position: absolute; right: 10px; bottom: 10px; padding: 4px 10px; border-radius: 99px; background: rgba(0, 0, 0, 0.6); font-size: 12px; line-height: 1.3; color: #fff; }
+
+/* ── /lab: the Glyph room ─────────────────────────────────────────────── */
+.gr-head, .gr-block, .gr-cli { font-family: var(--mono); letter-spacing: 0; }
+.gr-title { margin-top: 24px; font-family: var(--font); font-size: clamp(30px, 3.2vw, 44px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; color: #fff; }
+.gr-intro { max-width: 60ch; margin-top: 12px; font-family: var(--font); font-size: 17px; line-height: 1.45; letter-spacing: -0.01em; color: var(--night-soft); }
+.gr-jump { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin-top: 28px; font-size: 14px; }
+.gr-jump-label { color: var(--night-mute); }
+.gr-cli-title { margin-bottom: 12px; font-size: 14px; font-weight: 400; color: var(--night-soft); }
+.gr-dim { font-weight: 400; color: var(--night-soft); }
+.gr-comment { color: var(--night-mute); }
+.gr-prompt { font-size: 15px; font-weight: 400; color: #fff; }
+.gr-ls { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.gr-ls a { color: var(--night-ink); text-decoration: underline; text-decoration-color: var(--night-hair); text-underline-offset: 4px; }
+.gr-ls a:hover { color: #fff; text-decoration-color: #fff; }
+
+.gr-blocks { display: grid; grid-template-columns: minmax(0, 1fr); gap: 88px; margin-top: 64px; }
+@media (min-width: 1200px) { .gr-blocks { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 72px 56px; } }
+.gr-block { scroll-margin-top: calc(var(--nav-h) + 24px); }
+.gr-block .gr-prompt { margin: 0 0 14px; }
+.gr-block .gr-name { font-size: 20px; }
+/* the real screen, clear, on a sheet a step lighter than the night; phones rise past its bottom edge */
+.gr-shot { position: relative; display: block; aspect-ratio: 4 / 3.2; overflow: hidden; border-radius: var(--r-browser); box-shadow: 0 0 0 1px var(--night-hair); transition: translate 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow var(--ease); }
+.gr-shot:hover { translate: 0 -4px; box-shadow: 0 0 0 1px var(--night-soft), 0 16px 36px rgba(0, 0, 0, 0.4); }
+.gr-shot .sr-stage { position: absolute; inset: 0; }
+.gr-shot .lab-screens img, .gr-shot .sr-stage { transition: filter var(--ease), translate 300ms cubic-bezier(0.22, 1, 0.36, 1); }
+.gr-shot:hover .lab-screens img { translate: 0 -6px; }
+.gr-shot:hover :is(.lab-screens img, .sr-stage) { filter: brightness(1.06); }
+@media (prefers-reduced-motion: reduce) { .gr-shot .lab-screens img { transition: none; } .gr-shot:hover .lab-screens img { translate: none; } }
+
+/* the texture behind the AI work: a canvas of characters, never the picture */
+.glyph-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.glyph-field-page { position: fixed; z-index: 0; }
+.lab-index .lab-list { z-index: 1; }
+.gr-meta { display: grid; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--night-hair); }
+.gr-name { font-family: var(--font); font-size: var(--t-card-title); font-weight: 700; letter-spacing: -0.02em; color: #fff; }
+.gr-line { font-family: var(--font); font-size: 16px; line-height: 1.45; letter-spacing: -0.01em; color: var(--night-soft); }
+.gr-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 4px; font-size: 14px; }
+.gr-links a { color: #fff; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; white-space: nowrap; }
+.gr-links a:hover { text-decoration-thickness: 2px; }
+@media (max-width: 809px) { .gr-blocks { gap: 64px; } .gr-shot { aspect-ratio: 4 / 3.4; } }
+
+.gr-cli { margin-top: 112px; padding-top: 20px; border-top: 1px dashed var(--night-hair); font-size: 15px; color: var(--night-ink); }
+.gr-log { display: grid; gap: 10px; }
+.gr-log:not(:empty) { margin-bottom: 12px; }
+.gr-out { color: var(--night-soft); overflow-wrap: anywhere; }
+.gr-out-link { color: #fff; text-underline-offset: 4px; }
+.gr-help > div { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 16px; }
+.gr-help dt { color: #fff; }
+.gr-form { display: flex; align-items: baseline; gap: 10px; cursor: text; }
+.gr-form input { flex: 1; min-width: 0; padding: 4px 0; border: 0; background: none; color: #fff; font: inherit; caret-color: #fff; caret-shape: block; }
+.gr-form input:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 2px; }
+.gr-form input::placeholder { color: var(--night-mute); }
+.gr-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.gr-chips button { height: 32px; padding: 0 12px; border: 1px solid var(--night-hair); border-radius: 6px; background: none; color: var(--night-soft); font: inherit; font-size: 13px; cursor: pointer; transition: color var(--ease), border-color var(--ease); }
+.gr-chips button:hover { color: #fff; border-color: var(--night-soft); }
+.gr-room-end { margin-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+}

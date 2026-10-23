@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI covers: three styles</title>
+<style>
+  :root { --bg: #262624; --box: #30302e; --ink: #faf9f5; --soft: #b7b5ab; --line: rgba(222,220,209,.15); }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #fcfcfc; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 40px 16px; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 26px; letter-spacing: -.02em; }
+  .note { margin-top: 6px; color: #4c4c4c; font-size: 15px; }
+  .panel { margin-top: 28px; padding: 36px 40px 40px; border-radius: 8px; background: var(--bg); color: var(--ink); }
+  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .tag { font-size: 13px; color: var(--soft); margin-bottom: 10px; }
+  .tag b { color: var(--ink); }
+  .thumb { position: relative; aspect-ratio: 4 / 3.3; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); container-type: inline-size; }
+  .label { margin-top: 12px; font-size: 15px; font-weight: 700; }
+  .meta { margin-top: 2px; font-size: 13px; color: var(--soft); }
+  .small { margin-top: 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  .small .thumb { aspect-ratio: 4 / 3.3; }
+  h2 { font-size: 15px; font-weight: 400; color: var(--soft); margin-top: 34px; }
+
+  /* A: editorial illustration */
+  .a img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .a .mark { position: absolute; left: 6cqw; top: 5.5cqw; font-weight: 700; font-size: 7.4cqw; letter-spacing: -.035em; color: #fff; }
+
+  /* B: icon-led, marketplace style */
+  .b { background: radial-gradient(80% 70% at 50% 30%, #7ea2ff 0%, #5989fa 45%, #2c4fb8 100%); }
+  .b .icon { position: absolute; left: 50%; top: 40%; width: 30cqw; translate: -50% -50%; border-radius: 22%; box-shadow: 0 0 0 .3cqw rgba(255,255,255,.18), 0 4cqw 9cqw rgba(10,20,70,.45); }
+  .b .word { position: absolute; left: 0; right: 0; top: 70%; text-align: center; font-weight: 700; font-size: 9cqw; letter-spacing: -.04em; color: #fff; }
+  .b .line { position: absolute; left: 0; right: 0; top: 84%; text-align: center; font-size: 3.6cqw; color: rgba(255,255,255,.75); }
+
+  /* C: real motion */
+  .c { background: #0c0c0e; }
+  .c video { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+  .c .play { position: absolute; right: 4cqw; bottom: 4cqw; padding: 1.4cqw 3cqw; border-radius: 99px; background: rgba(0,0,0,.55); backdrop-filter: blur(6px); font-size: 3.6cqw; color: #fff; }
+  @media (max-width: 900px) { .row { grid-template-columns: 1fr; } .small { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Three styles for the AI project covers, shown on Kept</h1>
+  <p class="note">Same card size and dark gallery as the homepage. A is generated in Figma (Figma AI); B uses Kept's real icon; C is Kept's real launch video, looping.</p>
+
+  <div class="panel">
+    <div class="row">
+      <div>
+        <p class="tag"><b>A</b> · Editorial illustration</p>
+        <div class="thumb a"><img src="covers/kept-illustration.png" alt=""><span class="mark">Kept</span></div>
+        <p class="label">A web app for two</p><p class="meta">Artifact</p>
+      </div>
+      <div>
+        <p class="tag"><b>B</b> · Icon-led</p>
+        <div class="thumb b"><img class="icon" src="covers/kept-icon.png" alt=""><span class="word">Kept</span><span class="line">Track it together.</span></div>
+        <p class="label">A web app for two</p><p class="meta">Artifact</p>
+      </div>
+      <div>
+        <p class="tag"><b>C</b> · Real motion</p>
+        <div class="thumb c"><video src="covers/kept-loop.mp4" poster="covers/kept-loop.jpg" autoplay muted loop playsinline></video><span class="play">Live demo</span></div>
+        <p class="label">A web app for two</p><p class="meta">Artifact</p>
+      </div>
+    </div>
+
+    <h2>At the real homepage size, next to each other</h2>
+    <div class="small">
+      <div class="thumb a"><img src="covers/kept-illustration.png" alt=""><span class="mark">Kept</span></div>
+      <div class="thumb b"><img class="icon" src="covers/kept-icon.png" alt=""><span class="word">Kept</span><span class="line">Track it together.</span></div>
+      <div class="thumb c"><video src="covers/kept-loop.mp4" poster="covers/kept-loop.jpg" autoplay muted loop playsinline></video><span class="play">Live demo</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -43,7 +43,7 @@ The **Case Study System** lives in `public/system/` and is the visual authority 
 - Word-by-word reveals: `components/Words.tsx` (`wordSplitter`) plus the `.w` / `.fw` animations in `globals.css`. `.rv` blocks fade in through `components/Reveal.tsx`.
 - Scroll memory: `components/home/ScrollMemory.tsx` saves the homepage scroll position, and an inline script in `app/layout.tsx` (`RESTORE_HOME`) restores it on Back before first paint.
 - `layout.tsx` also prerenders `/work/*` with speculation rules, and loads Nimbus Sans locally from `public/system/fonts`.
-- `components/home/SideQuests.tsx` and `IntoTheDark.tsx` (the dark AI section) are kept but not rendered for now. See the comment in `app/page.tsx`.
+- The AI work: the homepage's last work row is a gateway card (`components/home/LabRow.tsx`), set like a chat app's empty screen (serif greeting in `--greet`, a prompt that types itself, a send button), that opens `/lab` (`app/lab/page.tsx` + `components/lab/GlyphRoom.tsx`): each project's real screen, a terminal-style header and a working command line; each project opens `/lab/<slug>`. Behind the card and the whole of `/lab` runs `components/lab/GlyphField.tsx`, a cursor-reactive texture of characters. JetBrains Mono (`--mono`) and Source Serif 4 (`--greet`) are used only there. Its design contract is in `.impeccable/surfaces/app-lab-page-tsx.md`. Projects live in `labProjects` in `lib/content.ts`. The old full-width dark ending (`SideQuests.tsx`, `IntoTheDark.tsx`) is kept but not rendered.
 
 ## Working conventions
 

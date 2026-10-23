@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { LabScreens } from "@/components/lab/LabScreens";
 import { StepRepeatLive } from "@/components/lab/StepRepeatLive";
 import { labProjects } from "@/lib/content";
 
@@ -37,7 +38,7 @@ export default async function LabPage(props: PageProps<"/lab/[slug]">) {
       <div className="dk-glow" aria-hidden />
       <div className="page-width lab-frame">
         <nav className="lab-trail" aria-label="AI experiments">
-          <Link className="lab-back hit" href="/#ai">
+          <Link className="lab-back hit" href="/lab">
             <ArrowLeft size={16} strokeWidth={1.5} aria-hidden />
             AI experiments
           </Link>
@@ -49,7 +50,7 @@ export default async function LabPage(props: PageProps<"/lab/[slug]">) {
           )}
         </nav>
 
-        {art[project.slug]}
+        {art[project.slug] ?? <LabScreens project={project} mode="banner" />}
 
         <div className="lab-info">
           <div className="lab-what">
@@ -84,7 +85,7 @@ export default async function LabPage(props: PageProps<"/lab/[slug]">) {
               </a>
             ) : (
               <span className="lab-open" aria-disabled="true">
-                Link coming soon
+                {project.noLink ?? "Link coming soon"}
               </span>
             )}
           </div>

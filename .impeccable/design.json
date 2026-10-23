@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T13:10:00Z",
+  "title": "Design System: Dev Dixit, product designer",
+  "extensions": {
+    "colorMeta": {
+      "page": { "role": "neutral", "displayName": "Paper White", "canonical": "#fcfcfc", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "panel": { "role": "neutral", "displayName": "Beige Panel", "canonical": "#f4f5ef", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "card": { "role": "neutral", "displayName": "Card White", "canonical": "#ffffff", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#ffffff"] },
+      "ink": { "role": "primary", "displayName": "Pure Ink", "canonical": "#000000", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "body": { "role": "neutral", "displayName": "Body Graphite", "canonical": "#2b2b2b", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "soft": { "role": "neutral", "displayName": "Soft Graphite", "canonical": "#4c4c4c", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "mute": { "role": "neutral", "displayName": "Mute Grey", "canonical": "#8f8f8f", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "hair": { "role": "neutral", "displayName": "Hairline", "canonical": "rgba(0, 0, 0, 0.1)" },
+      "bubble": { "role": "neutral", "displayName": "Bubble", "canonical": "#ececea", "tonalRamp": ["#000000", "#2b2b2b", "#4c4c4c", "#8f8f8f", "#dcdcd8", "#ececea", "#f4f5ef", "#fcfcfc"] },
+      "sketch": { "role": "tertiary", "displayName": "Hand-Note Blue", "canonical": "#2a66d0", "tonalRamp": ["#0f2650", "#173a7a", "#2a66d0", "#4a80dc", "#7aa2e6", "#a9c3ef", "#d3e1f7", "#eef3fc"] },
+      "sand-1": { "role": "secondary", "displayName": "Blanket Sand, lightest", "canonical": "#f4ede4", "tonalRamp": ["#3f3328", "#6e5b48", "#8f7a63", "#b8a48d", "#dccbb8", "#eadfd1", "#f4ede4", "#faf6f1"] },
+      "sand-2": { "role": "secondary", "displayName": "Blanket Sand, highlighter", "canonical": "#eadfd1", "tonalRamp": ["#3f3328", "#6e5b48", "#8f7a63", "#b8a48d", "#dccbb8", "#eadfd1", "#f4ede4", "#faf6f1"] },
+      "sand-3": { "role": "secondary", "displayName": "Blanket Sand, rule", "canonical": "#dccbb8", "tonalRamp": ["#3f3328", "#6e5b48", "#8f7a63", "#b8a48d", "#dccbb8", "#eadfd1", "#f4ede4", "#faf6f1"] },
+      "sand-ink": { "role": "secondary", "displayName": "Sand Label Ink", "canonical": "#6e5b48", "tonalRamp": ["#3f3328", "#6e5b48", "#8f7a63", "#b8a48d", "#dccbb8", "#eadfd1", "#f4ede4", "#faf6f1"] },
+      "sand-deep": { "role": "secondary", "displayName": "Sand Deep", "canonical": "#3f3328", "tonalRamp": ["#3f3328", "#6e5b48", "#8f7a63", "#b8a48d", "#dccbb8", "#eadfd1", "#f4ede4", "#faf6f1"] },
+      "brand-default": { "role": "tertiary", "displayName": "Project Brand (default; overridden per case study)", "canonical": "#04b488", "tonalRamp": ["#03503d", "#059a75", "#04b488", "#4fcaa8", "#9fe0cc", "#d9f1e6", "#e6f6ee", "#f3fbf7"] },
+      "night": { "role": "neutral", "displayName": "Warm Graphite Night", "canonical": "#121211", "tonalRamp": ["#121211", "#161615", "#181817", "#1d1d1c", "#2a2a28", "#7d7d7c", "#bdbdbc", "#ebebeb"] },
+      "night-sheet": { "role": "neutral", "displayName": "Night Sheet", "canonical": "#161615", "tonalRamp": ["#121211", "#161615", "#181817", "#1d1d1c", "#2a2a28", "#7d7d7c", "#bdbdbc", "#ebebeb"] },
+      "night-ink": { "role": "neutral", "displayName": "Night Ink", "canonical": "rgba(255, 255, 255, 0.92)" },
+      "night-soft": { "role": "neutral", "displayName": "Night Soft", "canonical": "rgba(255, 255, 255, 0.62)" },
+      "night-mute": { "role": "neutral", "displayName": "Night Mute", "canonical": "rgba(255, 255, 255, 0.45)" },
+      "night-hair": { "role": "neutral", "displayName": "Night Hair", "canonical": "rgba(255, 255, 255, 0.1)" },
+      "night-fill": { "role": "neutral", "displayName": "Night Fill", "canonical": "rgba(255, 255, 255, 0.08)" },
+      "night-fill-on": { "role": "neutral", "displayName": "Night Fill, on", "canonical": "rgba(255, 255, 255, 0.14)" },
+      "glyph-ink": { "role": "neutral", "displayName": "Glyph Warm White", "canonical": "rgb(240, 236, 228)", "tonalRamp": ["#3c3b39", "#5e5c59", "#86837e", "#ada9a2", "#cdc9c1", "#e2ded6", "#f0ece4", "#faf8f4"] },
+      "cool-light": { "role": "tertiary", "displayName": "Cool Light", "canonical": "rgba(150, 170, 255, 0.2)", "tonalRamp": ["#1e2233", "#2e3552", "#465082", "#6672b8", "#96aaff", "#b4c2ff", "#d2dbff", "#eef1ff"] },
+      "gate-bg": { "role": "neutral", "displayName": "Gate Ground", "canonical": "#262624", "tonalRamp": ["#1a1a19", "#262624", "#30302e", "#3d3d3a", "#5e5d59", "#b7b5ab", "#dedcd1", "#faf9f5"] },
+      "gate-box": { "role": "neutral", "displayName": "Gate Composer", "canonical": "#30302e", "tonalRamp": ["#1a1a19", "#262624", "#30302e", "#3d3d3a", "#5e5d59", "#b7b5ab", "#dedcd1", "#faf9f5"] },
+      "gate-ink": { "role": "neutral", "displayName": "Gate Ink", "canonical": "#faf9f5", "tonalRamp": ["#1a1a19", "#262624", "#30302e", "#3d3d3a", "#5e5d59", "#b7b5ab", "#dedcd1", "#faf9f5"] },
+      "gate-soft": { "role": "neutral", "displayName": "Gate Soft", "canonical": "#b7b5ab", "tonalRamp": ["#1a1a19", "#262624", "#30302e", "#3d3d3a", "#5e5d59", "#b7b5ab", "#dedcd1", "#faf9f5"] },
+      "gate-line": { "role": "neutral", "displayName": "Gate Line", "canonical": "rgba(222, 220, 209, 0.15)" },
+      "gate-send": { "role": "tertiary", "displayName": "Send Clay", "canonical": "#d97757", "tonalRamp": ["#5a2a1a", "#8f3f26", "#c6613f", "#d97757", "#e39a80", "#edbba8", "#f5dcd2", "#fbf0eb"] },
+      "gate-send-hover": { "role": "tertiary", "displayName": "Send Clay, hover", "canonical": "#c6613f", "tonalRamp": ["#5a2a1a", "#8f3f26", "#c6613f", "#d97757", "#e39a80", "#edbba8", "#f5dcd2", "#fbf0eb"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Statement", "purpose": "The two-tone sentence: ink says it, mute keeps going. Homepage intro and the Say hi sign-off." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles at the case studies' h1 size (34 / 31 / 25px by layout)." },
+      "title": { "displayName": "Title", "purpose": "Titles inside a section (25 / 24 / 18px by layout)." },
+      "row-title": { "displayName": "Row Title", "purpose": "A homepage project's headline, about 22 characters a line." },
+      "body": { "displayName": "Body", "purpose": "Running text; 850px measure on desktop, 600px on tablet." },
+      "card-title": { "displayName": "Card Title", "purpose": "Names in cards and project blocks, including project names in the night room." },
+      "card-text": { "displayName": "Card Text", "purpose": "Descriptions in cards and project blocks." },
+      "label": { "displayName": "Label", "purpose": "Fact labels, in sand-ink." },
+      "ui": { "displayName": "Control", "purpose": "Nav items, buttons and pills." },
+      "hand": { "displayName": "Hand Note", "purpose": "Caveat annotations in sketch blue, with drawn arrows." },
+      "mono": { "displayName": "Terminal", "purpose": "Every /lab terminal line, prompt and command; drawn at 12px on canvas by the glyph field. AI work only." },
+      "greet": { "displayName": "Greeting", "purpose": "Source Serif 4 400 (--greet): the gateway card's \"Step into the lab.\" and nowhere else." },
+      "prompt": { "displayName": "Gateway Prompt", "purpose": "The gateway composer's self-typing prompt." }
+    },
+    "shadows": [
+      { "name": "card", "value": "0 4px 52px rgba(0, 0, 0, 0.1)", "purpose": "The floating contact card and the About polaroids." },
+      { "name": "device", "value": "0 0 30px 5px rgba(0, 0, 0, 0.14)", "purpose": "Phone screens inside a project tile." },
+      { "name": "tile-lift", "value": "0 24px 48px -24px rgba(0, 0, 0, 0.22)", "purpose": "A project tile lifted 4px under a fine pointer." },
+      { "name": "night-screen", "value": "0 0 0 1px rgba(255, 255, 255, 0.1), 0 24px 60px rgba(0, 0, 0, 0.5)", "purpose": "Real screenshots on a dark sheet on /lab/<slug>." },
+      { "name": "screen-sheet", "value": "inset 0 0 0 1px rgba(255, 255, 255, 0.1)", "purpose": "The hairline round each /lab screen sheet; no drop." },
+      { "name": "composer", "value": "0 4px 20px rgba(0, 0, 0, 0.25)", "purpose": "The gateway card's message box." },
+      { "name": "nav-frost", "value": "backdrop-filter: blur(24px) saturate(140%); background: rgba(255, 255, 255, 0.05); mask fading downwards over 96px", "purpose": "The nav's frosted pane, the only backdrop-blurred surface." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "180ms ease", "purpose": "Default colour and background transitions (--ease)." },
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Word reveals, the video developing, hand notes drawing, view transitions." },
+      { "name": "ease-snap", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Small feedback: arrow nudges, tile lift, Copy to Copied swap." },
+      { "name": "pill-slide", "value": "320ms cubic-bezier(0.77, 0, 0.175, 1)", "purpose": "The switcher's white segment sliding between pages." },
+      { "name": "reveal", "value": "600ms ease, rise 14px", "purpose": "The shared .rv block fade-in, once." },
+      { "name": "gate-type", "value": "45ms per character", "purpose": "The gateway prompt typing itself once, when first seen." },
+      { "name": "caret-blink", "value": "1.1s steps(1) infinite", "purpose": "The gateway's 2px bar caret." },
+      { "name": "glyph-field", "value": "two slow crossing waves, redrawn at most every 40ms; pointer presence eases 8% a frame", "purpose": "The character texture drifting behind the gateway and /lab, gathering near the pointer." },
+      { "name": "shot-rise", "value": "translate 300ms cubic-bezier(0.22, 1, 0.36, 1), 6px up; brightness 1.06", "purpose": "A /lab screen rising on hover." },
+      { "name": "night-orbit", "value": "60s linear infinite", "purpose": "The cool light drifting in the corner of the night." },
+      { "name": "reduced-motion", "value": "prefers-reduced-motion: reduce turns every animation off", "purpose": "End states stay visible; the gateway prompt is already typed, the glyph field holds still, screens do not rise." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "0-809px" },
+      { "name": "tablet", "value": "810px" },
+      { "name": "desktop", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The black pill that leads a project row's actions.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Read the case study <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 20px; border-radius: 999px; background: var(--ink, #000); color: var(--card, #fff); font-family: var(--font, 'Nimbus Sans', Helvetica, sans-serif); font-size: 14px; font-weight: 400; letter-spacing: 0; text-decoration: none; transition: background-color 160ms ease-out, scale 160ms ease-out; } .ds-btn-primary svg { transition: translate 200ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-primary:hover { background: rgba(0, 0, 0, 0.8); } .ds-btn-primary:hover svg { translate: 4px 0; } .ds-btn-primary:active { scale: 0.97; } .ds-btn-primary:focus-visible { outline: 2px solid var(--ink, #000); outline-offset: 3px; }"
+    },
+    {
+      "name": "Sand Button",
+      "kind": "button",
+      "refersTo": "button-sand",
+      "description": "The sand pill that follows the black one: Listen to walkthrough.",
+      "html": "<button class=\"ds-btn-sand\" type=\"button\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5 6 9H2v6h4l5 4V5z\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7\"/><path d=\"M19 5a10 10 0 0 1 0 14\"/></svg>Listen to walkthrough</button>",
+      "css": ".ds-btn-sand { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--sand-2, #eadfd1); color: var(--sand-deep, #3f3328); font-family: var(--font, 'Nimbus Sans', Helvetica, sans-serif); font-size: 14px; letter-spacing: 0; cursor: pointer; transition: background-color 160ms ease-out, scale 160ms ease-out; } .ds-btn-sand:hover, .ds-btn-sand[aria-pressed='true'] { background: var(--sand-3, #dccbb8); } .ds-btn-sand:active { scale: 0.97; } .ds-btn-sand:focus-visible { outline: 2px solid var(--ink, #000); outline-offset: 3px; }"
+    },
+    {
+      "name": "Site Nav",
+      "kind": "nav",
+      "refersTo": "nav-switch",
+      "description": "Name left, page switcher centred on a beige pill, Contact pill right.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-name\" href=\"#\">Dev Dixit</a><ul class=\"ds-nav-switch\"><li><a class=\"ds-nav-item\" aria-current=\"page\" href=\"#\">Work</a></li><li><a class=\"ds-nav-item\" href=\"#\">About</a></li></ul><button class=\"ds-nav-contact\" type=\"button\">Contact</button></nav>",
+      "css": ".ds-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; height: 68px; padding: 0 30px; font-family: var(--font, 'Nimbus Sans', Helvetica, sans-serif); letter-spacing: 0; } .ds-nav-name { justify-self: start; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink, #000); text-decoration: none; } .ds-nav-switch { display: flex; gap: 2px; margin: 0; padding: 4px; list-style: none; background: var(--panel, #f4f5ef); border-radius: 999px; } .ds-nav-item { display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; font-size: 14px; line-height: 1; color: var(--soft, #4c4c4c); text-decoration: none; transition: color 180ms ease, background-color 180ms ease; } .ds-nav-item:hover { color: var(--ink, #000); } .ds-nav-item[aria-current] { background: var(--card, #fff); color: var(--ink, #000); } .ds-nav-contact { justify-self: end; height: 38px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--panel, #f4f5ef); font: inherit; font-size: 14px; color: var(--ink, #000); cursor: pointer; transition: background-color 180ms ease; } .ds-nav-contact:hover { background: var(--bubble, #ececea); } .ds-nav :focus-visible { outline: 2px solid var(--ink, #000); outline-offset: 3px; border-radius: 4px; }"
+    },
+    {
+      "name": "Contact Card",
+      "kind": "card",
+      "refersTo": "contact-card",
+      "description": "The white floating card under the Contact pill: email with Copy, LinkedIn, Resume.",
+      "html": "<div class=\"ds-contact-card\"><div class=\"ds-contact-row\"><span><span class=\"ds-contact-label\">Email</span><span class=\"ds-contact-value\">devdixit4522@gmail.com</span></span><button class=\"ds-contact-copy\" type=\"button\">Copy</button></div><a class=\"ds-contact-row\" href=\"#\"><span><span class=\"ds-contact-label\">LinkedIn</span><span class=\"ds-contact-value\">linkedin.com/in/devdixit4522</span></span></a></div>",
+      "css": ".ds-contact-card { width: 288px; padding: 8px; background: var(--card, #fff); border-radius: 16px; box-shadow: 0 4px 52px rgba(0, 0, 0, 0.1); font-family: var(--font, 'Nimbus Sans', Helvetica, sans-serif); } .ds-contact-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 8px; color: var(--ink, #000); text-decoration: none; transition: background-color 180ms ease; } a.ds-contact-row:hover { background: var(--panel, #f4f5ef); } .ds-contact-label { display: block; font-size: 13px; line-height: 1.3; color: var(--soft, #4c4c4c); } .ds-contact-value { display: block; font-size: 15px; line-height: 1.3; letter-spacing: -0.01em; overflow-wrap: anywhere; } .ds-contact-copy { padding: 6px 10px; border: 0; border-radius: 999px; background: var(--panel, #f4f5ef); font: inherit; font-size: 13px; color: var(--ink, #000); cursor: pointer; } .ds-contact-copy:hover { background: var(--bubble, #ececea); } .ds-contact-copy:active { scale: 0.97; }"
+    },
+    {
+      "name": "Project Tile",
+      "kind": "card",
+      "refersTo": "project-tile",
+      "description": "A homepage project's 3:2 tile in its case study's hero gradient, with three phones.",
+      "html": "<a class=\"ds-tile\" href=\"#\"><span class=\"ds-tile-phone\" style=\"left:6%;top:16%\"></span><span class=\"ds-tile-phone\" style=\"left:35%;top:10%;z-index:2\"></span><span class=\"ds-tile-phone\" style=\"left:64%;top:4%\"></span></a>",
+      "css": ".ds-tile { position: relative; display: block; width: 100%; max-width: 560px; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 8px; container-type: inline-size; background: radial-gradient(60cqw 38cqw at 78% 8%, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%), radial-gradient(50cqw 36cqw at 12% 96%, var(--hero-glow, rgba(4,180,136,0.2)), rgba(255,255,255,0) 70%), linear-gradient(135deg, var(--hero-1, #e6f6ee) 0%, var(--hero-2, #d9f1e6) 55%, var(--hero-3, #e4f0f7) 100%); transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-tile:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.22); } .ds-tile:focus-visible { outline: 2px solid var(--ink, #000); outline-offset: 3px; } .ds-tile-phone { position: absolute; width: 30cqw; aspect-ratio: 9 / 19.5; border-radius: 2.9cqw; background: #fff; box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.14); }"
+    },
+    {
+      "name": "Gateway Card",
+      "kind": "custom",
+      "refersTo": "gateway-card",
+      "description": "The homepage's last work row: a door set like a chat app's empty screen, one link to /lab. Its prompt types itself; the glyph field drifts behind it.",
+      "html": "<a class=\"ds-gate\" href=\"#\"><span class=\"ds-gate-hello\">Step into the lab.</span><span class=\"ds-gate-box\"><span class=\"ds-gate-text\">Show me what Dev built with AI<span class=\"ds-gate-caret\"></span></span><span class=\"ds-gate-bar\"><span class=\"ds-gate-icon\">+</span><span class=\"ds-gate-model\">Claude Code · Cursor</span><span class=\"ds-gate-send\">&uarr;</span></span></span><span class=\"ds-gate-note\">Products and experiments I designed and built with AI. They're inside.</span></a>",
+      "css": ".ds-gate { --gate-bg: #262624; --gate-box: #30302e; --gate-ink: #faf9f5; --gate-soft: #b7b5ab; --gate-line: rgba(222, 220, 209, 0.15); --gate-send: #d97757; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 460px; padding: 72px 32px; border-radius: 8px; background: var(--gate-bg); color: var(--gate-ink); font-family: var(--font, 'Nimbus Sans', Helvetica, sans-serif); text-decoration: none; } .ds-gate:focus-visible { outline: 2px solid var(--ink, #000); outline-offset: 3px; } .ds-gate-hello { font-family: var(--greet, 'Source Serif 4', Georgia, serif); font-size: clamp(28px, 3vw, 40px); font-weight: 400; line-height: 1.15; letter-spacing: -0.01em; text-align: center; } .ds-gate-box { display: block; width: min(100%, 640px); margin-top: 32px; padding: 18px 16px 12px 20px; border: 1px solid var(--gate-line); border-radius: 20px; background: var(--gate-box); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); transition: border-color 180ms ease; } .ds-gate:hover .ds-gate-box { border-color: rgba(222, 220, 209, 0.3); } .ds-gate-text { display: block; font-size: 17px; line-height: 1.5; letter-spacing: -0.01em; } .ds-gate-caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 1px; vertical-align: -0.18em; background: var(--gate-ink); animation: ds-blink 1.1s steps(1) infinite; } @keyframes ds-blink { 50% { opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-gate-caret { animation: none; } } .ds-gate-bar { display: flex; align-items: center; gap: 8px; margin-top: 22px; } .ds-gate-icon, .ds-gate-send { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; } .ds-gate-icon { border: 1px solid var(--gate-line); color: var(--gate-soft); } .ds-gate-model { margin-left: auto; padding: 0 8px; font-size: 13px; color: var(--gate-soft); } .ds-gate-send { background: var(--gate-send); color: #fff; transition: background-color 180ms ease; } .ds-gate:hover .ds-gate-send { background: #c6613f; } .ds-gate-note { margin-top: 18px; font-size: 14px; line-height: 1.4; color: var(--gate-soft); text-align: center; }"
+    },
+    {
+      "name": "Screen Sheet",
+      "kind": "card",
+      "refersTo": "lab-shot",
+      "description": "A /lab project's real screen, shown clearly on a night sheet; screens rise 6px on hover.",
+      "html": "<div class=\"ds-night\"><a class=\"ds-shot\" href=\"#\"><img alt=\"\" src=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\"></a></div>",
+      "css": ".ds-night { padding: 24px; background: var(--night, #121211); } .ds-shot { position: relative; display: block; aspect-ratio: 4 / 3.2; overflow: hidden; border-radius: 10px; background: rgba(22, 22, 21, 0.86); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1); } .ds-shot img { position: absolute; left: 50%; bottom: 0; width: 40%; height: 85%; translate: -50% 0; border-radius: 12px 12px 0 0; background: #2a2a28; transition: translate 300ms cubic-bezier(0.22, 1, 0.36, 1), filter 180ms ease; } .ds-shot:hover img { translate: -50% -6px; filter: brightness(1.06); } @media (prefers-reduced-motion: reduce) { .ds-shot img { transition: none; } .ds-shot:hover img { translate: -50% 0; } }"
+    },
+    {
+      "name": "Command Chip",
+      "kind": "chip",
+      "refersTo": "command-chip",
+      "description": "Clickable commands under the /lab prompt.",
+      "html": "<div class=\"ds-chips\"><button type=\"button\">help</button><button type=\"button\">ls</button><button type=\"button\">open kept</button><button type=\"button\">mail</button></div>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; background: var(--night, #121211); } .ds-chips button { height: 32px; padding: 0 12px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; background: none; color: rgba(255, 255, 255, 0.62); font-family: var(--mono, 'JetBrains Mono', ui-monospace, Consolas, monospace); font-size: 13px; letter-spacing: 0; cursor: pointer; transition: color 180ms ease, border-color 180ms ease; } .ds-chips button:hover { color: #fff; border-color: rgba(255, 255, 255, 0.62); } .ds-chips button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Command Line",
+      "kind": "input",
+      "refersTo": "command-line",
+      "description": "The working prompt that closes /lab: borderless mono input after the dev@lab prompt.",
+      "html": "<form class=\"ds-cli\"><label class=\"ds-cli-ps\" for=\"ds-cmd\">dev@lab:~$</label><input id=\"ds-cmd\" placeholder=\"type help\" autocomplete=\"off\"></form>",
+      "css": ".ds-cli { display: flex; align-items: baseline; gap: 10px; padding: 20px 16px; border-top: 1px dashed rgba(255, 255, 255, 0.1); background: var(--night, #121211); font-family: var(--mono, 'JetBrains Mono', ui-monospace, Consolas, monospace); font-size: 15px; letter-spacing: 0; } .ds-cli-ps { color: rgba(255, 255, 255, 0.45); } .ds-cli input { flex: 1; min-width: 0; padding: 4px 0; border: 0; background: none; color: #fff; font: inherit; caret-color: #fff; caret-shape: block; } .ds-cli input::placeholder { color: rgba(255, 255, 255, 0.45); } .ds-cli input:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 2px; }"
+    },
+    {
+      "name": "Night Open Link",
+      "kind": "button",
+      "refersTo": "lab-open",
+      "description": "The white pill that opens a project's live app on /lab/<slug>.",
+      "html": "<div class=\"ds-night\"><a class=\"ds-lab-open\" href=\"#\">Open Kept <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17 17 7\"/><path d=\"M7 7h10v10\"/></svg></a></div>",
+      "css": ".ds-night { padding: 24px; background: var(--night, #121211); } .ds-lab-open { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 48px; padding: 0 22px; border-radius: 999px; background: #fff; color: var(--night, #121211); font-family: var(--font, 'Nimbus Sans', Helvetica, sans-serif); font-size: 15px; font-weight: 700; letter-spacing: -0.01em; text-decoration: none; transition: background-color 180ms ease; } .ds-lab-open svg { transition: translate 180ms ease; } .ds-lab-open:hover { background: rgba(255, 255, 255, 0.92); } .ds-lab-open:hover svg { translate: 2px -2px; } .ds-lab-open:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Case Study Family, with One Night Room",
+    "overview": "The site is a sibling of Dev's Case Study System, not a separate brand. Every value comes from one file (public/system/tokens.css), read by both the static case studies and the React portfolio, so a homepage row and a case-study page are visibly made by the same hand. The light world is quiet and rationed: an off-white page, beige panels holding white cards, near-black type in two weights of Nimbus Sans, and no accent colour of the portfolio's own. Colour arrives only with a project, as that case study's own hero tint. One warm neutral, sand, ties the intro video to the work in small touches.\n\nThere is exactly one exit from the light: the AI work. On the homepage it is the last work row, a door rather than a list: a warm dark card set like the empty screen of the chat app the work was made with. A serif greeting, \"Step into the lab.\", sits over a composer whose prompt types itself; the whole card is one link to /lab and names no project. Behind the door lies warm graphite night, set as a terminal session: each project's real screen shown clearly on a dark sheet, a cat prompt above it, a working command line at the end. Characters are the texture, not the picture: a faint field of type drifts behind both the door and the room and gathers around the pointer. One slow cool light sits in a corner of the night. This is not a dark mode; it is one room and its door.\n\nDensity is low, motion is quiet and always optional. Reduced motion stills every animation and gives instant, visible end states.",
+    "keyCharacteristics": [
+      "One token file feeds both the case studies and the portfolio; Tailwind reads it through `@theme inline`.",
+      "Light, warm-neutral surfaces; beige panels, white cards, near-black type.",
+      "Nimbus Sans in 400 and 700 only; Caveat for blue hand notes; JetBrains Mono only in the AI work (the /lab terminal and the glyph field); Source Serif 4 only for the gateway's greeting.",
+      "No portfolio accent: colour comes with a project; sand appears only in small touches.",
+      "The AI work is the single dark room (`--night`), a terminal session showing real screens, entered from a chat-screen gateway card with its own scoped palette; a faint glyph field moves behind both.",
+      "Flat by default; one floating shadow, one device shadow, one frosted surface (the nav)."
+    ],
+    "rules": [
+      { "name": "The Colour Comes With the Work Rule", "body": "The portfolio has no accent of its own. Hue appears only inside a project's tile, from that case study's own tokens, and in the gateway's send clay, which belongs to the chat screen the card quotes.", "section": "colors" },
+      { "name": "The Sand Touch Rule", "body": "Sand is an underline, a highlighter, a rule or a button. It never fills a panel, a section or a project visual.", "section": "colors" },
+      { "name": "The One Night Rule", "body": "`--night` belongs to the AI work only: `/lab` and `/lab/<slug>`. It is not a theme and there is no dark mode.", "section": "colors" },
+      { "name": "The Gateway Rule", "body": "The `gate-*` palette and the serif greeting live only on the homepage AI card. They never leak into `/lab` or the light world.", "section": "colors" },
+      { "name": "The Two Weights Rule", "body": "Nimbus Sans is 400 or 700, nothing between.", "section": "typography" },
+      { "name": "The One Mono Rule", "body": "JetBrains Mono appears only in the AI work: the `/lab` terminal and the characters of the glyph field. The gateway card itself speaks Nimbus and its serif greeting, and a project's own name is Nimbus Sans 700 even inside the terminal, so the work keeps the family's voice.", "section": "typography" },
+      { "name": "The One Frost Rule", "body": "The nav's frosted pane (24px blur, fading downwards) is the only translucent surface in the system.", "section": "elevation" },
+      { "name": "The Type Is the Texture Rule", "body": "Characters are a background, never the picture. The glyph field fills its card or sits fixed behind the page, unframed, untouchable (`pointer-events: none`, `aria-hidden`) and faint: sparse drifting bands at rest, thickening and rippling only near the pointer. Each project's real screen is shown clearly, on its own sheet.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** take every value from `public/system/tokens.css`; change it there and log it in `public/system/CHANGES.md`.",
+      "**Do** keep Nimbus Sans to 400 and 700, with tracking tightening as size grows (-0.01em small, -0.02em body, -0.03em to -0.04em titles) and 0 on controls and mono.",
+      "**Do** let colour arrive only through a project's own tokens (`--brand`, `--hero-1..3`, `--hero-glow`).",
+      "**Do** keep sand to underlines, highlighters, rules and one button.",
+      "**Do** keep every control a pill at least 44px tall to a finger, and the focus ring a visible 2px outline with 3px offset (black on light, white on night).",
+      "**Do** open on focus and tap anything that opens on hover.",
+      "**Do** turn every animation off under reduced motion, leaving the end state visible.",
+      "**Do** keep JetBrains Mono inside the AI work (the `/lab` terminal and the glyph field), and set project names there in Nimbus Sans 700.",
+      "**Do** keep the `gate-*` palette and the serif greeting scoped to the homepage gateway card.",
+      "**Do** show each AI project's real screen clearly, and keep characters as a faint background behind it."
+    ],
+    "donts": [
+      "**Don't** add a dark mode or take `--night` outside the AI work.",
+      "**Don't** give the portfolio an accent colour, or put sand on a panel, a full section or a project visual.",
+      "**Don't** use a Nimbus weight other than 400 or 700, a mono face outside the AI work, or the serif anywhere but the gateway's greeting.",
+      "**Don't** add a second translucent, backdrop-blurred surface; the frost belongs to the nav (the night's blurred cool light is a light, not a surface).",
+      "**Don't** draw a project's picture in characters, or let the glyph field grow loud enough to compete with the screens; it stays a faint texture that only gathers near the pointer.",
+      "**Don't** list projects on the gateway card; it is a door, and `/lab` names them.",
+      "**Don't** give the terminal window-chrome dots or green phosphor; its glyphs are warm white on warm graphite.",
+      "**Don't** invent numbers, results, logos or testimonials anywhere on a surface."
+    ]
+  }
+}

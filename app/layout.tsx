@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat } from "next/font/google";
+import { Caveat, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import localFont from "next/font/local";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
@@ -23,6 +23,22 @@ const caveat = Caveat({
   subsets: ["latin"],
   weight: "500",
   variable: "--font-caveat",
+  display: "swap",
+});
+
+// The terminal's face (--mono): the homepage AI card and the /lab page, nowhere else
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-mono-jb",
+  display: "swap",
+});
+
+// The greeting on the homepage AI card, set like a chat app's welcome line; nowhere else
+const serif = Source_Serif_4({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif-greet",
   display: "swap",
 });
 
@@ -56,7 +72,7 @@ const SPECULATION = JSON.stringify({
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // data-scroll-behavior: page changes jump to the top; only in-page links scroll smoothly
-    <html lang="en" className={`${nimbus.variable} ${caveat.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" className={`${nimbus.variable} ${caveat.variable} ${mono.variable} ${serif.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: INTRO }} />
         <div className="cs-intro-veil" aria-hidden="true">

@@ -156,7 +156,8 @@ export function StepRepeatLive({ mode }: { mode: "banner" | "tile" }) {
     [],
   );
 
-  if (mode === "tile") return <div ref={stage} className="sr-stage" style={{ background: paperFor(shown) }} role="img" aria-label={label(shown)} />;
+  // in a tile the link names the project, so the art is decoration; a still of it shows until the engine draws
+  if (mode === "tile") return <div ref={stage} className="sr-stage sr-poster" style={{ backgroundColor: paperFor(shown) }} aria-hidden />;
 
   return (
     <div className="lab-banner">

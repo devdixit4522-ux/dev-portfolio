@@ -1,7 +1,8 @@
 import { wordSplitter } from "@/components/Words";
 import { Intro } from "@/components/home/Intro";
 import { ProjectRow } from "@/components/home/ProjectRow";
-import { SideQuests } from "@/components/home/SideQuests";
+import { LabRow } from "@/components/home/LabRow";
+import { SayHi } from "@/components/about/SayHi";
 import { ScrollMemory } from "@/components/home/ScrollMemory";
 import { caseStudies } from "@/lib/content";
 
@@ -21,12 +22,13 @@ export default function Home() {
             {caseStudies.map((study) => (
               <ProjectRow key={study.slug} study={study} />
             ))}
+            {/* the AI work: one dark card after the case studies, opening /lab (SideQuests is kept, not rendered) */}
+            <LabRow />
           </div>
         </section>
-      </div>
 
-      {/* the homepage ends in the dark: AI experiments and products, then the sign-off */}
-      <SideQuests />
+        <SayHi />
+      </div>
 
       <ScrollMemory />
     </main>

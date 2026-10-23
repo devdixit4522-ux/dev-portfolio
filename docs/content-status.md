@@ -11,7 +11,7 @@ Legend: ✅ real and confirmed · 🟡 placeholder, shipping for now · ❓ need
 
 | Item | Where it shows | Status now |
 |---|---|---|
-| AI experiments and products | Homepage, the dark section at the end, plus one page each at `/lab/<slug>` | 🟢 STEP/REPEAT is in, with copy you approved (2026-10-20). 🟡 Its "Open" link: the page says "Link coming soon" until you send the address of its own site. Add it as `link` in `labProjects` in `lib/content.ts`. More projects go in the same list. 🟢 Banner: the word DEV, as you set it in the banner's Tune panel (saved in `lib/step-repeat-look.json`). Your robot illustration is still there as the Picture option. |
+| AI experiments and products | Homepage: a gateway card after the case studies (\"Step into the lab.\"), opening `/lab` (every project's real screen over a cursor-reactive texture, plus a command line), and one page each at `/lab/<slug>` | 🟢 STEP/REPEAT is in, with copy you approved (2026-10-20). 🟢 Live at https://step-repeat-delta.vercel.app (Vercel project `step-repeat`, deployed 2026-10-22). 🟡 RepGate hidden until finished (`hidden: true` in `lib/content.ts`). More projects go in the same list. 🟢 RepGate, Kept and NameGenius added (2026-10-21) from their own docs and the resume, with real screens in `public/images/lab/`. 🟢 Banner: the word DEV, as you set it in the banner's Tune panel (saved in `lib/step-repeat-look.json`). Your robot illustration is still there as the Picture option. |
 | Matching project lines: the same kind of fact for both (e.g. role · what was made · status), and the two titles in one style | Homepage project rows | ❓ Groww says "Feature addition · Prototype, user tested", BookMyShow says "Product designer · Figma, Cursor"; the titles differ too ("The missing step…" vs "Improving Event Discovery for BookMyShow") |
 | Homepage intro sentence | Homepage | 🟡 Claude's wording, approved in the mockup. Rewrite it in your own words when you like. |
 | Hand notes around the homepage video: "where the case studies get made", "socks on: deep-work mode", "this blanket gave the site its sand colour" | Homepage intro | 🟡 Claude's wording. Change them in `heroNotes` in `lib/content.ts`. |
@@ -37,6 +37,7 @@ Email, Resume and LinkedIn all live in `public/system/site.json`. Change them th
 | ✅ LinkedIn: `https://www.linkedin.com/in/devdixit4522/` | Dev, 2026-10-15 |
 | ✅ About, "Before this": PrayagrajKumbhMela.com, Campaign Studio, B.Des at LPU | `public/Dev_Dixit_Resume.pdf` |
 | ✅ About, "Built on my own": STEP/REPEAT, RepGate, Kept (kept-jet.vercel.app), NameGenius (name-genius-theta.vercel.app) | Resume, and the live sites |
+| ✅ AI section: RepGate (Kotlin, 19 half reps rejected, 20 of 20 opens caught), Kept (kept-jet.vercel.app), NameGenius (name-genius-theta.vercel.app) | `AndroidStudioProjects/RepGate/CLAUDE.md`, `Desktop/tracker app/PRODUCT.md`, `Desktop/name genius/README.md`, resume |
 | ✅ Portrait video, its still, and the walking cut-out | `public/images/hero-portrait.mp4`, `hero-still.jpg`, `hero-portrait.png` |
 
 ## Removed

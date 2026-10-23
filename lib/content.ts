@@ -120,11 +120,27 @@ export type LabProject = {
   facts: { label: string; value: string }[];
   /** The live project. Missing until it's online, so the page says it's coming */
   link?: string;
+  /** Said in place of the link when there's no public one to give (e.g. a phone app) */
+  noLink?: string;
+  /** Real screens, for projects without live art: phones stand side by side, a web page sits alone */
+  screens?: { src: string; alt: string; w: number; h: number }[];
+  shape?: "phone" | "web";
+  /** Kept in the list but left off the site, e.g. while the project isn't finished */
+  hidden?: boolean;
+  /** How many of the screens the homepage-sized tile shows; all of them if unset */
+  tileScreens?: number;
+  /** Its cover: the project's own colour as the field (sampled from its screens), and whether type on it is light or dark */
+  cover: { field: string; glow: string; ink: "light" | "dark"; url?: string };
+  /** Its own launch video, shown whole as a silent loop where the project has one (cut from Dev's launch videos) */
+  video?: { src: string; poster: string; w: number; h: number };
 };
 
-export const labProjects: LabProject[] = [
+/** Every AI project, shown or not. Only the ones not marked `hidden` appear on the site (labProjects). */
+const allLabProjects: LabProject[] = [
   {
     slug: "step-repeat",
+    video: { src: "/videos/lab/step-repeat.mp4", poster: "/videos/lab/step-repeat.webp", w: 720, h: 406 },
+    cover: { field: "#f0ece4", glow: "#ffffff", ink: "dark", url: "step-repeat-delta.vercel.app" },
     name: "STEP/REPEAT",
     line: "A generative type tool built on one grid.",
     kind: "A generative typography tool.",
@@ -141,9 +157,90 @@ export const labProjects: LabProject[] = [
       { label: "Built with", value: "HTML, CSS, JavaScript and Canvas, no libraries" },
       { label: "Works on", value: "Desktop and phone" },
     ],
-    // Dev is putting it on its own site and will send the address (docs/content-status.md)
+    link: "https://step-repeat-delta.vercel.app",
+  },
+  // The three below come from each project's own docs and Dev's resume; screens are real captures
+  {
+    slug: "repgate",
+    // Dev's call (2026-10-22): off the site until RepGate is finished
+    hidden: true,
+    cover: { field: "#0c0c0e", glow: "#ff8a4c", ink: "light" },
+    name: "RepGate",
+    line: "Ten push-ups before the apps you want less of.",
+    kind: "An Android app.",
+    about:
+      "Pick the apps you want to use less. When you open one, RepGate asks for 10 push-ups first, counted through the front camera. Half reps don't count. Everything stays on the phone: no account, no internet and no paywall.",
+    can: [
+      { verb: "Gate", what: "Any app you choose, 10 push-ups an open" },
+      { verb: "Count", what: "Real reps through the camera, never half reps" },
+      { verb: "Track", what: "Push-ups paid, scrolls skipped and days kept" },
+      { verb: "Exit", what: "An emergency exit, so it never traps you" },
+    ],
+    facts: [
+      { label: "Year", value: "2026" },
+      { label: "Built with", value: "Kotlin, Jetpack Compose, CameraX and MediaPipe Pose" },
+      { label: "Tested", value: "19 half reps rejected, 20 of 20 app opens caught" },
+    ],
+    noLink: "Android, shown live in class",
+    shape: "phone",
+    screens: [{ src: "/images/lab/repgate-home.webp", alt: "RepGate's home screen: 20 push-ups all time, and YouTube, Calendar and Airbnb gated at 10 per open", w: 600, h: 1285 }],
+  },
+  {
+    slug: "kept",
+    video: { src: "/videos/lab/kept.mp4", poster: "/videos/lab/kept.webp", w: 576, h: 720 },
+    cover: { field: "#5989fa", glow: "#9db8ff", ink: "light" },
+    name: "Kept",
+    line: "A habit tracker you share with one person.",
+    kind: "A web app for two.",
+    about:
+      "A private tracker is easy to drop, because nobody notices when you stop. Kept is shared with exactly one person: you each log your own progress, see the other's and keep one streak together. It installs on an Android phone straight from the browser.",
+    can: [
+      { verb: "Log", what: "A workout, a run, study hours or a job hunt, in seconds" },
+      { verb: "Share", what: "One streak for the two of you, kept when either logs" },
+      { verb: "Nudge", what: "Your partner, once they've been quiet for two days" },
+      { verb: "Cheer", what: "A live note when they log, with one reaction" },
+    ],
+    facts: [
+      { label: "Year", value: "2026" },
+      { label: "Built with", value: "Next.js and Supabase" },
+      { label: "Works on", value: "Android phones, installed from the browser" },
+    ],
+    // no live link until Kept is finished (Dev, 2026-10-22)
+    noLink: "Still being built",
+    shape: "phone",
+    tileScreens: 1,
+    screens: [
+      { src: "/images/lab/kept-dev.webp", alt: "Kept's home screen on Dev's phone: a 7-day shared streak and today's habits", w: 458, h: 990 },
+      { src: "/images/lab/kept-aarav.webp", alt: "The same shared streak on his partner's phone, with their own progress", w: 458, h: 990 },
+    ],
+  },
+  {
+    slug: "namegenius",
+    video: { src: "/videos/lab/namegenius.mp4", poster: "/videos/lab/namegenius.webp", w: 720, h: 406 },
+    cover: { field: "#7a4be5", glow: "#b49bff", ink: "light", url: "name-genius-theta.vercel.app" },
+    name: "NameGenius",
+    line: "Brand names that come with a reason.",
+    kind: "An AI naming tool.",
+    about:
+      "Answer four questions about your brand, including what the name must not sound like. NameGenius comes back with five names, each with the reason behind it, and checks live whether the domains are still free.",
+    can: [
+      { verb: "Brief", what: "Four questions, plus an anti-brief of what to avoid" },
+      { verb: "Name", what: "Five names, each with its reasoning" },
+      { verb: "Check", what: "Live domain checks across .com, .in, .co and more" },
+      { verb: "Keep", what: "Star and copy names, then claim a free domain" },
+    ],
+    facts: [
+      { label: "Year", value: "2026" },
+      { label: "Built with", value: "Node.js and the Gemini API" },
+      { label: "Used by", value: "Early testers" },
+    ],
+    link: "https://name-genius-theta.vercel.app",
+    shape: "web",
+    screens: [{ src: "/images/lab/namegenius-home.webp", alt: "NameGenius's landing page: Find a name worth building, with two example names and their domains", w: 1200, h: 1080 }],
   },
 ];
+
+export const labProjects = allLabProjects.filter((p) => !p.hidden);
 
 
 /**
@@ -183,7 +280,7 @@ export const about = {
     { role: "UI/UX Design Intern", company: "Campaign Studio", years: "Aug – Dec 2024" },
     { role: "B.Des, Product & Industrial Design", company: "Lovely Professional University", years: "2022 – 2026" },
   ],
-  /** Things Dev designed and built alone. From the resume; links only where the project is public. */
+  /** Things Dev designed and built alone, from the resume. Each opens its page in the AI section (labProjects). */
   built: [
     {
       name: "STEP/REPEAT",
@@ -195,21 +292,13 @@ export const about = {
       cta: "See the project",
     },
     {
-      name: "RepGate",
-      kind: "Android app",
-      years: "Sep – Oct 2026",
-      text: "Puts 10 camera-counted push-ups between you and an app you chose to limit. The counter never over-counted: 48 real reps counted and 19 half reps rejected across 13 recordings.",
-      stack: "Kotlin, Jetpack Compose, CameraX, MediaPipe Pose",
-      cta: "Demoed live in class",
-    },
-    {
       name: "Kept",
       kind: "Web app",
       years: "Sep – Oct 2026",
       text: "A habit tracker you share with one partner: one shared streak, and a Nudge when they go quiet. I wrote the PRD too.",
       stack: "Next.js, Supabase",
-      href: "https://kept-jet.vercel.app",
-      cta: "Open Kept",
+      href: "/lab/kept",
+      cta: "See the project",
     },
     {
       name: "NameGenius",
@@ -217,8 +306,8 @@ export const about = {
       years: "Sep – Oct 2026",
       text: "AI brand naming with an “anti-brief” filter and live domain checks. Used by early testers.",
       stack: "Gemini API",
-      href: "https://name-genius-theta.vercel.app",
-      cta: "Open NameGenius",
+      href: "/lab/namegenius",
+      cta: "See the project",
     },
   ] as { name: string; kind: string; years: string; text: string; stack: string; href?: string; cta: string }[],
   /** Photos from outside work. Only the first is real; Dev sends the rest. */

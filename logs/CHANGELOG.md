@@ -2,14 +2,151 @@
 
 A plain-English record of changes to this portfolio. Newest entries go at the top.
 
+## 2026-10-22: Kept's live app is no longer linked
+
+**Branch:** `master` · deployed
+
+- Kept isn't finished, so the site no longer links to its live app: "Open the live app" is gone from Kept on `/lab`, and its project page says "Still being built" instead of an Open button. Kept itself stays on the site (gallery, `/lab`, its page, About).
+- The address is removed from the code entirely (`lib/content.ts`), so it isn't in the page source either.
+
+Files: `lib/content.ts`.
+
+## 2026-10-22: STEP/REPEAT is live, RepGate is off for now, no project counts
+
+**Branch:** `master` · deployed
+
+- **STEP/REPEAT is live on Vercel** at https://step-repeat-delta.vercel.app: the `v2` folder of `Desktop/letter-grid`, deployed as the Vercel project `step-repeat` (production). Its "Open the live app ↗" link on `/lab` and its project page's "Open STEP/REPEAT" button now go there.
+- **RepGate is hidden** until it's finished: marked `hidden: true` in `lib/content.ts` (delete that line to bring it back). It's off the homepage gallery, `/lab`, the About list, and `/lab/repgate` no longer exists.
+- **No counts in the copy**, since the number of projects will change: "Things I designed and built with AI, using Claude Code and Cursor." on the homepage card and `/lab`. The homepage gallery shows one column per project (up to four), so there's never an empty gap.
+- **On `/lab`, STEP/REPEAT plays its short motion loop** ("Type one letter."); Kept and NameGenius keep their covers there. Everything else unchanged.
+
+Files: `lib/content.ts`, `components/home/LabRow.tsx`, `components/lab/GlyphRoom.tsx`, `app/lab/page.tsx`, `app/globals.css`.
+
+## 2026-10-22: /lab speaks plainly, terminal look kept
+
+**Branch:** `master` · deployed
+
+- The top of `/lab` was written in terminal code (`# heading`, `dev@lab:~$ ls`, `cat repgate`, "The room is listening."). The terminal look stays, but every line now reads on its own:
+  - A plain heading, "AI experiments and products", and one sentence: "Four things I designed and built with AI, using Claude Code and Cursor. Each one has its own page with how it works."
+  - "› Jump to" with the real project names (STEP/REPEAT, RepGate, Kept, NameGenius).
+  - Each project opens with "› RepGate — an Android app" instead of `cat repgate`; under its cover, one sentence and the links "See how it works →" and "Open the live app ↗".
+  - The command line at the end is introduced with "Prefer typing? Try a command."; its hint reads "type help, or open kept".
+- Removed the "Move your cursor. The room is listening." line.
+
+Files: `components/lab/GlyphRoom.tsx`, `app/globals.css`.
+
+## 2026-10-22: The AI cards play one short moment of each launch video
+
+**Branch:** `master` · deployed
+
+- In the homepage artifact gallery, STEP/REPEAT, Kept and NameGenius now play a few seconds of their own launch videos instead of a still cover, on repeat, so the moment sticks:
+  - **STEP/REPEAT** (2.8s): a solid "A" sliced into shifting windows, "Type one letter."
+  - **Kept** (3.2s): "Unless one person does." while both partners tick off the week and the shared streak climbs 3, 4, 5, 6.
+  - **NameGenius** (2.6s): "Five names. Each with a reason." as the five name cards land.
+- Each video sits whole inside its card on a dark sheet, never cropped (Kept's portrait video stands tall in the middle), with a small "Live demo" tag. It plays only while on screen and stays on a still frame with reduced motion. Each loop is under 80 KB.
+- RepGate keeps its cover for now; it has no launch video yet.
+- Comparison pages kept in `docs/mockups/ai-covers-kept.html` (illustration vs icon vs motion; the illustration was made with Figma AI) and `docs/mockups/ai-covers-motion.html`.
+
+Files: `components/lab/LabMotion.tsx` (new), `components/home/LabRow.tsx`, `lib/content.ts` (each project's `video`), `app/globals.css`, `public/videos/lab/*`.
+
+## 2026-10-21: Designed covers for the AI projects
+
+**Branch:** `master` · deployed
+
+- The AI projects no longer show bare pasted screenshots. Each one has a cover, like an app store feature graphic, built only from its real screens: its own colour as the background (sampled from its screens), its name set large, and its screens in proper frames, tilted slightly and rising past the bottom edge.
+  - **STEP/REPEAT:** the "DEV" proof on its own cream paper.
+  - **RepGate:** its home screen in a phone, lit by its own orange from below.
+  - **Kept:** both partners' phones, overlapping, on Kept's blue.
+  - **NameGenius:** its landing page in a browser window with its real address, on its violet.
+- Used on the homepage artifact cards and on `/lab`. Covers lift on hover. At small sizes the browser address turns into a plain pill instead of unreadable text.
+
+Files: `components/lab/LabCover.tsx` (new), `components/home/LabRow.tsx`, `components/lab/GlyphRoom.tsx`, `lib/content.ts` (each project's `cover` colours), `app/globals.css`.
+
+## 2026-10-21: The AI card is an artifact gallery
+
+**Branch:** `master` · deployed
+
+- You turned down the chat-and-panel version, so the gateway card is now set like a chat app's artifact gallery: the serif title "Dev's artifacts", "Four things I designed and built with AI, using Claude Code and Cursor.", an "Inspiration / Your artifacts" tab pair and an orange **Open the lab** button.
+- Below, four artifact cards, each showing the project's real screen and only what it is ("A generative typography tool", "An Android app", "A web app for two", "An AI naming tool"), no names or summaries. The cards lift a little on hover; the whole card opens `/lab`. The water texture still moves behind it.
+- Two columns on tablets and phones. STEP/REPEAT's still now shows the whole "DEV" on its own paper (edges trimmed).
+
+Files: `components/home/LabRow.tsx`, `app/globals.css`, `public/images/lab/step-repeat-still.webp`.
+
+## 2026-10-21: The AI card says clearly what's behind it
+
+**Branch:** `master` · deployed
+
+- The gateway card now looks like a chat app mid-answer, so it's obvious there's AI work behind it. Left: your question "Show me what Dev built with AI" already sent, then the reply streaming in: "I've opened Dev's lab. Inside are four things Dev designed and built with AI: two apps, a type tool and a naming tool. Here's a preview." Under it an artifact card, "Dev's AI lab · Artifact · 4 projects", and the reply box at the bottom.
+- Right: the artifact panel, playing the real screens one after another ("1 of 4", dots, what each one is) with an orange **Open the lab** button. The whole card still opens `/lab`; the water texture still moves behind it.
+- On tablets and phones the panel goes under the conversation and the reply box is dropped. With reduced motion the answer is already there and the panel stays on the first screen.
+
+Files: `components/home/LabRow.tsx`, `app/globals.css`.
+
+## 2026-10-21: The background texture behaves like water
+
+**Branch:** `master` · deployed
+
+- The character texture behind the AI card and `/lab` is now a real water simulation (the 2D wave equation, one cell per character). It only reacts to movement: dragging the cursor pushes the surface, a wake trails behind it, ripples spread, cross, bounce off the edges and slowly calm. A still cursor makes no waves. A tap drops a single ripple.
+- Crests gather lighter characters and troughs clear them; each character also slides a little along the slope it sits on, so the type looks like it floats. It's capped at light characters, so it never turns into a solid block behind the text.
+- Made about a third fainter after your look (opacity 0.045–0.35 instead of 0.07–0.52), so it stays subtle; the physics is unchanged.
+- It runs only while visible, stops computing once the water is calm, and holds still with reduced motion. Characters are drawn in batches by weight, which halved the cost per frame.
+
+Files: `components/lab/GlyphField.tsx`.
+
+## 2026-10-21: The AI card is a gateway, and the character texture moves to the background
+
+**Branch:** `master` · deployed
+
+- **Homepage card:** no longer a terminal listing the projects. It's a door, set like a chat app's empty screen: a sparkle and the greeting "Step into the lab." in a serif, a message box where "Show me what Dev built with AI" types itself, a **+** button, a "Claude Code · Cursor" label and an orange send button. One line underneath says products and experiments are inside. The whole card opens `/lab`. No logo is used.
+- **The characters are now a texture, not the picture.** Behind the card, and behind the whole of `/lab`, a faint field of characters drifts slowly and thickens into a ripple wherever your cursor goes. With reduced motion it holds still.
+- **/lab:** every project shows its real screen clearly again (STEP/REPEAT's live "DEV", the RepGate and Kept phones, the NameGenius page); screens lift a little on hover. The terminal header, `cat` lines, two columns and command line stay.
+- New font: Source Serif 4, for the greeting only. The old character-screen code (`GlyphScreen.tsx`) is removed.
+
+Files: `components/home/LabRow.tsx`, `components/lab/GlyphField.tsx` (new), `components/lab/GlyphRoom.tsx`, `components/lab/GlyphScreen.tsx` (removed), `app/layout.tsx`, `app/globals.css`, `PRODUCT.md`, `CLAUDE.md`, `DESIGN.md`, `docs/content-status.md`.
+
+## 2026-10-21: The AI card is a terminal, and /lab is the Glyph room
+
+**Branch:** `master` · deployed
+
+- **Homepage card, your idea:** the AI card is no longer a dark copy of the case-study rows. It's a terminal. When you scroll to it, `dev@lab:~$ claude "what did I build with AI?"` types itself, then the four projects print as the answer, then "4 projects, built with Claude Code and Cursor." and `→ open the lab` with a blinking cursor. Beside it, each project's screen is drawn in text characters, one after another; pointing at a line shows that project.
+- **/lab, the Glyph room:** the page carries on the same session. `ls` lists the projects. Each one is printed with `cat repgate # an Android app` and its real screen drawn in characters. Move the pointer over it and a ripple runs through the type; rest the pointer (or click, tab to its link, or tap on a phone) and the real screenshot spreads out from that point. At the end, a real command line: `help`, `ls`, `open kept`, `mail`, `resume`, `cd ~`, plus buttons for each, and a couple of jokes (`sudo`, `claude`).
+- **New font:** JetBrains Mono, for the terminal and the characters only. Nimbus Sans stays everywhere else.
+- **Works for everyone:** with reduced motion nothing animates (the command is already typed, the characters are still, the screen appears at once); keyboard focus on a project shows its real screen; screen readers hear the real image descriptions, not the characters.
+- Checked in two rounds at desktop and phone sizes, then an independent design review; its fixes are in (two columns, clearer app screens, no boxes, a proper focus ring on the command line).
+
+Files: `components/home/LabRow.tsx`, `components/lab/GlyphScreen.tsx`, `components/lab/GlyphRoom.tsx`, `app/lab/page.tsx`, `app/layout.tsx`, `app/globals.css`, `lib/content.ts`, `public/images/lab/step-repeat-dev.webp`, `.impeccable/surfaces/app-lab-page-tsx.md`.
+
+## 2026-10-21: The AI work moves to its own page, behind one dark card
+
+**Branch:** `master` · deployed
+
+- The homepage no longer ends in a full dark section. After Groww and BookMyShow comes **one dark card**, in the same row layout as the case studies: STEP/REPEAT drawing "DEV" on the left, then "AI experiments and products", a line about the four projects, the facts, and **See the AI work**. Inspired by how helloparul.in ends its work list. The "Say hi" sign-off follows in the light.
+- **New page `/lab`**: the dark page with all four projects as tiles, two by two, then the sign-off. Each tile opens its project page; "AI experiments" on a project page now goes back to `/lab`.
+- Fixes from the design critique: screenshots load at the right size so they're sharp; STEP/REPEAT shows a still of "DEV" until the live engine draws, so it's never a blank box; Kept's tile shows one phone (its page still shows both); NameGenius runs off the bottom edge like the phones; screen readers hear just the project name and line; hovering brightens the picture, which also shows with reduced motion.
+- The old dark ending (`SideQuests.tsx`, `IntoTheDark.tsx`) is kept but not rendered.
+
+Files: `app/page.tsx`, `app/lab/page.tsx`, `app/lab/[slug]/page.tsx`, `components/home/LabRow.tsx`, `components/lab/LabGrid.tsx`, `components/lab/LabScreens.tsx`, `components/lab/StepRepeatLive.tsx`, `components/home/SideQuests.tsx`, `app/globals.css`, `lib/content.ts`, `public/images/lab/*`, `PRODUCT.md`, `CLAUDE.md`, `docs/content-status.md`.
+
 ## 2026-10-21: New DEV banner look, roomier editor
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - You re-tuned the banner: still DEV in Grotesk, now cut into bigger windows (density 7, down from 13) with no squeeze, so the letters read more clearly.
 - The Tune editor now floats on the right of the screen instead of inside the banner, so every slider fits even when the banner is small.
 
 Files: `lib/step-repeat-look.json`, `app/globals.css`.
+
+## 2026-10-21: Three more products in the AI section
+
+**Branch:** `master` · deployed
+
+- The dark AI section on the homepage now has four projects: STEP/REPEAT, **RepGate**, **Kept** and **NameGenius**. With four, the desktop grid is two by two, so no tile sits alone on a row.
+- Each new one has its own dark page at `/lab/repgate`, `/lab/kept` and `/lab/namegenius`, built like STEP/REPEAT's: what it is, what it does, the facts, and the way in. "Next" walks through all four.
+- The pictures are real screens: RepGate's home screen from your phone (status bar cropped off), Kept's home on both phones from your LinkedIn poster, and NameGenius's landing page. They rise from the bottom of the same dark sheet in every tile and banner, and size themselves so they never spill off the edge on a phone. The RepGate camera screen was left out because it shows your face.
+- The words come from each project's own docs (`PRODUCT.md`, `README.md`, `CLAUDE.md`) and your resume. RepGate has no public link, so its button says "Android, shown live in class".
+- About's "Built on my own" now opens these pages, so RepGate has a link too.
+
+Files: `lib/content.ts`, `components/lab/LabScreens.tsx`, `components/home/SideQuests.tsx`, `app/lab/[slug]/page.tsx`, `app/globals.css`, `public/images/lab/*`, `docs/content-status.md`.
 
 ## 2026-10-21: About page finished, no placeholders left
 
@@ -25,7 +162,7 @@ Files: `app/about/page.tsx`, `lib/content.ts`, `docs/content-status.md`.
 
 ## 2026-10-20: Banner text is dark on light
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - When the banner shows text, it's now dark letters (film black) on the tool's light bromide paper, instead of light letters on dark. Your DEV banner and the homepage tile both show it this way.
 - A picture still sits on the dark sheet.
@@ -34,7 +171,7 @@ Files: `components/lab/StepRepeatLive.tsx`.
 
 ## 2026-10-20: Tune the STEP/REPEAT banner yourself
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - The banner has a Tune button (sliders icon, next to pause). It opens the tool's own controls: Size, Density, Shift X, Shift Y, Squeeze, Compress, Twist, Drift and Speed. Every change shows on the banner straight away.
 - **Save** keeps the look. It's written to `lib/step-repeat-look.json`, and the banner and the homepage tile both use it. **Undo changes** goes back to the last save.
@@ -48,7 +185,7 @@ Files: `components/lab/LookTuner.tsx`, `components/lab/StepRepeatLive.tsx`, `app
 
 ## 2026-10-20: STEP/REPEAT banner uses your robot illustration
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - The banner and the homepage tile now show the illustration you sent: the robot kneeling by the forest pond. The tool cuts it into a fine grid, shifted only a little, so it reads as the picture with a light graphic grid over it. It drifts slowly. Pause and reduced motion work as before.
 - The image's black bars are cropped off. It's saved as `public/lab/step-repeat/robot.webp` (about 100 KB).
@@ -58,7 +195,7 @@ Files: `components/lab/StepRepeatLive.tsx`, `app/globals.css`, `public/lab/step-
 
 ## 2026-10-20: STEP/REPEAT banner shows a photo
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - The banner was too distorted to tell what it was showing. Now the tool slices a photo, finely and only a little, so it reads as a picture first and a grid second. It drifts slowly. The pause button stays, and with reduced motion it's still.
 - The preset rotation and the preset names are gone. The banner has its photo's white paper, with small dark "Live" and pause pills.
@@ -69,7 +206,7 @@ Files: `components/lab/StepRepeatLive.tsx`, `app/globals.css`, `docs/content-sta
 
 ## 2026-10-20: AI section is back, with STEP/REPEAT
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - The dark "AI experiments and products" section at the end of the homepage is back on, with your first real project, STEP/REPEAT, in place of the placeholders. While it's the only project, its tile is wider (two of the three columns). The placeholder cards are gone.
 - Tapping the tile opens a new page, `/lab/step-repeat`. It's one dark screen that doesn't scroll on a laptop or desktop. On a phone it scrolls a little, so the banner doesn't get squashed. Footer hidden, nav dark.
@@ -81,7 +218,7 @@ Files: `app/page.tsx`, `app/lab/[slug]/page.tsx`, `components/home/SideQuests.ts
 
 ## 2026-10-17: Bigger hero video
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - The homepage hero video is about 1.15x bigger (80% to 92% of its column), to balance the left text visually.
 - It grows around its own centre. The left text stays exactly where it was; nothing was re-centred.
@@ -90,7 +227,7 @@ Files: `app/globals.css`.
 
 ## 2026-10-17: Resume now downloads
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - Your resume PDF (`Dev_Dixit_Resume.pdf`) is now on the site. Tapping Resume downloads it straight away, instead of going nowhere.
 - This works from every place Resume appears: the Contact card in the nav (homepage, About and both case studies), the footer, and the About sign-off.
@@ -100,7 +237,7 @@ Files: `public/Dev_Dixit_Resume.pdf`, `public/system/site.json`, `components/Nav
 
 ## 2026-10-16: Intro on the homepage and case studies, lighter BookMyShow images
 
-**Branch:** `master` · not deployed
+**Branch:** `master` · deployed
 
 - Opening a case study for the first time in a tab now plays a short intro (about 1.2s): your name rises in on a white screen, then the screen lifts away. It does not play again in that tab, not with reduced motion, and not when the homepage tile is already growing into the page.
 - The same intro now plays on the homepage when someone opens the link, so the first thing they see is not a half-loaded page. The hero words, video and notes wait about 0.85s so they start as the screen lifts.
